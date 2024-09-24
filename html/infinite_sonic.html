@@ -10,38 +10,99 @@
 <body>
     <div class="header">
         <div class="banner">
-            <h1>作品集 | Work of Arts</h1>
-            <p>来自厂牌infinite sonic的作品</p>
+            <h1>昼与夜 | Day and Night</h1>
+            <p id="text"></p>
         </div>
     </div>
+
+    <div class="content">
+        <div class="section">
+            <img src="******" alt="Winter">
+            <div class="text">
+                <h2>Winter</h2>
+                <p></p>
+                <p>曲风 | 电子</p>
+                <p>制作 | Alyxium</p>
+                <p>封面 | 蔚山</p>
+                <p>母带 | FUS是福斯捏</p>
+                <p></p>
+                <a href="https://example.com">Listen Now</a>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
         <div class="section">
             <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/hydrangea%20haze.png" alt="hydrangea_haze">
             <div class="text">
                 <h2>hydrangea_haze</h2>
                 <p></p>
+                <p>曲风 | 金属</p>
                 <p>制作 | Aj1taniHifumi</p>
-                <p>封面 | </p>
+                <p>封面 | 蔚山</p>
                 <p>母带 | FUS是福斯捏</p>
                 <p></p>
-                <a href="https://example.com">Learn More</a>
+                <a href="https://example.com">Listen Now</a>
             </div>
         </div>
     </div>
+
     <div class="content">
         <div class="section">
             <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png" alt="青岚">
             <div class="text">
                 <h2>青岚</h2>
                 <p></p>
+                <p>曲风 | 电子</p>
                 <p>制作 | 冰橘子</p>
-                <p>封面 | </p>
+                <p>封面 | 鲨plus</p>
                 <p>母带 | FUS是福斯捏</p>
                 <p></p>
-                <a href="https://example.com">Learn More</a>
+                <a href="https://example.com">Listen Now</a>
             </div>
         </div>
     </div>
+
+    <script>
+        const texts = [
+            "黑夜前的夜，最难熬",
+            "只做自己想做的音乐",
+            "回到栅栏之前，总要去墙外看一眼",
+            "探索声音的另类边界"
+        ];
+        let index = 0;
+        let charIndex = 0;
+        const typingSpeed = 100;
+        const erasingSpeed = 50;
+        const newTextDelay = 2000;
+        const textElement = document.getElementById("text");
+
+        function type() {
+            if (charIndex < texts[index].length) {
+                textElement.textContent += texts[index].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingSpeed);
+            } else {
+                setTimeout(erase, newTextDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                textElement.textContent = texts[index].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, erasingSpeed);
+            } else {
+                index = (index + 1) % texts.length;
+                setTimeout(type, typingSpeed + 1100);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(type, newTextDelay + 250);
+        });
+    </script>
+
 </body>
 
 <head>
@@ -148,6 +209,7 @@
             padding: 0;
         }
         .banner h1 {
+            font-family: Palatino, serif;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -164,11 +226,22 @@
             left: 50%;
             transform: translate(-50%, -50%); /* 使标题居中 */
             margin: 0;
+            color: rgba(255, 255, 255, 0.85);
             font-size: 1.5em; /* 设置标题字体大小 */
             padding: 10px;
+            animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
+            @keyframes typing {
+                from { width: 0 }
+                to { width: 100% }
+            }
+            @keyframes blink-caret {
+                from, to { border-color: transparent }
+                50% { border-color: orange; }
+            }
         }
         @media (max-width: 900px) {
             .banner h1 {
+                font-family: Palatino, serif;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -178,16 +251,29 @@
                 background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
                 padding: 10px;
         }
-            .banner p {
-                font-family: KaiTi ; /* 设置标题介绍字体 */
-                position: absolute;
-                top: 70%;
-                left: 50%;
-                transform: translate(-50%, -50%); /* 使标题居中 */
-                margin: 0;
-                font-size: 0.7em; /* 设置标题字体大小 */
-                padding: 10px;
-        }
+        .banner p {
+            font-family: KaiTi;
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            color: rgba(255, 255, 255, 0.85);
+            transform: translate(-50%, -50%);
+            margin: 0;
+            font-size: 0.7em;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid orange;
+            animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
+            }
+            @keyframes typing {
+                from { width: 0 }
+                to { width: 100% }
+            }
+            @keyframes blink-caret {
+                from, to { border-color: transparent }
+                50% { border-color: orange; }
+            }
         }
         .banner::before {
             content: "";

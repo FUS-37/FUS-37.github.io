@@ -21,7 +21,39 @@
     <div class="content">
         <div class="section">
             <div class="text">
-                <p>施工中</p>
+                <h2>问答 | QA</h2>
+                <h3>Q1：FUS是什么意思？</h3>
+                <p>A：其实我是推理迷。福斯就是福尔摩斯删去中间两个字。为了方便打字，简化为了"FUS"。顺便一提ID"FUS是福斯捏"全平台同名。</p>
+                <h3>Q2：是只接混音和母带业务吗？</h3>
+                <p>A：是的。同时并不只限于商业项目，对于感兴趣的作品，也会接私人和无偿单。但是时间上的优先级肯定会低一些，也就是说你可能会需要预约和排队。</p>
+                <h3>Q3：接rap和贴唱吗？</h3>
+                <p>A：原则上是不接的。此外，我发现自己的舒适区是在40~60轨，仅供参考。</p>
+                <h3>Q3：怎么确定混音与母带风格是否合适？</h3>
+                <p>A：你可以查看挂在本网站的作品集，或者直接联系我。</p>
+                <h3>Q4：只能与我线上联系吗？</h3>
+                <p>A：绝大多数情况下，是的。我很社恐，非常不愿意出远门。</p>
+                <h3>Q5：接短片的音效设计和影视混音吗？</h3>
+                <p>A：这得看你的项目情况。因为是线上合作，所以我会尽量避免制作时间跨度太长的项目。</p>
+                <h3>Q6：up,up,我在b站看到了你写的专栏？</h3>
+                <p>A：感谢支持！(^-^*)/ 除了在b站的专栏，24年夏我创建了一份ppt，敬请期待。</p>
+                <h3>Q7：写了这么多文字，有考虑过制作课程吗？</h3>
+                <p>A：没有，我发现自己不适合教课，但是我愿意给出自己的意见。免费咨询，友谊干杯u^(^-^*)/ 。</p>
+                <h3>Q8：怎么寻求合作？</h3>
+                <p>A：你可以往下翻，下面有我的联系方式。此外如果正式确认合作，请仔细阅读后将合作意向书发送给我（或者我的邮箱）。音频分轨可以通过网盘等方式发送给我</p>
+            </div>
+        </div>
+        <div class="section">
+            <div class="text">
+                <h2>报价 | Rates</h2>
+            </div>
+        </div>
+        <div class="section">
+            <div class="text">
+                <h2>联系方式 | Contact Me</h2>
+                <p>bilibili</p>
+                <p>QQ</p>
+                <p>邮箱</p>
+                <p>合作意向书</p>
             </div>
         </div>
     </div>
@@ -33,10 +65,28 @@
         /* 全局设置 */
         body {
             font-family: Arial, sans-serif; /* 设置全局字体 */
-            margin: 0;
-            padding: 0;
-            background-color: #2b2a49f2;  /* 设置背景颜色 */
+            margin: -10px;;
+            background-color: #2b2a49; /* 初始背景颜色 */
+            animation: colorChange 15s infinite; /* 设置动画 */
             color: #ffffff; /* 设置文字颜色 */
+            overflow-x: hidden;
+        }
+        @keyframes colorChange {
+        0% {
+        background-color: #2b2a49;
+        }
+        25% {
+        background-color: #28274e;
+        }
+        50% {
+        background-color: #2a285c;
+        }
+        75% {
+        background-color: #28274e;
+        }
+        100% {
+        background-color: #2b2a49;
+        }
         }
 
         /* 标题设置 */
@@ -65,7 +115,6 @@
 
         /* 正文设置 */
         .content {
-            display: flex;
             justify-content: space-around; /* 设置内容区域的布局 */
             padding: 20px;
             width: 70%;
@@ -74,8 +123,10 @@
 
         /* 组件设置 */
         .content .section {
+            border-radius: 15px; /* 添加圆角 */
             display: flex;
-            background-color: rgba(165, 83, 83, 0);/* 设置每个部分的背景颜色 */
+            flex-direction: column;
+            background-color: #42747465;/* 设置每个部分的背景颜色 */
             padding: 20px;
             margin: 10px;
             flex: 1;
@@ -89,6 +140,11 @@
         }
         .content .section h2 {
             margin-top: 0;
+        }
+        .content .section h3 {
+            color: rgb(238, 254, 255);
+            margin-top: 5px;
+            margin-bottom: -5px;
         }
         .content .section p {
             margin: 10px 0;
@@ -120,7 +176,7 @@
         }
         .banner::before {
             content: "";
-            background-image: url('https://fus-37.github.io/images/banner.jpg'); /* 设置banner背景图片 */
+            background-image: url('https://fus-37.github.io/images/banner.jpg');  /* 设置banner背景图片 */
             background-size: cover;
             background-position: center;
             opacity: 0.3; /* 设置透明度为50% */
