@@ -17,7 +17,7 @@
 
     <div class="content">
         <div class="section">
-            <img src="******" alt="Winter">
+            <img src="******" alt="Winter" loading="lazy">
             <div class="text">
                 <h2>Winter</h2>
                 <p></p>
@@ -33,7 +33,7 @@
 
     <div class="content">
         <div class="section">
-            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/hydrangea%20haze.png" alt="hydrangea_haze">
+            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/hydrangea%20haze.png" alt="hydrangea_haze" loading="lazy">
             <div class="text">
                 <h2>hydrangea_haze</h2>
                 <p></p>
@@ -49,7 +49,7 @@
 
     <div class="content">
         <div class="section">
-            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png" alt="青岚">
+            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png" alt="青岚" loading="lazy">
             <div class="text">
                 <h2>青岚</h2>
                 <p></p>
@@ -101,6 +101,18 @@
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(type, newTextDelay + 250);
         });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
     </script>
 
 </body>
