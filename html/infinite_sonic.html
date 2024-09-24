@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>infinite sonic | 作品集</title>
+    <link rel="shortcut icon" href="https://fus-37.github.io/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="header">
+        <div class="banner">
+            <h1>作品集 | Work of Arts</h1>
+            <p>来自厂牌infinite sonic的作品</p>
+        </div>
+    </div>
+    <div class="content">
+        <div class="section">
+            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/hydrangea%20haze.png" alt="hydrangea_haze">
+            <div class="text">
+                <h2>hydrangea_haze</h2>
+                <p></p>
+                <p>制作 | Aj1taniHifumi</p>
+                <p>封面 | </p>
+                <p>母带 | FUS是福斯捏</p>
+                <p></p>
+                <a href="https://example.com">Learn More</a>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="section">
+            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png" alt="青岚">
+            <div class="text">
+                <h2>青岚</h2>
+                <p></p>
+                <p>制作 | 冰橘子</p>
+                <p>封面 | </p>
+                <p>母带 | FUS是福斯捏</p>
+                <p></p>
+                <a href="https://example.com">Learn More</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+<head>
+    <style>
+        /* 全局设置 */
+        body {
+            font-family: Arial, sans-serif; /* 设置全局字体 */
+            margin: -10px;;
+            background-color: #2b2a49; /* 初始背景颜色 */
+            animation: colorChange 15s infinite; /* 设置动画 */
+            color: #ffffff; /* 设置文字颜色 */
+            overflow-x: hidden;
+        }
+        @keyframes colorChange {
+        0% {
+        background-color: #2b2a49;
+        }
+        25% {
+        background-color: #28274e;
+        }
+        50% {
+        background-color: #2a285c;
+        }
+        75% {
+        background-color: #28274e;
+        }
+        100% {
+        background-color: #2b2a49;
+        }
+        }
+
+        /* 正文设置 */
+        .content {
+            display: flex;
+            justify-content: space-around; /* 设置内容区域的布局 */
+            width: 70%;
+            margin: 0 auto; /* 使内容居中 */
+            margin-bottom: 20px;
+        }
+
+        /* 组件设置 */
+        .content .section {
+            display: flex;
+            margin: 20px;
+            flex: 1;
+            text-align: left;
+        }
+        .content .section img {
+            width: 35%; /* 设置图片宽度为50% */
+            height: auto;
+            object-fit: contain; /* 保持图片比例 */
+        }
+        @media (max-width: 768px) {
+            .content .section {
+                flex-direction: column; /* 在手机上将布局改为纵向 */
+            }
+            .content .section img {
+                width: 100%; /* 在手机上将图片宽度设置为100% */
+                margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
+                
+            }
+        }
+        .content .section .text {
+            padding-left: 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .content .section .text {
+            padding-left: 15%;
+            }
+        }
+        .content .section h2 {
+            margin: 0px;
+        }
+        .content .section p {
+            margin: 10px;
+        }
+
+        /* 按钮设置 */
+        .content .section a {
+            width: 150px;
+            font-size: 0.5em;
+            background-color: #4c82af; /* 设置按钮背景颜色 */
+            padding: 10px; /* 修改按钮大小 */
+            color: white;
+            border-radius: 10px; /* 添加圆角 */
+            text-decoration: none; /* 去掉链接下划线 */
+            display: inline-block;
+            text-align: center;
+            margin-bottom: 40px; /* 在手机上将图片的下边距设置为50% */
+        }
+        .content .section a:hover {
+            background-color: #3b6a90; /* 设置按钮悬停时的背景颜色 */
+        }
+
+        /* banner设置 */
+        .banner {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            margin-bottom: 60px;
+            padding: 0;
+        }
+        .banner h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 使标题居中 */
+            margin: 0;
+            font-size: 2.5em; /* 设置标题字体大小 */
+            background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
+            padding: 10px;
+        }
+        .banner p {
+            font-family: KaiTi ; /* 设置标题介绍字体 */
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 使标题居中 */
+            margin: 0;
+            font-size: 1.5em; /* 设置标题字体大小 */
+            padding: 10px;
+        }
+        @media (max-width: 900px) {
+            .banner h1 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%); /* 使标题居中 */
+                margin: 0;
+                font-size: 1em; /* 设置标题字体大小 */
+                background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
+                padding: 10px;
+        }
+            .banner p {
+                font-family: KaiTi ; /* 设置标题介绍字体 */
+                position: absolute;
+                top: 70%;
+                left: 50%;
+                transform: translate(-50%, -50%); /* 使标题居中 */
+                margin: 0;
+                font-size: 0.7em; /* 设置标题字体大小 */
+                padding: 10px;
+        }
+        }
+        .banner::before {
+            content: "";
+            background-image: url('https://fus-37.github.io/images/banner.jpg'); /* 设置banner背景图片 */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; /* 设置透明度为50% */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* 确保背景图片在文字后面 */
+        }
+    </style>
+</head>
+
+</html>

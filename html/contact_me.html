@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你好！ | Hi！</title>
+    <link rel="shortcut icon" href="https://fus-37.github.io/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="header">
+        <div class="banner">
+            <h1>欢迎来访(^-^*)/ </h1>
+            <p>You`re Welcome</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <p></p>
+    </div>
+    <div class="content">
+        <div class="section">
+            <div class="text">
+                <p>施工中</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<head>
+    <style>
+        /* 全局设置 */
+        body {
+            font-family: Arial, sans-serif; /* 设置全局字体 */
+            margin: 0;
+            padding: 0;
+            background-color: #2b2a49f2;  /* 设置背景颜色 */
+            color: #ffffff; /* 设置文字颜色 */
+        }
+
+        /* 标题设置 */
+        .header {
+            position: relative;
+            text-align: center;
+            color: rgb(255, 255, 255);
+        }
+        .header h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 使标题居中 */
+            margin: 0;
+            font-size: 2.5em; /* 设置标题字体大小 */
+            background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
+            padding: 10px;
+        }
+        .header p {
+            font-family: KaiTi ; /* 设置标题介绍字体 */
+            color: rgb(255, 255, 255);
+            position: relative;
+            margin: 10px 0;
+            top: 70%;
+        }
+
+        /* 正文设置 */
+        .content {
+            display: flex;
+            justify-content: space-around; /* 设置内容区域的布局 */
+            padding: 20px;
+            width: 70%;
+            margin: 0 auto; /* 使内容居中 */
+        }
+
+        /* 组件设置 */
+        .content .section {
+            display: flex;
+            background-color: rgba(165, 83, 83, 0);/* 设置每个部分的背景颜色 */
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            text-align: left;
+        }
+        .content .section .text {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .content .section h2 {
+            margin-top: 0;
+        }
+        .content .section p {
+            margin: 10px 0;
+        }
+
+        /* 按钮设置 */
+        .content .section a {
+            font-size: 0.5em;
+            background-color: #4c82af; /* 设置按钮背景颜色 */
+            padding: 5px; /* 修改按钮大小 */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px; /* 添加圆角 */
+            text-decoration: none; /* 去掉链接下划线 */
+            display: inline-block;
+            text-align: center;
+        }
+        .content .section a:hover {
+            background-color: #3b6a90; /* 设置按钮悬停时的背景颜色 */
+        }
+
+        /* banner设置 */
+        .banner {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            margin-top: 0;
+        }
+        .banner::before {
+            content: "";
+            background-image: url('https://fus-37.github.io/images/banner.jpg'); /* 设置banner背景图片 */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; /* 设置透明度为50% */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* 确保背景图片在文字后面 */
+        }
+    </style>
+</head>
+
+</html>
