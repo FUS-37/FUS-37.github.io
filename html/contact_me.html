@@ -45,15 +45,47 @@
         <div class="section">
             <div class="text">
                 <h2>报价 | Rates</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>工程师</th>
+                            <th>简易分轨</th>
+                            <th>常规分轨</th>
+                            <th>单曲母带</th>
+                            <th>分轨母带</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FUS</td>
+                            <td>¥400</td>
+                            <td>¥800</td>
+                            <td>¥300</td>
+                            <td>¥600</td>
+                        </tr>
+                </table>
+                <p>简易分轨：10~20轨</p>
+                <p>常规分轨：20~40轨</p>
+                <p>以上仅供参考，详情见合作意向书</p>
+                <p>注：价格可能调整，按合作意向书中确定的数值为准</p>
             </div>
         </div>
         <div class="section">
             <div class="text">
-                <h2>联系方式 | Contact Me</h2>
-                <p>bilibili</p>
-                <p>QQ</p>
-                <p>邮箱</p>
-                <p>合作意向书</p>
+                <h3>联系方式 | Contact Me</h3>
+                <p>
+                    QQ：1253607602
+                    &emsp;
+                    <a href="mailto:1253607602@qq.com" title="邮箱">邮箱-Email</a>
+                    &emsp;
+
+                </p>
+                <h3>社交账号 | Social Media</h3>
+                <p>
+                    <a href="https://space.bilibili.com/22665738" title="bilibili">bilibili</a>
+                </p>
+                <h3>合作意向书 | Letter of Intent</h3>
+                <p><a href="https://docs.qq.com/doc/DY2psRER6cEJrVnJB" title="意向书">Click here</a></p>
             </div>
         </div>
     </div>
@@ -65,7 +97,7 @@
         /* 全局设置 */
         body {
             font-family: Arial, sans-serif; /* 设置全局字体 */
-            margin: -10px;;
+            margin: -10px;
             background-color: #2b2a49; /* 初始背景颜色 */
             animation: colorChange 15s infinite; /* 设置动画 */
             color: #ffffff; /* 设置文字颜色 */
@@ -76,13 +108,13 @@
         background-color: #2b2a49;
         }
         25% {
-        background-color: #28274e;
-        }
-        50% {
         background-color: #2a285c;
         }
+        50% {
+        background-color: #203765;
+        }
         75% {
-        background-color: #28274e;
+        background-color: #2a285c;
         }
         100% {
         background-color: #2b2a49;
@@ -150,21 +182,48 @@
             margin: 10px 0;
         }
 
-        /* 按钮设置 */
+        /* 链接设置 */
         .content .section a {
-            font-size: 0.5em;
-            background-color: #4c82af; /* 设置按钮背景颜色 */
-            padding: 5px; /* 修改按钮大小 */
             color: white;
             border: none;
             cursor: pointer;
-            border-radius: 10px; /* 添加圆角 */
             text-decoration: none; /* 去掉链接下划线 */
             display: inline-block;
-            text-align: center;
         }
         .content .section a:hover {
-            background-color: #3b6a90; /* 设置按钮悬停时的背景颜色 */
+            color: #4aabe3; /* 设置按钮悬停时的背景颜色 */
+        }
+
+        /* 表格设置 */
+        table {
+            table-layout: fixed;
+            width: 90%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 18px;
+            text-align: left;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        th, td {
+            padding: 12px 15px;
+            transition: background-color 0.3s ease;
+        }
+        thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+        tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+        th:hover, td:hover {
+            background-color: #57c694;
         }
 
         /* banner设置 */
