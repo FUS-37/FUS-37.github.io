@@ -1,0 +1,190 @@
+/* 全局设置 */
+body {
+    font-family: Arial, sans-serif; /* 设置全局字体 */
+    margin: -10px;;
+    background-color: #2b2a49; /* 初始背景颜色 */
+    animation: colorChange 15s infinite; /* 设置动画 */
+    color: #ffffff; /* 设置文字颜色 */
+    overflow-x: hidden;
+}
+@keyframes colorChange {
+0% {
+background-color: #2b2a49;
+}
+25% {
+background-color: #2a285c;
+}
+50% {
+background-color: #203765;
+}
+75% {
+background-color: #2a285c;
+}
+100% {
+background-color: #2b2a49;
+}
+}
+
+/* 正文设置 */
+.content {
+    display: flex;
+    justify-content: space-around; /* 设置内容区域的布局 */
+    width: 70%;
+    margin: 0 auto; /* 使内容居中 */
+    margin-bottom: 20px;
+}
+
+/* 组件设置 */
+.content .section {
+    display: flex;
+    margin: 20px;
+    flex: 1;
+    text-align: left;
+}
+.content .section img {
+    width: 35%; /* 设置图片宽度为50% */
+    height: auto;
+    object-fit: contain; /* 保持图片比例 */
+}
+@media (max-width: 768px) {
+    .content .section {
+flex-direction: column; /* 在手机上将布局改为纵向 */
+    }
+    .content .section img {
+width: 100%; /* 在手机上将图片宽度设置为100% */
+margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
+
+    }
+}
+.content .section .text {
+    padding-left: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+    .content .section .text {
+    padding-left: 15%;
+    }
+}
+.content .section h2 {
+    margin: 0px;
+}
+.content .section p {
+    margin: 10px;
+}
+
+/* 按钮设置 */
+.content .section a {
+    width: 150px;
+    font-size: 0.5em;
+    background-color: #4c82af; /* 设置按钮背景颜色 */
+    padding: 10px; /* 修改按钮大小 */
+    color: white;
+    border-radius: 10px; /* 添加圆角 */
+    text-decoration: none; /* 去掉链接下划线 */
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 40px; /* 在手机上将图片的下边距设置为50% */
+}
+.content .section a:hover {
+    background-color: #3b6a90; /* 设置按钮悬停时的背景颜色 */
+}
+
+/* banner设置 */
+.banner {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    margin-bottom: 60px;
+    padding: 0;
+}
+.banner h1 {
+    font-family: Palatino, serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 使标题居中 */
+    margin: 0;
+    font-size: 2.5em; /* 设置标题字体大小 */
+    background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
+    padding: 10px;
+}
+.banner p {
+    font-family: KaiTi ; /* 设置标题介绍字体 */
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 使标题居中 */
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.5em; /* 设置标题字体大小 */
+    padding: 10px;
+    animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
+    @keyframes typing {
+from { width: 0 }
+to { width: 100% }
+    }
+    @keyframes blink-caret {
+from, to { border-color: transparent }
+50% { border-color: orange; }
+    }
+}
+@media (max-width: 900px) {
+    .banner h1 {
+font-family: Palatino, serif;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%); /* 使标题居中 */
+margin: 0;
+font-size: 1em; /* 设置标题字体大小 */
+background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
+padding: 10px;
+}
+.banner p {
+    font-family: KaiTi;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    color: rgba(255, 255, 255, 0.85);
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 0.7em;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: .15em solid orange;
+    animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
+    }
+    @keyframes typing {
+from { width: 0 }
+to { width: 100% }
+    }
+    @keyframes blink-caret {
+from, to { border-color: transparent }
+50% { border-color: orange; }
+    }
+}
+.banner::before {
+    content: "";
+    background-image: url('https://fus-37.github.io/images/banner.jpg'); /* 设置banner背景图片 */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3; /* 设置透明度为30% */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 确保背景图片在文字后面 */
+}
+
+/* 图片悬停 */
+.playPauseButton {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.playPauseButton:hover {
+    opacity: 0.6;
+}

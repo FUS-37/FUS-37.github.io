@@ -10,14 +10,15 @@
 <body>
     <div class="header">
         <div class="banner">
-            <h1>FUS是福斯捏</h1>
+            <h1>FUS的作品集</h1>
             <p id="text"></p>
         </div>
     </div>
 
     <div class="content">
         <div class="section">
-            <img src="******" alt="Winter" loading="lazy">
+            <img id="playPauseButton3" class="playPauseButton" src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/WIINTER.png" alt="Winter" style="cursor: pointer;" loading="lazy" data-audio>
+            <audio id="audio3" src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/winter.mp3" preload="none"></audio>
             <div class="text">
                 <h2>Winter</h2>
                 <p></p>
@@ -25,14 +26,15 @@
                 <p>制作 | Alyxium</p>
                 <p>参与 | 母带</p>
                 <p></p>
-                <a href="https://example.com">Listen Now</a>
+                <a href="https://example.com">Learn More</a>
             </div>
         </div>
     </div>
 
     <div class="content">
         <div class="section">
-            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/hydrangea%20haze.png" alt="hydrangea_haze" loading="lazy">
+            <img id="playPauseButton2" class="playPauseButton" src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/hydrangea%20haze.png" alt="Winter" style="cursor: pointer;" loading="lazy">
+            <audio id="audio2" src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/hydrangea%20haze.mp3" preload="none"></audio>
             <div class="text">
                 <h2>hydrangea_haze</h2>
                 <p></p>
@@ -40,14 +42,15 @@
                 <p>制作 | Aj1taniHifumi</p>
                 <p>参与 | 母带</p>
                 <p></p>
-                <a href="https://example.com">Listen Now</a>
+                <a href="https://example.com">Learn More</a>
             </div>
         </div>
     </div>
 
     <div class="content">
         <div class="section">
-            <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png" alt="青岚" loading="lazy">
+            <img id="playPauseButton1" class="playPauseButton" src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png" alt="青岚" style="cursor: pointer;" loading="lazy">
+            <audio id="audio1" src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/%E9%9D%92%E5%B2%9A.mp3" preload="none"></audio>
             <div class="text">
                 <h2>青岚</h2>
                 <p></p>
@@ -55,12 +58,13 @@
                 <p>制作 | 冰橘子</p>
                 <p>参与 | 母带</p>
                 <p></p>
-                <a href="https://example.com">Listen Now</a>
+                <a href="https://example.com">Learn More</a>
             </div>
         </div>
     </div>
 
     <script>
+        /*打字机效果*/
         const texts = [
             "不完全收录自2023年以来的作品",
             "探索声音的另类边界"
@@ -96,7 +100,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(type, newTextDelay + 250);
         });
-
+        
+        /*缓存设置*/
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
@@ -108,193 +113,27 @@
                     });
             });
         }
-    </script>
 
+        /*音频播放*/
+        const buttons = document.querySelectorAll('img[id^="playPauseButton"]');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const audioId = button.id.replace('playPauseButton', 'audio');
+                const audio = document.getElementById(audioId);
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            });
+        });
+
+    </script>
 </body>
 
 <head>
-    <style>
-        /* 全局设置 */
-        body {
-            font-family: Arial, sans-serif; /* 设置全局字体 */
-            margin: -10px;;
-            background-color: #2b2a49; /* 初始背景颜色 */
-            animation: colorChange 15s infinite; /* 设置动画 */
-            color: #ffffff; /* 设置文字颜色 */
-            overflow-x: hidden;
-        }
-        @keyframes colorChange {
-        0% {
-        background-color: #2b2a49;
-        }
-        25% {
-        background-color: #2a285c;
-        }
-        50% {
-        background-color: #203765;
-        }
-        75% {
-        background-color: #2a285c;
-        }
-        100% {
-        background-color: #2b2a49;
-        }
-        }
-
-        /* 正文设置 */
-        .content {
-            display: flex;
-            justify-content: space-around; /* 设置内容区域的布局 */
-            width: 70%;
-            margin: 0 auto; /* 使内容居中 */
-            margin-bottom: 20px;
-        }
-
-        /* 组件设置 */
-        .content .section {
-            display: flex;
-            margin: 20px;
-            flex: 1;
-            text-align: left;
-        }
-        .content .section img {
-            width: 35%; /* 设置图片宽度为50% */
-            height: auto;
-            object-fit: contain; /* 保持图片比例 */
-        }
-        @media (max-width: 768px) {
-            .content .section {
-                flex-direction: column; /* 在手机上将布局改为纵向 */
-            }
-            .content .section img {
-                width: 100%; /* 在手机上将图片宽度设置为100% */
-                margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
-                
-            }
-        }
-        .content .section .text {
-            padding-left: 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        @media (min-width: 768px) {
-            .content .section .text {
-            padding-left: 15%;
-            }
-        }
-        .content .section h2 {
-            margin: 0px;
-        }
-        .content .section p {
-            margin: 10px;
-        }
-
-        /* 按钮设置 */
-        .content .section a {
-            width: 150px;
-            font-size: 0.5em;
-            background-color: #4c82af; /* 设置按钮背景颜色 */
-            padding: 10px; /* 修改按钮大小 */
-            color: white;
-            border-radius: 10px; /* 添加圆角 */
-            text-decoration: none; /* 去掉链接下划线 */
-            display: inline-block;
-            text-align: center;
-            margin-bottom: 40px; /* 在手机上将图片的下边距设置为50% */
-        }
-        .content .section a:hover {
-            background-color: #3b6a90; /* 设置按钮悬停时的背景颜色 */
-        }
-
-        /* banner设置 */
-        .banner {
-            width: 100%;
-            height: 300px;
-            position: relative;
-            margin-bottom: 60px;
-            padding: 0;
-        }
-        .banner h1 {
-            font-family: Palatino, serif;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* 使标题居中 */
-            margin: 0;
-            font-size: 2.5em; /* 设置标题字体大小 */
-            background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
-            padding: 10px;
-        }
-        .banner p {
-            font-family: KaiTi ; /* 设置标题介绍字体 */
-            position: absolute;
-            top: 70%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* 使标题居中 */
-            margin: 0;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 1.5em; /* 设置标题字体大小 */
-            padding: 10px;
-            animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
-            @keyframes typing {
-                from { width: 0 }
-                to { width: 100% }
-            }
-            @keyframes blink-caret {
-                from, to { border-color: transparent }
-                50% { border-color: orange; }
-            }
-        }
-        @media (max-width: 900px) {
-            .banner h1 {
-                font-family: Palatino, serif;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%); /* 使标题居中 */
-                margin: 0;
-                font-size: 1em; /* 设置标题字体大小 */
-                background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
-                padding: 10px;
-        }
-        .banner p {
-            font-family: KaiTi;
-            position: absolute;
-            top: 70%;
-            left: 50%;
-            color: rgba(255, 255, 255, 0.85);
-            transform: translate(-50%, -50%);
-            margin: 0;
-            font-size: 0.7em;
-            padding: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: .15em solid orange;
-            animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
-            }
-            @keyframes typing {
-                from { width: 0 }
-                to { width: 100% }
-            }
-            @keyframes blink-caret {
-                from, to { border-color: transparent }
-                50% { border-color: orange; }
-            }
-        }
-        .banner::before {
-            content: "";
-            background-image: url('https://fus-37.github.io/images/banner.jpg'); /* 设置banner背景图片 */
-            background-size: cover;
-            background-position: center;
-            opacity: 0.3; /* 设置透明度为50% */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* 确保背景图片在文字后面 */
-        }
+    <style type="text/css">
+        @import"./style.css"
     </style>
 </head>
 
