@@ -7,7 +7,8 @@ const urlsToCache = [
     'https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/hydrangea%20haze.mp3',
     'https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E9%9D%92%E5%B2%9A.png',
     'https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/%E9%9D%92%E5%B2%9A.mp3',
-    './styles.css',
+    './style.css',
+    './script.js',
 ];
 
 self.addEventListener('install', event => {
