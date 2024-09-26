@@ -138,7 +138,7 @@ top: 50%;
 left: 50%;
 transform: translate(-50%, -50%); /* 使标题居中 */
 margin: 0;
-font-size: 1em; /* 设置标题字体大小 */
+font-size: 2em; /* 设置标题字体大小 */
 background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
 padding: 10px;
 }
@@ -150,11 +150,11 @@ padding: 10px;
     color: rgba(255, 255, 255, 0.85);
     transform: translate(-50%, -50%);
     margin: 0;
-    font-size: 0.7em;
+    font-size: 1em;
     padding: 10px;
     white-space: nowrap;
     overflow: hidden;
-    border-right: .15em solid orange;
+    border-right: .15em solid rgba(0, 255, 247, 0.302);
     animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
     }
     @keyframes typing {
@@ -163,7 +163,7 @@ to { width: 100% }
     }
     @keyframes blink-caret {
 from, to { border-color: transparent }
-50% { border-color: orange; }
+50% { border-color: rgba(0, 255, 247, 0.302); }
     }
 }
 .banner::before {
@@ -187,4 +187,23 @@ from, to { border-color: transparent }
 }
 .playPauseButton:hover {
     opacity: 0.6;
+}
+
+/* 页尾样式 */
+.footer {
+    background-color: #33333300;
+    padding: 20px;
+    text-align: center;
+}
+
+/* 链接样式 */
+.footer a {
+    color: #f2f2f2;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    color: #4aabe3; /* 鼠标悬停时的颜色 */
+    text-decoration: underline;
 }
