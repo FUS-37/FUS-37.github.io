@@ -49,7 +49,7 @@ if ('serviceWorker' in navigator) {
 }
 
 /*音频播放*/
-const buttons = document.querySelectorAll('img[id^="playPauseButton"]');
+const buttons = document.querySelectorAll('button[id^="playPauseButton"]');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         const audioId = button.id.replace('playPauseButton', 'audio');
@@ -59,5 +59,13 @@ buttons.forEach(button => {
         } else {
             audio.pause();
         }
+    });
+});
+
+/*banner划动*/
+document.getElementById('banner').addEventListener('click', function() {
+    window.scrollBy({
+        top: window.innerHeight,
+        behavior: 'smooth'
     });
 });
