@@ -1,6 +1,6 @@
 /* 全局设置 */
 body {
-    background-image: url('C:/Users/12536/Downloads/thivagaran-i2nkuYGhR8w-unsplash.jpg'); /* 设置背景图片 */
+    background-image: url('https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/bg.jpg'); /* 设置背景图片 */
     background-size: cover; /* 背景图片覆盖整个容器 */
     background-attachment: fixed; /* 背景图片固定 */
     background-position: center; /* 背景图片居中 */
@@ -96,6 +96,7 @@ margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
     align-items: center;
     cursor: pointer;
 }
+
 .banner h1 {
     font-family: Palatino, serif;
     position: absolute;
@@ -107,6 +108,7 @@ margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
     background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
     padding: 10px;
 }
+
 .banner p {
     font-family: KaiTi ; /* 设置标题介绍字体 */
     position: absolute;
@@ -119,49 +121,50 @@ margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
     padding: 10px;
     animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
     @keyframes typing {
-from { width: 0 }
-to { width: 100% }
-    }
+        from { width: 0 }
+        to { width: 100% }
+        }
     @keyframes blink-caret {
-from, to { border-color: transparent }
-50% { border-color: orange; }
-    }
+        from, to { border-color: transparent }
+        50% { border-color: orange; }
+        }
 }
+
 @media (max-width: 900px) {
     .banner h1 {
-font-family: Palatino, serif;
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%); /* 使标题居中 */
-margin: 0;
-font-size: 2em; /* 设置标题字体大小 */
-background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
-padding: 10px;
-}
-.banner p {
-    font-family: KaiTi;
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    color: rgba(255, 255, 255, 0.85);
-    transform: translate(-50%, -50%);
-    margin: 0;
-    font-size: 1em;
-    padding: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: .15em solid rgba(0, 255, 247, 0.302);
-    animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
-    }
-    @keyframes typing {
-from { width: 0 }
-to { width: 100% }
-    }
-    @keyframes blink-caret {
-from, to { border-color: transparent }
-50% { border-color: rgba(0, 255, 247, 0.302); }
-    }
+        font-family: Palatino, serif;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* 使标题居中 */
+        margin: 0;
+        font-size: 2em; /* 设置标题字体大小 */
+        background-color: rgba(0, 0, 0, 0); /* 设置标题背景颜色和透明度 */
+        padding: 10px;
+        }
+    .banner p {
+        font-family: KaiTi;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        color: rgba(255, 255, 255, 0.85);
+        transform: translate(-50%, -50%);
+        margin: 0;
+        font-size: 1em;
+        padding: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: .15em solid rgba(0, 255, 247, 0.302);
+        animation: typing 3.5s steps(80, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+        }
+        @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: rgba(0, 255, 247, 0.302); }
+            }
 }
 
 /* 图片悬停 */
@@ -192,4 +195,11 @@ from, to { border-color: transparent }
 .footer a:hover {
     color: #4aabe3; /* 鼠标悬停时的颜色 */
     text-decoration: underline;
+}
+
+.no-style-link {
+    all: unset; /* 清除所有样式 */
+    display: inline; /* 保持链接的内联显示 */
+    text-decoration: none; /* 去掉下划线 */
+    color: inherit; /* 使用父元素的颜色 */
 }
