@@ -49,7 +49,7 @@ if ('serviceWorker' in navigator) {
 }
 
 /*音频播放*/
-const buttons = document.querySelectorAll('button[id^="playPauseButton"]');
+const buttons = document.querySelectorAll('a[id^="playPauseButton"]');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         const audioId = button.id.replace('playPauseButton', 'audio');
