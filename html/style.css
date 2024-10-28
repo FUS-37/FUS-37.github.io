@@ -27,25 +27,47 @@ body {
     flex: 1;
     text-align: left;
 }
-.content .section img {
-    width: 40%; /* 设置图片宽度为50% */
-    height: auto;
-    object-fit: contain; /* 保持图片比例 */
-    margin-bottom: 20px;
-}
 @media (max-width: 768px) {
     .content .section {
-flex-direction: column; /* 在手机上将布局改为纵向 */
+        flex-direction: column; /* 在手机上将布局改为纵向 */
     }
-    .content .section img {
-width: 100%; /* 在手机上将图片宽度设置为100% */
-margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
+}
 
+/* play 类的样式 */
+.play {
+    display: flex;
+    flex-direction: column; /* 将图片和音频纵向堆叠 */
+    align-items: center; /* 居中对齐 */
+}
+/* play 类的样式 */
+.play {
+    display: flex;
+    flex-direction: column; /* 将图片和音频纵向堆叠 */
+    align-items: center; /* 居中对齐 */
+}
+
+.play img {
+    width: 30vw; /* 设置图片宽度为视口宽度的50% */
+    height: auto;
+    object-fit: contain; /* 保持图片比例 */
+    margin-bottom: 20px; /* 图片底部留出20px的间距 */
+}
+
+@media (max-width: 768px) {
+    .play img {
+        width: 100vw; /* 在手机上将图片宽度设置为视口宽度的100% */
+        margin-bottom: 20px; /* 图片底部留出20px的间距 */
     }
 }
-.content .section img:hover {
-    opacity: 0.7; 
+
+.play img:hover {
+    opacity: 0.7; /* 鼠标悬停时图片透明度变为0.7 */
 }
+
+.play audio {
+    display: block; /* 将音频元素设置为块级元素 */
+}
+
 .content .section .text {
     padding-left: 10%;
     display: flex;
@@ -165,16 +187,6 @@ margin-bottom: 20px; /* 在手机上将图片的下边距设置为50% */
     from, to { border-color: transparent }
     50% { border-color: rgba(0, 255, 247, 0.302); }
             }
-}
-
-/* 图片悬停 */
-.playPauseButton {
-    background-color: #000000;
-    cursor: pointer;
-    transition: opacity 0.3s;
-}
-.playPauseButton:hover {
-    opacity: 0.7; 
 }
 
 /* 页尾样式 */
