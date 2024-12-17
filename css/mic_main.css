@@ -10,6 +10,7 @@
 		font-size: 100%;
 		font: inherit;
 		vertical-align: baseline;
+		color: #e5e5e5;
 	}
 
 	footer, header,nav {
@@ -386,7 +387,7 @@
 		}
 
 	body {
-		color: #212931;
+		color: #f6f6f6;
 	}
 
 	body, input, select, textarea {
@@ -545,7 +546,7 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #212931;
+		color: #fffaf5;
 	}
 
 	blockquote {
@@ -1395,9 +1396,10 @@
 	}
 
 		#main > * {
-
+			
 			border-top: solid 2px #eeeeee;
 			margin: 0;
+			background-color:#0e0e0e;
 		}
 
 			#main > *:first-child {
