@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/favicon.ico"/>
+	<link rel="shortcut icon" href="/img/favicon.ico">
+	
+			    <title>
+    FUS是福斯捏
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="FUS" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/background.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">FUS</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="合作">
+		                合作
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/works/" title="作品集">
+		                作品集
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/rate/" title="定价">
+		                定价
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/contact/" title="联系">
+		                联系
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/FUS-37" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a title="envelope-o" href="mailto:1253607602@qq.com" target="_blank" rel="noopener">
+                            <i class="icon fa fa-envelope-o"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a title="film" href="https://space.bilibili.com/22665738" target="_blank" rel="noopener">
+                            <i class="icon fa fa-film"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/banner3.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >从数字信号处理看EQ构造</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我在前几天收到一封询问关于“如何将EQ curve与impulse response进行转换”的邮件。DSP是我本科阶段的课程之一，但课程设计是从通信的视角出发的，加上我做混音并不需要真的去做DSP，所以我意识到我过去的专栏并没有展开写这一个过程。</p>
+<p>先说结论，EQ曲线与冲激响应之间并没有一定的相互转换的办法或者说联系，因为它们都是滤波器系统的一种表征。如果能够构造滤波器的系统模型，那么无论是EQ曲线还是冲激响应就都能够得到了。</p>
+<h2 id="以下是我的回信"><a href="#以下是我的回信" class="headerlink" title="以下是我的回信"></a>以下是我的回信</h2><p>在实现均衡器（EQ）时，模拟滤波器主要采用四种基本模式：高通滤波器、低通滤波器、带通滤波器和带阻滤波器。这些基本滤波器可以通过不同的组合和配置来构建复杂的均衡器效果。例如，常见的Bell型均衡器的实现方式是将信号先通过一个带通滤波器，然后将滤波后的信号与原始信号按一定比例混合。这种混合比例决定了在特定频率范围内信号的增益或衰减程度，从而实现对音频信号在该频率范围内的精确控制。其他的均衡类型也是同理可得。</p>
+<p>然后是数字的实现方式。希望你已经学到了传递函数。数字处理并不存在混合的过程，而是直接构造一个传递函数，使其的幅值响应曲线能够与均衡器的曲线基本接近。我猜测这个过程中可能存在通过某种算法进行拟合的过程，但实际上我并没有深入研究过。</p>
+<p>简单从阻抗的角度看，模拟电路构造滤波器时，往往需要使用电容C和电感L，你可以使用欧拉公式算出阻抗角。但是实际解决问题的时候，我们是通过拉普拉斯变化，或者说电子元件的拉普拉斯等效模型，来计算传递函数的。然后再通过传递函数计算幅频响应和相频响应，以及品质因子。无论你怎样去理解它，你会明白在构造滤波器的过程中，无论模拟还是数字，相位偏移是普遍存在的。</p>
+<p>此外，电容和电感用的越多滤波器阶数越高，滤波器的性能也就是能够实现的品质因子Q也会越大。但实际上无论是出于硬件的体积，成本，还是电路的设计难度，哪怕到今天设计硬件滤波器依旧是一件很困难的事情，所以模拟时代的EQ的品质因子往往并不大。</p>
+<p>滤波器的阶数并非越大越好，甚至是相反的。数字滤波器可以很容易的通过matlab看出传递函数的幅频响应和相频响应。虽然取决于你选择使用的滤波器类型，但是在音乐中一般会比较在意幅频响应的平坦度，这就使得相位响应往往会在截止频率附近达到比较大的峰值。此外还有一个误区是，增益和衰减造成的相位偏移的差异并不大，所以“增益更容易因为相位问题导致发糊”这是一个长期存在的错误的观点。</p>
+<p>换言之，平时音乐中所说的相位问题，并不是相位是否偏移，而是相位偏移的量是多少。在项目中大量使用手术EQ是错误的，用比较宽的EQ，也就是用阶数更小的eq造成的相位偏移的量会更小。从混音手法的角度来看，我一般建议使用EQ时Q值喜欢用0.4~0.8就是这个原因。</p>
+<p>我们回过来说冲激响应的问题。</p>
+<p>你在考虑谐波特性时，可能会发现冲激响应比传递函数更能全面反映系统的谐波特性。实际上，将EQ曲线与冲激响应进行转换确实比较复杂，因为这两者都是系统的表征，而不是系统本身。一旦得到了滤波器的系统模型，无论是EQ曲线还是冲激响应都可以从中推导出来。</p>
+<p>使用传递函数构建滤波器后，所得到的系统是线性的，这意味着它不会产生新的频率成分。如果你需要在系统中引入谐波组分，可以在滤波器后面添加一个非线性函数。这样，通过非线性函数的作用，系统可以产生新的频率成分，从而实现谐波的生成。这就是EQ插件的开发原理了。但我并不熟悉具体的细节。</p>
+<p>希望能够帮到你。</p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>现代音乐制作的课程设计中，<strong>模拟电路</strong>似乎已经普遍存在了。但是<strong>数字信号处理</strong>却常常被忽略。原因也正常，在学习<strong>数字信号处理</strong>之前，其实正常来说需要先学习<strong>信号与系统</strong>。此外<strong>心理声学</strong>和<strong>信息论</strong>在我看来也是十分重要的。</p>
+<p>很喜欢一句话，“如果你不知道事物的发展过程的话，那么当你抬头看这个世界的时候，你会觉得身边的一切都是玄学”。</p>
+<p>当然并不是说这些内容真的全部都用到的。实际上大量的知识的工作都已经被我们的DAW和插件做掉了。但是如果能够理解哪怕一个大概，都会有很大的帮助。</p>
+<p>话又说回来了，我们intp（逻辑学家人格）是这样的。</p>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
+
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #7EC0EE;
+            text-shadow: 0
+        }
+</style>
+	
+<div class="btn_click_load" id="disqus_bt"> 
+    <button class="disqus_click_btn">点击查看评论</button>
+</div>
+
+<!--
+<script type="text/javascript">
+$('.btn_click_load').click(function() {
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'https-fusmixing-site'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    document.getElementById('disqus_bt').style.display = "none";
+});
+</script>
+-->
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'https://fus-37.github.io/dsp-eq/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://fus-37.github.io/dsp-eq/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/javascript">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//https-fusmixing-site.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
+    });
+</script>
+</div>
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a target="_blank" rel="noopener" href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
