@@ -5,7 +5,7 @@ FUS的wiki
 ----------
 ### 一、理论准备
 
-[1.1作者序](https://fusmixing.site/html/mdwiki.html#!./master1_1.md)
+[1.1序言](https://fusmixing.site/html/mdwiki.html#!./master1_1.md)
 [1.2母带的原则](https://fusmixing.site/html/mdwiki.html#!./master1_2.md)
 [1.3母带的历史变迁](https://fusmixing.site/html/mdwiki.html#!./master1_3.md)
 [1.4兼容性的本质](https://fusmixing.site/html/mdwiki.html#!./master1_4.md)
