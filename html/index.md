@@ -1,12 +1,12 @@
 FUS的wiki
 =======
 
-## 母带指南——从原理到实践
+## 母带的识趣
 ----------
 ### 一、理论准备
 
 1. [1.1作者序](https://fusmixing.site/html/mdwiki.html#!./master1_1.md)
-2. [1.2母带的核心问题——兼容性](https://fusmixing.site/html/mdwiki.html#!./master1_2.md)
+2. [1.2母带的原则](https://fusmixing.site/html/mdwiki.html#!./master1_2.md)
 3. [1.3母带的历史变迁](https://fusmixing.site/html/mdwiki.html#!./master1_3.md)
 4. [1.4兼容性的本质](https://fusmixing.site/html/mdwiki.html#!./master1_4.md)
 5. [1.5声音的物理特性](https://fusmixing.site/html/mdwiki.html#!./master1_5.md)
@@ -16,6 +16,12 @@ FUS的wiki
 
 ### 二、母带理论与技巧
 
-1. [2.1母带的原则](https://fusmixing.site/html/mdwiki.html#!./master2_1.md)
-2. [2.2兼容性检查](https://fusmixing.site/html/mdwiki.html#!./master2_2.md)
-3. [2.3感知响度提升](https://fusmixing.site/html/mdwiki.html#!./master2_3.md)
+1. [2.1兼容性检查](https://fusmixing.site/html/mdwiki.html#!./master2_1.md)
+2. [2.2感知响度提升](https://fusmixing.site/html/mdwiki.html#!./master2_2.md)
+3. [2.3母带的频响技巧](https://fusmixing.site/html/mdwiki.html#!./master2_3.md)
+4. [2.4母带的动态技巧](https://fusmixing.site/html/mdwiki.html#!./master2_3.md)
+5. [2.5母带的硬件技巧](https://fusmixing.site/html/mdwiki.html#!./master2_3.md)
+
+### 三、母带实践
+
+1. [3.1关注流媒体平台](https://fusmixing.site/html/mdwiki.html#!./master3_1.md)
