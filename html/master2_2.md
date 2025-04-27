@@ -5,6 +5,8 @@
 
 ## 2.2.2感知响度频域
 
-### read more
+***
+
+### Read Next
 
 [2.3母带的频响技巧](https://fusmixing.site/html/mdwiki.html#!./master2_3.md)

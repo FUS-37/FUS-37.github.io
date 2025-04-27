@@ -27,6 +27,8 @@
 
 低切24hz，保护低音炮，换取更大的响度（能量守恒）
 
-### read more
+***
+
+### Read Next
 
 [2.2感知响度提升](https://fusmixing.site/html/mdwiki.html#!./master2_2.md)

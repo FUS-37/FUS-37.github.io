@@ -35,6 +35,9 @@
 
 请不要寄希望于通过母带提升响度，过度追求响度对于音乐性来说是绝对的灾难。
 
-### read more
+***
+
+### Read Next
 
 [1.3母带的历史变迁](https://fusmixing.site/html/mdwiki.html#!./master1_3.md)
+

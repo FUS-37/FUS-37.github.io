@@ -34,6 +34,8 @@
 然而极少部分电子音乐似乎习惯于将响度做到接近甚至超过-3lufs，并且不控制他们的true peak。比起重采样，我更怀疑他们的抱怨是二次压限导致的。
 
 
-### read more
+***
+
+### Read Next
 
 [3.2母带工作流](https://fusmixing.site/html/mdwiki.html#!./master3_2.md)

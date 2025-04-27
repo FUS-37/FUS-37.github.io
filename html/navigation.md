@@ -1,6 +1,5 @@
-# FUS的wiki
+# FUS wiki
 
 [版权声明](Copyright.md)
 - - - -
-[我的博客](https://fusmixing.site/)
-
+[个人博客](https://fusmixing.site/)

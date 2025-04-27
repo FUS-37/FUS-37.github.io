@@ -45,7 +45,9 @@ lufs是一个更符合人耳感知的单位，它是在等响曲线的基础上�
 
 响度标准并不是指音频文件从头到尾都是一个音量，也不是说整个文件的平均响度应该为这个标准值，其更多的是起到一种指导性作用，即音频在大多数适合应该在响度标准的音量附近，但是该表达情绪的地方，依旧应该存在音量变化。
 
-### read more
+***
+
+### Read Next
 
 [1.8响度战争](https://fusmixing.site/html/mdwiki.html#!./master1_8.md)
 [wiki词条：EBU R 128](https://en.wikipedia.org/wiki/Loudness_war)

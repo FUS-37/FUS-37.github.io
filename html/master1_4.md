@@ -31,6 +31,8 @@
 
 至于问题2“怎么样使得信号变得均匀？”，我们终于找到了正确的问题。不过在正式开始之前，我们还需要补充一些基本的知识。
 
-### read more
+***
+
+### Read Next
 
 [1.5声音的物理特性](https://fusmixing.site/html/mdwiki.html#!./master1_5.md)

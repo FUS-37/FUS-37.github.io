@@ -7,6 +7,8 @@
 
 ## 2.3.3混响
 
-### read more
+***
+
+### Read Next
 
 [2.4母带的动态技巧](https://fusmixing.site/html/mdwiki.html#!./master2_4.md)

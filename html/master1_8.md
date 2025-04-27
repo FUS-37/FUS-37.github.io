@@ -31,7 +31,9 @@
 
 所以我的预测就是随着大家的技术水平不断提升，大多数歌曲的响度会在-4~-6lufs的区间涨停，除非你要去做一些更响的编曲和混音。你可能会觉得这太大了，但实际上这个预测和目前欧美的情况也是一致的，甚至可能还有些保守。
 
-### read more
+***
+
+### Read Next
 
 [2.1兼容性检查](https://fusmixing.site/html/mdwiki.html#!./master2_1.md)
 [wiki词条：响度战争](https://en.wikipedia.org/wiki/Loudness_war)
