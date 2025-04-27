@@ -6,3 +6,7 @@
 ## 2.3.2声场的扩展与统一
 
 ## 2.3.3混响
+
+### read more
+
+[2.4母带的动态技巧](https://fusmixing.site/html/mdwiki.html#!./master2_4.md)

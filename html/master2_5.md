@@ -16,3 +16,8 @@
 当然如果你真的非常非常痴迷于某个声音的话，那么你心中一定已经有答案了。
 
 ## 2.5.2硬件过带
+
+
+### read more
+
+[3.1关注流媒体平台](https://fusmixing.site/html/mdwiki.html#!./master3_1.md)

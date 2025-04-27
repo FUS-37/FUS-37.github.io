@@ -1,7 +1,7 @@
 FUS的wiki
 =======
 
-## 母带的识趣
+## 识趣点！母带
 ----------
 ### 一、理论准备
 
@@ -25,3 +25,4 @@ FUS的wiki
 ### 三、母带实践
 
 [3.1关注流媒体平台](https://fusmixing.site/html/mdwiki.html#!./master3_1.md)
+[3.2母带工作流](https://fusmixing.site/html/mdwiki.html#!./master3_2.md)

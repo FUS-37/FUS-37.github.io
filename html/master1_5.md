@@ -9,3 +9,7 @@
 ```c
 音乐=Σ0~24000hz  Af(t)cos(2pift+θ(f))
 ```
+
+### read more
+
+[1.6采样率与比特率](https://fusmixing.site/html/mdwiki.html#!./master1_6.md)

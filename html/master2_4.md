@@ -15,4 +15,6 @@
 
 
 
+### read more
 
+[2.5母带的硬件技巧](https://fusmixing.site/html/mdwiki.html#!./master2_5.md)
