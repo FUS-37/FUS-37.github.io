@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FUS的在线简历</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 设置html和body的高度为100%，并移除默认的margin */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 禁止滚动条 */
+        }
+
+        /* 使用flex布局让embed元素充满整个页面 */
+        #pdf-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        embed {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="pdf-container">
+    <!-- 使用embed标签来嵌入PDF文件 -->
+    <embed src="https://fusmixing.site/html/my_resume_for_communication_engineering.pdf" type="application/pdf">
+</div>
+
+</body>
+</html>
