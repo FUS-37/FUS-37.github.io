@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngelKiss 天使之吻 — User Manual</title>
+    <style>
+        :root {
+            --bg-deep: #faf8f5;
+            --bg-panel: #f3f0eb;
+            --bg-card: #ffffff;
+            --bg-card-hover: #faf8f4;
+            --border-subtle: #e4dfd5;
+            --border-glow: #d4c8b0;
+            --gold: #b8935a;
+            --gold-light: #8a6d3b;
+            --gold-dim: #c4a87a;
+            --text-primary: #2c2822;
+            --text-secondary: #5c5650;
+            --text-muted: #9a948a;
+            --shadow-glow: 0 0 40px rgba(160,130,90,0.10);
+            --shadow-card: 0 2px 16px rgba(0,0,0,0.05);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font-sans: 'Inter','PingFang SC','Microsoft YaHei','Noto Sans SC',-apple-system,sans-serif;
+            --font-mono: 'JetBrains Mono','SF Mono','Cascadia Code','Consolas',monospace;
+            --sidebar-width: 240px;
+            --content-max: 820px;
+            --transition-fast: 0.18s ease;
+            --transition-smooth: 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 32px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 10%, rgba(180,150,120,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 90%, rgba(160,130,100,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 0%, var(--bg-deep) 100%);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.016;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* ── Language Switcher ── */
+        .lang-switcher {
+            position: fixed;
+            top: 18px;
+            right: 24px;
+            z-index: 300;
+            display: flex;
+            gap: 0;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+        }
+
+        .lang-switcher button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .lang-switcher button.active-lang {
+            background: rgba(180,147,90,0.14);
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .lang-switcher button:hover:not(.active-lang) {
+            color: var(--text-primary);
+            background: rgba(0,0,0,0.03);
+        }
+
+        .lang-switcher .divider {
+            width: 1px;
+            background: var(--border-subtle);
+            align-self: stretch;
+            margin: 4px 0;
+        }
+
+        /* ── Layout ── */
+        .app-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: rgba(248,246,241,0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-right: 1px solid var(--border-subtle);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 28px 20px 20px;
+            overflow-y: auto;
+            transition: transform var(--transition-smooth);
+        }
+
+        .sidebar-logo {
+            margin-bottom: 32px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--gold-light);
+            line-height: 1.3;
+        }
+
+        .sidebar-logo .sub-brand {
+            font-size: 0.78rem;
+            color: var(--gold-dim);
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .sidebar-nav li a {
+            display: block;
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.84rem;
+            transition: all var(--transition-fast);
+            border-left: 2px solid transparent;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-left: -2px;
+        }
+
+        .sidebar-nav li a:hover {
+            color: var(--text-primary);
+            background: rgba(0,0,0,0.03);
+            border-left-color: var(--gold-dim);
+        }
+
+        .sidebar-nav li a.active {
+            color: var(--gold-light);
+            border-left-color: var(--gold);
+            background: rgba(180,147,90,0.10);
+        }
+
+        .sidebar-nav .nav-section {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            color: var(--text-muted);
+            padding: 16px 12px 6px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav .nav-section:first-child {
+            padding-top: 0;
+        }
+
+        .sidebar-footer {
+            flex-shrink: 0;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+
+        /* ── Main Content ── */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            max-width: var(--content-max);
+            padding: 48px 48px 80px;
+            width: 100%;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            margin-bottom: 52px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 1px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .hero .tagline {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+
+        /* ── Sections ── */
+        .section {
+            margin-bottom: 52px;
+        }
+
+        .section-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title .numeral {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--gold-dim);
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+
+        .subsection-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 28px 0 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .paragraph {
+            margin-bottom: 14px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.85;
+        }
+
+        .paragraph strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ── Quote block ── */
+        .quote-block {
+            border-left: 3px solid var(--gold-dim);
+            padding: 16px 20px;
+            margin: 24px 0;
+            background: rgba(180,147,90,0.07);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            font-style: italic;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .quote-block strong {
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* ── Feature list ── */
+        .feature-list {
+            list-style: none;
+            margin: 16px 0 20px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .feature-list li {
+            padding: 10px 14px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            transition: all var(--transition-fast);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .feature-list li:hover {
+            border-color: var(--border-glow);
+            background: var(--bg-card-hover);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .feature-list li .bullet {
+            color: var(--gold);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── Author card ── */
+        .author-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 28px 30px;
+            margin: 28px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .author-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+        }
+
+        .author-card .author-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold-dim);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* ── Preset Grid ── */
+        .preset-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .preset-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+            transition: all var(--transition-smooth);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+
+        .preset-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-md);
+            opacity: 0;
+            transition: opacity var(--transition-smooth);
+            box-shadow: inset 0 0 0 1px rgba(180,147,90,0.22);
+            pointer-events: none;
+        }
+
+        .preset-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .preset-card:hover::after {
+            opacity: 1;
+        }
+
+        .preset-card .preset-number {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gold-dim);
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .preset-card .preset-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .preset-card .preset-subtitle {
+            font-size: 0.8rem;
+            color: var(--gold-dim);
+            font-weight: 400;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .preset-card .preset-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            margin-bottom: 10px;
+        }
+
+        .preset-card .preset-use {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            font-style: italic;
+        }
+
+        /* ── Tips box ── */
+        .tips-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin: 24px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .tips-box h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold-dim);
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .tips-box ul {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+
+        .tips-box ul li {
+            padding-left: 20px;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .tips-box ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 0.7rem;
+            top: 2px;
+        }
+
+        /* ── Tech cards ── */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            transition: all var(--transition-fast);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+
+        .tech-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .tech-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .tech-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ── Signal flow ── */
+        .signal-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 28px 0;
+            padding: 20px 12px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(180,147,90,0.04);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .signal-flow .block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            text-align: center;
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            min-width: 70px;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .signal-flow .block:hover {
+            border-color: var(--gold-dim);
+            color: var(--text-primary);
+        }
+
+        .signal-flow .block.highlight {
+            border-color: var(--gold);
+            color: var(--gold-light);
+            font-weight: 600;
+            background: rgba(180,147,90,0.08);
+        }
+
+        .signal-flow .arrow {
+            color: var(--gold-dim);
+            font-size: 1.1rem;
+            padding: 0 3px;
+            flex-shrink: 0;
+        }
+
+        /* ── Footer ── */
+        .page-footer {
+            margin-top: 60px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .page-footer .footer-brand {
+            font-size: 1rem;
+            color: var(--gold-light);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+
+        .page-footer .footer-tagline {
+            font-style: italic;
+            color: var(--gold-dim);
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d8d4cc;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bbb7ae;
+        }
+
+        ::selection {
+            background: rgba(180,147,90,0.28);
+            color: var(--text-primary);
+        }
+
+        /* ── Fade-in animation ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preset-card {
+            animation: fadeUp 0.5s ease backwards;
+        }
+        .preset-card:nth-child(1) {
+            animation-delay: 0.01s;
+        }
+        .preset-card:nth-child(2) {
+            animation-delay: 0.04s;
+        }
+        .preset-card:nth-child(3) {
+            animation-delay: 0.07s;
+        }
+        .preset-card:nth-child(4) {
+            animation-delay: 0.10s;
+        }
+        .preset-card:nth-child(5) {
+            animation-delay: 0.13s;
+        }
+        .preset-card:nth-child(6) {
+            animation-delay: 0.16s;
+        }
+        .preset-card:nth-child(7) {
+            animation-delay: 0.19s;
+        }
+        .preset-card:nth-child(8) {
+            animation-delay: 0.22s;
+        }
+        .preset-card:nth-child(9) {
+            animation-delay: 0.25s;
+        }
+        .preset-card:nth-child(10) {
+            animation-delay: 0.28s;
+        }
+        .preset-card:nth-child(11) {
+            animation-delay: 0.31s;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 860px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 260px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px 60px;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .section-title {
+                font-size: 1.25rem;
+            }
+            .preset-card {
+                padding: 18px 20px;
+            }
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            .signal-flow {
+                gap: 4px;
+            }
+            .signal-flow .block {
+                padding: 10px 12px;
+                font-size: 0.7rem;
+                min-width: 50px;
+            }
+            .signal-flow .arrow {
+                font-size: 0.9rem;
+                padding: 0 1px;
+            }
+            .mobile-nav-toggle {
+                display: flex;
+                position: fixed;
+                top: 16px;
+                left: 16px;
+                z-index: 200;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.9);
+                border: 1px solid var(--border-subtle);
+                color: var(--text-primary);
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 1.2rem;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 99;
+                background: rgba(0,0,0,0.25);
+                backdrop-filter: blur(2px);
+            }
+            .sidebar-overlay.show {
+                display: block;
+            }
+            .lang-switcher {
+                top: 16px;
+                right: 14px;
+            }
+            .lang-switcher button {
+                padding: 7px 12px;
+                font-size: 0.72rem;
+            }
+        }
+
+        @media (min-width: 861px) {
+            .mobile-nav-toggle,
+            .sidebar-overlay {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Language Switcher ── -->
+    <div class="lang-switcher">
+        <button id="btnLangZh" class="active-lang" data-lang="zh" aria-label="中文">中文</button>
+        <span class="divider" aria-hidden="true"></span>
+        <button id="btnLangEn" data-lang="en" aria-label="English">EN</button>
+    </div>
+
+    <div class="app-container">
+        <!-- Mobile nav toggle -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="菜单 / Menu">☰</button>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="brand">AngelKiss</div>
+                <div class="sub-brand" data-i18n="sidebar.subtitle">天使之吻 · 用户手册</div>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="#design" class="active" data-i18n="nav.design">一、设计理念</a></li>
+                <li><a href="#presets" data-i18n="nav.presets_guide">二、预设音色指南</a></li>
+                <li><a href="#dsp" data-i18n="nav.dsp">三、DSP 技术概述</a></li>
+            </ul>                      
+            <div class="sidebar-footer" data-i18n="sidebar.footer">AngelKiss 天使之吻 v1.0<br>声音的电路记忆</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Hero -->
+            <header class="hero">
+                <h1>AngelKiss <span data-i18n="hero.subtitle">天使之吻</span></h1>
+                <p class="tagline" data-i18n="hero.tagline">母带级染色效果器 — 一半是审美，一半是数学</p>
+            </header>
+
+            <!-- ====== Section 1: Design Philosophy ====== -->
+            <section class="section" id="design">
+                <h2 class="section-title">
+                    <span class="numeral">01</span> <span data-i18n="design.title">设计理念</span>
+                </h2>
+
+                <p class="paragraph" data-i18n="design.p1">
+                    AngelKiss 天使之吻是一台<strong>母带级的染色效果器</strong>，但我更希望你把它用在混音总线上。
+                </p>
+
+                <div class="quote-block" data-i18n="design.quote">
+                    这不是一个会剧烈改变你声音的插件。它的哲学是"轻柔地存在"——当你 bypass 它时，你会觉得少了点什么；当你重新打开它，你会觉得一切都对了，但又说不出具体哪里变了。这就是好的染色应该有的样子：<strong>不抢戏，但不可或缺</strong>。
+                </div>
+
+                <p class="paragraph" data-i18n="design.p2">
+                    AngelKiss 提供了 <strong>11 个精心设计的染色预设</strong>，横跨不同的风格，从复古流行到现代前卫，从摇滚金属到氛围电子。
+                </p>
+
+                <p class="paragraph" data-i18n="design.p3">
+                    技术的核心是一套<strong>定制化的卷积引擎</strong>。与传统的滤波式处理不同，卷积不会对信号造成相位失真或频段切割。恰恰相反，通过精心设计的脉冲响应，AngelKiss 实际上<strong>增加了信号的信息量</strong>——谐波变得更有组织，声场变得更加明确，各个频段之间的关系被重新梳理过，但你听不到任何"处理过的痕迹"。
+                </p>
+
+                <p class="paragraph" data-i18n="design.p4">
+                    内置的<strong>自适应均衡系统</strong>是另一个核心工具。它通过对立体声左右通道的联动或独立动态均衡，在不拆分 Mid/Side 通道的前提下控制声场——让中央的人声更扎实，同时让两侧的乐器更开阔；或者反过来，收紧两侧的低频，让中央的低音更有冲击力。
+                </p>
+            </section>
+
+            <!-- ====== Section 3: Preset Guide ====== -->
+            <section class="section" id="presets">
+                <h2 class="section-title">
+                    <span class="numeral">02</span> <span data-i18n="presets.title">预设音色指南</span>
+                </h2>
+
+                <p class="paragraph" data-i18n="presets.intro">
+                    AngelKiss 内置了 <strong>11 个精心调校的预设</strong>，每一个都针对特定的听感目标和音乐风格进行了优化。所有预设均为轻柔染色，你不会听到剧烈的音色变化——但当你 bypass 它时，你会立刻注意到缺失。
+                </p>
+
+                <div class="preset-grid">
+                    <!-- 01 - Harmonic -->
+                    <div class="preset-card" id="preset-01">
+                        <div class="preset-number">PRESET 01</div>
+                        <div class="preset-name">Harmonic</div>
+                        <div class="preset-subtitle" data-i18n="preset.01.subtitle">谐波增强</div>
+                        <p class="preset-desc" data-i18n="preset.01.desc">泛音列丰满且富有光泽，中低频有扎实的支撑感，高频带着自然的空气延伸。</p>
+                        <p class="preset-use" data-i18n="preset.01.use">适合原声乐器、钢琴独奏，以及需要华丽泛音质感的人声。如果你觉得一段录音听起来"太干"或"缺乏灵性"，试试这个。</p>
+                    </div>
+
+                    <!-- 02 - Clean -->
+                    <div class="preset-card" id="preset-02">
+                        <div class="preset-number">PRESET 02</div>
+                        <div class="preset-name">Clean</div>
+                        <div class="preset-subtitle" data-i18n="preset.02.subtitle">清透明亮</div>
+                        <p class="preset-desc" data-i18n="preset.02.desc">极度干净的响应，几乎不留染色痕迹，只提供轻微的清晰度提升。</p>
+                        <p class="preset-use" data-i18n="preset.02.use">适合已经混好的母带素材，或者追求高保真度、不愿破坏原始音色的场景。它在你听不出来的时候做最多的事。</p>
+                    </div>
+
+                    <!-- 03 - Morningstar -->
+                    <div class="preset-card" id="preset-03">
+                        <div class="preset-number">PRESET 03</div>
+                        <div class="preset-name">Morningstar</div>
+                        <div class="preset-subtitle" data-i18n="preset.03.subtitle">80年代摇滚 / 流行</div>
+                        <p class="preset-desc" data-i18n="preset.03.desc">中频饱满有力，带有轻微的模拟过载感，瞬态迅速直接。</p>
+                        <p class="preset-use" data-i18n="preset.03.use">适合鼓组、摇滚吉他，以及需要那个年代粗粝又温暖的冲击力的声音。放一首 80 年代的经典摇滚，它会让你想起为什么那个年代的声音至今无法复制。</p>
+                    </div>
+
+                    <!-- 04 - Duvet -->
+                    <div class="preset-card" id="preset-04">
+                        <div class="preset-number">PRESET 04</div>
+                        <div class="preset-name">Duvet</div>
+                        <div class="preset-subtitle" data-i18n="preset.04.subtitle">爵士绒毯</div>
+                        <p class="preset-desc" data-i18n="preset.04.desc">中频区域顺滑绵密，延音丰满，泛音带有温暖的毛边感。</p>
+                        <p class="preset-use" data-i18n="preset.04.use">适合萨克斯、爵士小号、温暖的男声。它不会让你的声音变"暗"，但会让它变"厚"——像一层精心编织的天鹅绒轻轻盖在上面。</p>
+                    </div>
+
+                    <!-- 05 - Serene -->
+                    <div class="preset-card" id="preset-05">
+                        <div class="preset-number">PRESET 05</div>
+                        <div class="preset-name">Serene</div>
+                        <div class="preset-subtitle" data-i18n="preset.05.subtitle">10年代华语情歌</div>
+                        <p class="preset-desc" data-i18n="preset.05.desc">泛音结构有细腻的凹陷处理，高频通透但不刺耳，两路 EQ 的差异带来微妙的立体声宽度。</p>
+                        <p class="preset-use" data-i18n="preset.05.use">适合抒情流行的人声和钢琴，听感克制而深情。它是那种让你在副歌响起时不由自主闭上眼睛的声音。</p>
+                    </div>
+
+                    <!-- 06 - Bay -->
+                    <div class="preset-card" id="preset-06">
+                        <div class="preset-number">PRESET 06</div>
+                        <div class="preset-name">Bay</div>
+                        <div class="preset-subtitle" data-i18n="preset.06.subtitle">00年代城市流行</div>
+                        <p class="preset-desc" data-i18n="preset.06.desc">低频有慵懒的拖尾感，中高频适度收敛，整体听感温柔放松。</p>
+                        <p class="preset-use" data-i18n="preset.06.use">适合复古都市风格的电子流行和 R&B 人声。它带着傍晚的暖色调——不是正午的阳光，而是黄昏时分城市天际线的那一抹橘色。</p>
+                    </div>
+
+                    <!-- 07 - Aloof -->
+                    <div class="preset-card" id="preset-07">
+                        <div class="preset-number">PRESET 07</div>
+                        <div class="preset-name">Aloof</div>
+                        <div class="preset-subtitle" data-i18n="preset.07.subtitle">20年代卧室流行</div>
+                        <p class="preset-desc" data-i18n="preset.07.desc">刻意压低中频，制造疏离感和距离感，高频却保留充足的空气。</p>
+                        <p class="preset-use" data-i18n="preset.07.use">适合低保真美学的人声和独立电子。它听起来像隔着玻璃唱歌——情感浓度极高，但始终保持着一层克制的距离。</p>
+                    </div>
+
+                    <!-- 08 - Frost -->
+                    <div class="preset-card" id="preset-08">
+                        <div class="preset-number">PRESET 08</div>
+                        <div class="preset-name">Frost</div>
+                        <div class="preset-subtitle" data-i18n="preset.08.subtitle">金属 / 北地之声</div>
+                        <p class="preset-desc" data-i18n="preset.08.desc">中高频锋利清晰，泛音衰减陡峭，听感冷峻而沉重。</p>
+                        <p class="preset-use" data-i18n="preset.08.use">最初为前卫金属设计，后来加重了冰冷感。如果你需要一种来自俄罗斯北地冻土的呼唤感——寒冷、荒凉、但充满力量——它是唯一的选择。</p>
+                    </div>
+
+                    <!-- 09 - Atmosphere -->
+                    <div class="preset-card" id="preset-09">
+                        <div class="preset-number">PRESET 09</div>
+                        <div class="preset-name">Atmosphere</div>
+                        <div class="preset-subtitle" data-i18n="preset.09.subtitle">氛围</div>
+                        <p class="preset-desc" data-i18n="preset.09.desc">中频大幅凹陷，空间感深不见底，声音仿佛消散在雾气里。</p>
+                        <p class="preset-use" data-i18n="preset.09.use">适合环境音乐、电影配乐，以及任何需要让声音失去边界的场合。它不会让你的声音变得模糊，但它会让声音的轮廓变得不再重要。</p>
+                    </div>
+
+                    <!-- 10 - Neon -->
+                    <div class="preset-card" id="preset-10">
+                        <div class="preset-number">PRESET 10</div>
+                        <div class="preset-name">Neon</div>
+                        <div class="preset-subtitle" data-i18n="preset.10.subtitle">电子霓虹</div>
+                        <p class="preset-desc" data-i18n="preset.10.desc">中频有弹性的延迟感，高频冷艳明亮，低频紧实有力。</p>
+                        <p class="preset-use" data-i18n="preset.10.use">适合合成器、电子鼓、vocoder。听感像深夜城市中闪烁的电子脉冲——冷，但迷人。</p>
+                    </div>
+
+                    <!-- 11 - Restraint -->
+                    <div class="preset-card" id="preset-11">
+                        <div class="preset-number">PRESET 11</div>
+                        <div class="preset-name">Restraint</div>
+                        <div class="preset-subtitle" data-i18n="preset.11.subtitle">后朋克 / 张力控制</div>
+                        <p class="preset-desc" data-i18n="preset.11.desc">中频锐利紧致，泛音迅速收敛，整体听感干燥而充满张力。专为后朋克的棱角美学——那些拒绝圆滑、拥抱紧张感的声音而设计。</p>
+                        <p class="preset-use" data-i18n="preset.11.use">适合后朋克吉他、贝斯驱动的编曲、需要紧绷感但拒绝情感宣泄的人声。如果你想得到类似 Joy Division 那种克制到令人不安的声场，或者 Gang of Four 式的锋利攻击感，这是你的选择。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== Usage Tips ====== -->
+            <section class="section" id="tips">
+                <h2 class="section-title">
+                    <span class="numeral">·</span> <span data-i18n="tips.title">使用建议</span>
+                </h2>
+
+                <div class="tips-box">
+                    <h3 data-i18n="tips.header">💡 最佳实践</h3>
+                    <ul>
+                        <li data-i18n="tips.li1">预设没有"对"或"错"。如果 <strong>08 Frost</strong> 用在一段爵士钢琴上让你觉得好听，那就是对的。</li>
+                        <li data-i18n="tips.li2">建议将 AngelKiss 放在效果链的<strong>靠前位置</strong>，让染色先于其他动态处理。</li>
+                        <li data-i18n="tips.li3">建议在混音的一开始，就在 bus 上使用 AngelKiss，并给予一个<strong>相对较大的数值</strong>。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ====== Section 2: DSP Technology ====== -->
+            <section class="section" id="dsp">
+                <h2 class="section-title">
+                    <span class="numeral">03</span> <span data-i18n="dsp.title">DSP 技术概述</span>
+                </h2>
+
+                <p class="paragraph" data-i18n="dsp.p1">
+                    AngelKiss 的核心是一套<strong>定制化的电路建模脉冲响应生成系统</strong>。所有复杂运算都在 IR 生成阶段完成，插件运行时只需执行卷积，CPU 负担相对可控。
+                </p>
+
+                <div class="signal-flow">
+                    <div class="block" data-i18n="flow.in">输入信号</div>
+                    <span class="arrow">→</span>
+                    <div class="block" data-i18n="flow.env">动态包络<br>跟随</div>
+                    <span class="arrow">→</span>
+                    <div class="block highlight" data-i18n="flow.conv">卷积引擎<br>双偏置 IR</div>
+                    <span class="arrow">→</span>
+                    <div class="block" data-i18n="flow.eq">自适应均衡<br>A/B 双通道</div>
+                    <span class="arrow">→</span>
+                    <div class="block" data-i18n="flow.fb">反馈网络</div>
+                    <span class="arrow">→</span>
+                    <div class="block" data-i18n="flow.out">输出信号</div>
+                </div>
+
+                <p class="paragraph" data-i18n="dsp.p2" style="font-size:0.82rem;color:var(--text-muted);">
+                    上图是 AngelKiss 实时处理流程的简化示意。信号首先经过包络跟随器感知瞬时电平，随后与预先生成的电路脉冲响应（IR）卷积；当 Color 旋钮超过 100% 时，自适应 5 段均衡器介入，以 A/B 两条并行链路施加微妙的频段塑形；最后，反馈网络将一部分卷积输出以低通平滑方式回送到输入端，增加密度与延音。
+                </p>
+            </section>
+
+            <!-- DSP: Harmonics -->
+            <section class="section" id="dsp-harmonics">
+                <h3 class="subsection-title" data-i18n="harmonics.title">IR 生成：谐波结构与多径叠加</h3>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4 data-i18n="harmonics.card1_title">🔬 三阶段 IR 合成</h4>
+                        <p data-i18n="harmonics.card1_desc">每个预设的脉冲响应（IR）均在加载前离线生成。第一步：在频域中构建线性 IR——逐频点根据群延迟曲线计算相位偏移（phase = −2πf·delay），幅值遵循一阶低通滚降。第二步：以虚拟基频合成谐波模板——取基频的整数倍正弦波，按预设数组中各自的电平和相位求和，经 L∞ 归一化后，若偏置量非零则施加不对称塑形，再扩展为多个周期并逐周期叠加衰减包络与相位偏移。第三步：三路并行的多径模型各自通过一阶 LP/HP 级联分频（Low → LowMid → MidHigh → High），各频段按路径增益叠加。最终将线性 IR、谐波模板与多径叠加按预设比例混合，经 Hann 窗和 L1 归一化，分别生成 +bias 与 −bias 两个版本。</p>
+                    </div>
+                    <div class="tech-card">
+                        <h4 data-i18n="harmonics.card2_title">🎛️ 设计精度</h4>
+                        <p data-i18n="harmonics.card2_desc">所有谐波电平、相位、偏置量、多径延迟与增益以及混合比例均由预设参数精确控制。每一个预设的 IR 都是数百个参数协同作用的结果——不同的谐波分布决定了听感的冷暖与密度，不同的多径配置决定了空间的远近与厚度，而线性 IR 的群延迟曲线则锁定了整体的速度感。这一切在 IR 生成完成后即固化，确保实时运行时的一致性与 CPU 效率。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DSP: Group Delay -->
+            <section class="section" id="dsp-delay">
+                <h3 class="subsection-title" data-i18n="delay.title">IR 生成：群延迟曲线</h3>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4 data-i18n="delay.card1_title">⏱️ 频率相关的相位延迟</h4>
+                        <p data-i18n="delay.card1_desc">在 IR 生成阶段，群延迟曲线被映射到线性 IR 的每个频点：对频率 f，从曲线中插值得到延迟值 d(f)，换算为相位偏移 φ = −2πf·d(f)，再通过 IFFT 变换到时域。这为不同频率赋予了不同的到达时间——低频的微小延迟让声音更松弛、更有重量感；中高频的即时响应则保留瞬态清晰度和细节。整个过程在 IR 内完成，实时运行时无需额外计算。</p>
+                    </div>
+                    <div class="tech-card">
+                        <h4 data-i18n="delay.card2_title">🎯 精确调校</h4>
+                        <p data-i18n="delay.card2_desc">每个预设的群延迟曲线均经过仔细调校。其设计目标是让频率之间的时序关系产生自然的"电路感"——不是刻意地模糊某些频段，而是让各个频段以微妙的不同时刻到达耳朵，从而营造出模拟设备中电容与电感网络特有的速度感与空间组织方式。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DSP: Feedback -->
+            <section class="section" id="dsp-feedback">
+                <h3 class="subsection-title" data-i18n="feedback.title">反馈网络</h3>
+                <p class="paragraph" data-i18n="feedback.p1">
+                    信号在电路中并非单向流动。反馈回路会将一部分输出信号重新注入输入端，产生递归式的频率叠加。AngelKiss 模拟了这一机制：卷积输出的湿信号乘以反馈量后，经<strong>一阶低通平滑</strong>叠加到下一帧的输入中。这让每个预设都有了自己独特的"尾音"——反馈量大时延音绵长悠远，反馈量小时干净利落。
+                </p>
+            </section>
+
+            <!-- DSP: EQ -->
+            <section class="section" id="dsp-eq">
+                <h3 class="subsection-title" data-i18n="eq.title">自适应 5 段均衡（A/B 双通道）</h3>
+                <p class="paragraph" data-i18n="eq.p1">
+                    Color 旋钮超过 100% 时，信号会进入一套<strong>自适应 5 段动态均衡器</strong>。分频采用一阶低通/高通级联结构，将信号划分为 Low / LowMid / MidHigh / High / Air 五个频段。
+                </p>
+                <p class="paragraph" data-i18n="eq.p2">
+                    均衡强度由 Color 旋钮的超量部分与瞬时包络电平共同决定——信号越强、旋钮推得越高，频段塑形越明显。处理在立体声左右通道上独立执行，可根据需要联动（link）或独立（unlink），从而<strong>在不拆分 Mid/Side 的前提下控制声场宽度</strong>，这意味着：
+                </p>
+
+                <ul class="feature-list">
+                    <li><span class="bullet">▸</span> <span data-i18n="eq.li1">完全遵守"复现模拟电路"的设计理念，所有处理均在时域完成</span></li>
+                    <li><span class="bullet">▸</span> <span data-i18n="eq.li2">让中央的人声或底鼓更温暖，同时保持两侧乐器的开阔度</span></li>
+                    <li><span class="bullet">▸</span> <span data-i18n="eq.li3">更自然地收紧两侧的低频，避免立体声低频的相位问题</span></li>
+                    <li><span class="bullet">▸</span> <span data-i18n="eq.li4">在两侧增加高频空气感，而不让人声变得刺耳</span></li>
+                    <li><span class="bullet">▸</span> <span data-i18n="eq.li5">或者任何你需要的组合</span></li>
+                </ul>
+
+                <p class="paragraph" data-i18n="eq.p3">
+                    每个预设的 EQ 都配置了<strong>两组参数（A 和 B）</strong>，分别对应两条独立的频段增益组合。最终输出由 A/B 混合比例决定。这种设计让你在单一预设内就能获得微妙的立体声宽度和自然的相位交互——不需要手动调节，一切都已经为你调好。
+                </p>
+            </section>
+
+            <!-- Footer -->
+            <footer class="page-footer">
+                <div class="footer-brand">AngelKiss <span data-i18n="footer.sub">天使之吻</span></div>
+                <div class="footer-tagline" data-i18n="footer.tagline">声音的电路记忆。</div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        (function() {
+            const t = {
+                'sidebar.subtitle': { zh: '天使之吻 · 用户手册', en: 'Angel\'s Kiss · User Manual' },
+                'sidebar.footer': { zh: 'AngelKiss 天使之吻 v1.0<br>声音的电路记忆',
+                    en: 'AngelKiss v1.0<br>The Circuit Memory of Sound' },
+                'nav.overview': { zh: '概述', en: 'Overview' },
+                'nav.design': { zh: '一、设计理念', en: '1. Design Philosophy' },
+                'nav.author': { zh: '关于作者', en: 'About the Author' },
+                'nav.tech': { zh: '技术', en: 'Technology' },
+                'nav.dsp': { zh: '三、DSP 技术概述', en: '2. DSP Technology' },
+                'nav.harmonics': { zh: 'IR 生成：谐波与多径', en: 'IR Generation: Harmonics &amp; Multipath' },
+                'nav.delay': { zh: 'IR 生成：群延迟曲线', en: 'IR Generation: Group Delay Curve' },
+                'nav.feedback': { zh: '反馈网络', en: 'Feedback Network' },
+                'nav.eq': { zh: '自适应 5 段均衡（A/B）', en: 'Adaptive 5-Band EQ (A/B)' },
+                'nav.presets': { zh: '预设', en: 'Presets' },
+                'nav.presets_guide': { zh: '二、预设音色指南', en: '3. Preset Guide' },
+                'nav.appendix': { zh: '附录', en: 'Appendix' },
+                'nav.tips': { zh: '使用建议', en: 'Usage Tips' },
+                'hero.subtitle': { zh: '天使之吻', en: '— The Angel\'s Kiss' },
+                'hero.tagline': { zh: '母带级染色效果器 — 一半是审美，一半是数学',
+                    en: 'Mastering-grade Saturation Processor — Half Aesthetics, Half Mathematics' },
+                'design.title': { zh: '设计理念', en: 'Design Philosophy' },
+                'design.p1': {
+                    zh: 'AngelKiss 天使之吻是一台<strong>母带级的染色效果器</strong>，但我更希望你把它用在混音总线上。',
+                    en: 'AngelKiss is a <strong>mastering-grade saturation processor</strong>, but I encourage you to use it on your mix bus instead.'
+                },
+                'design.quote': {
+                    zh: '这不是一个会剧烈改变你声音的插件。它的哲学是"轻柔地存在"——当你 bypass 它时，你会觉得少了点什么；当你重新打开它，你会觉得一切都对了，但又说不出具体哪里变了。这就是好的染色应该有的样子：<strong>不抢戏，但不可或缺</strong>。',
+                    en: 'This is not a plugin that drastically alters your sound. Its philosophy is "to exist gently" — when you bypass it, you feel something is missing; when you re-engage it, everything feels right, yet you can\'t pinpoint exactly what changed. That is what good saturation should be: <strong>never stealing the spotlight, yet utterly indispensable</strong>.'
+                },
+                'design.p2': {
+                    zh: 'AngelKiss 提供了 <strong>11 个精心设计的染色预设</strong>，横跨不同的风格，从复古流行到现代前卫，从摇滚金属到氛围电子。',
+                    en: 'AngelKiss offers <strong>11 meticulously crafted saturation presets</strong>, spanning a wide range of styles — from vintage pop to modern avant-garde, from rock and metal to ambient electronica.'
+                },
+                'design.p3': {
+                    zh: '技术的核心是一套<strong>定制化的卷积引擎</strong>。与传统的滤波式处理不同，卷积不会对信号造成相位失真或频段切割。恰恰相反，通过精心设计的脉冲响应，AngelKiss 实际上<strong>增加了信号的信息量</strong>——谐波变得更有组织，声场变得更加明确，各个频段之间的关系被重新梳理过，但你听不到任何"处理过的痕迹"。',
+                    en: 'At its core lies a <strong>custom convolution engine</strong>. Unlike traditional filter-based processing, convolution introduces no phase distortion or frequency-band slicing. On the contrary — through carefully designed impulse responses, AngelKiss actually <strong>increases the information content of the signal</strong>: harmonics become more organized, the soundstage gains clarity, and the relationships between frequency bands are re-articulated — yet you hear no trace of "processing."'
+                },
+                'design.p4': {
+                    zh: '内置的<strong>自适应均衡系统</strong>是另一个核心工具。它通过对立体声左右通道的联动或独立动态均衡，在不拆分 Mid/Side 通道的前提下控制声场——让中央的人声更扎实，同时让两侧的乐器更开阔；或者反过来，收紧两侧的低频，让中央的低音更有冲击力。',
+                    en: 'The built-in <strong>adaptive equalization system</strong> is another essential tool. By applying linked or independent dynamic EQ on the left and right channels, it controls the stereo field without actually splitting the Mid and Side channels — making the center vocal more grounded while widening the instruments on the sides, or conversely, tightening the low end on the sides to give the center bass more punch.'
+                },
+                'author.title': { zh: '关于作者', en: 'About the Author' },
+                'author.header': { zh: '设计者的话', en: 'A Word from the Designer' },
+                'author.p1': { zh: '这些预设不是凭空想出来的。',
+                en: 'These presets were not conjured out of thin air.' },
+                'author.p2': {
+                    zh: '我的声音之路始于学生剧组。那时候我一个人包揽了所有的音频工作——音效设计、ADR 编辑、拟音、混音，什么都得干，什么都要学。那段时间教会我一件事：<strong>声音没有"次要环节"</strong>，每一个细节都影响最终的结果。',
+                    en: 'My journey with sound began on student film sets. I handled every audio role myself — sound design, ADR editing, Foley, mixing — anything that needed doing, I learned to do. That period taught me one thing: <strong>there is no "minor link" in audio</strong> — every detail shapes the final result.'
+                },
+                'author.p3': {
+                    zh: '后来，我认识了越来越多的音乐制作人。出于对我在音频领域判断力的信任，他们开始把歌曲的母带交给我来做。在他们的鼓励下，我开始学习做一名制作人，也开始接手混音的工作。从那时起，音色设计就成了我最有热情的方向——怎么让一个声音在保持它本来面目的同时，变得更动人。',
+                    en: 'Later, I got to know more and more music producers. Trusting my judgment in audio, they began sending me their songs for mastering. With their encouragement, I started learning production and taking on mixing work. From that point on, tone design became my greatest passion — how to make a sound more emotionally compelling while preserving its essential character.'
+                },
+                'author.p4': {
+                    zh: '我的人生经历不太走寻常路，这让我的审美也变得难以归类。很少有人像我一样，能够同时对金属的暴力美学、摇滚的直接粗粝、爵士的即兴呼吸感、独立音乐的 DIY 精神、流行音乐的精确控制力，日系音乐的黏糊以及亚洲民族音乐，都有还算不错的理解。这些看似不相干的风格，在我的耳朵里其实是相通的：它们都在用不同的方式回答同一个问题——<strong>"声音质感反映了什么样的文化共性"</strong>。',
+                    en: 'My life path has been unconventional, and my aesthetic sensibility is equally hard to pigeonhole. Few people can claim a decent understanding of metal\'s brutal aesthetics, rock\'s raw directness, jazz\'s improvisational breath, indie music\'s DIY spirit, pop\'s precision control, the sticky warmth of J-pop, and the textures of Asian folk music — all at once. These seemingly disparate styles, to my ears, are connected: they all answer the same question in different ways — <strong>"What cultural commonality does sonic texture reflect?"</strong>'
+                },
+                'author.p5': {
+                    zh: '而我的本科和硕士阶段，学的都是<strong>通信工程</strong>。这给了我另一个维度：我对模拟电路的工作方式、信号与系统的底层逻辑、以及 DSP 算法的实现细节，有着工程师式的理解。当我在设计一个谐波结构时，我知道它在数学上意味着什么；当我在调整一条群延迟曲线时，我知道它在物理上对应着什么。',
+                    en: 'Both my undergraduate and graduate degrees are in <strong>Telecommunications Engineering</strong>. This gives me another dimension: I understand how analog circuits behave, the底层 logic of signals and systems, and the implementation details of DSP algorithms — with an engineer\'s precision. When I design a harmonic structure, I know what it means mathematically; when I shape a group-delay curve, I know what it corresponds to physically.'
+                },
+                'author.quote': {
+                    zh: 'AngelKiss 就是这两条线索交汇的产物：一半是审美，一半是数学。每一个预设的谐波分布、EQ 曲线、群延迟参数，都不是随意设定的。它们来自我多年母带工作中对"好的听感"的反复验证，也来自我对电路建模和信号处理的第一性理解。<br><br>AngelKiss 不追求让你听出"它做了什么"。它追求的是<strong>让你听到音乐本身更动人的版本</strong>。',
+                    en: 'AngelKiss is the product of these two threads converging: half aesthetics, half mathematics. Every harmonic distribution, EQ curve, and group-delay parameter in these presets was set with intention. They are the result of years of iterative validation of "what sounds good" in my mastering work, and my first-principles understanding of circuit modeling and signal processing.<br><br>AngelKiss does not aim for you to hear "what it did." It aims for <strong>you to hear a more moving version of the music itself</strong>.'
+                },
+                'dsp.title': { zh: 'DSP 技术概述', en: 'DSP Technology Overview' },
+                'dsp.p1': {
+                    zh: 'AngelKiss 的核心是一套<strong>定制化的电路建模脉冲响应生成系统</strong>。所有复杂运算都在 IR 生成阶段完成，插件运行时只需执行卷积，CPU 负担相对可控。',
+                    en: 'The core of AngelKiss is a <strong>custom circuit-modeling impulse response generation system</strong>. All complex computation is done during the IR generation phase; at runtime, the plugin only needs to perform convolution, keeping the CPU load manageable.'
+                },
+                'dsp.p2': {
+                    zh: '上图是 AngelKiss 实时处理流程的简化示意。信号首先经过包络跟随器感知瞬时电平，随后与预先生成的电路脉冲响应（IR）卷积；当 Color 旋钮超过 100% 时，自适应 5 段均衡器介入，以 A/B 两条并行链路施加微妙的频段塑形；最后，反馈网络将一部分卷积输出以低通平滑方式回送到输入端，增加密度与延音。',
+                    en: 'The diagram above is a simplified view of AngelKiss\'s real-time processing chain. The signal first passes through an envelope follower that tracks instantaneous level, then undergoes convolution with a pre-generated circuit impulse response (IR). When the Color knob exceeds 100%, an adaptive 5-band EQ engages across two parallel A/B chains for subtle spectral shaping. Finally, a feedback network smooths a portion of the convolution output through a low-pass filter and re-injects it into the input, adding density and sustain.'
+                },
+                'flow.in': { zh: '输入信号', en: 'Input Signal' },
+                'flow.env': { zh: '动态包络<br>跟随', en: 'Envelope<br>Follower' },
+                'flow.conv': { zh: '卷积引擎<br>双偏置 IR', en: 'Convolution<br>Dual-Bias IR' },
+                'flow.eq': { zh: '自适应均衡<br>A/B 双通道', en: 'Adaptive EQ<br>A/B Channels' },
+                'flow.fb': { zh: '反馈网络', en: 'Feedback<br>Network' },
+                'flow.out': { zh: '输出信号', en: 'Output Signal' },
+                'harmonics.title': { zh: 'IR 生成：谐波结构与多径叠加',
+                    en: 'IR Generation: Harmonic Structure &amp; Multipath Overlay' },
+                'harmonics.card1_title': { zh: '🔬 三阶段 IR 合成', en: '🔬 Three-Stage IR Synthesis' },
+                'harmonics.card1_desc': {
+                    zh: '每个预设的脉冲响应（IR）均在加载前离线生成。第一步：在频域中构建线性 IR——逐频点根据群延迟曲线计算相位偏移（phase = −2πf·delay），幅值遵循一阶低通滚降。第二步：以虚拟基频合成谐波模板——取基频的整数倍正弦波，按预设数组中各自的电平和相位求和，经 L∞ 归一化后，若偏置量非零则施加不对称塑形，再扩展为多个周期并逐周期叠加衰减包络与相位偏移。第三步：三路并行的多径模型各自通过一阶 LP/HP 级联分频（Low → LowMid → MidHigh → High），各频段按路径增益叠加。最终将线性 IR、谐波模板与多径叠加按预设比例混合，经 Hann 窗和 L1 归一化，分别生成 +bias 与 −bias 两个版本。',
+                    en: 'Every preset\'s impulse response (IR) is generated offline before loading. Stage one: a linear IR is built in the frequency domain — each frequency bin receives a phase offset derived from the group-delay curve (phase = −2πf·delay), while magnitude follows a first-order low-pass rolloff. Stage two: a harmonic template is synthesized from a virtual fundamental — integer-multiple sine waves are summed at their preset levels and phases, L∞-normalized, optionally shaped with asymmetry when bias is non-zero, then extended across multiple cycles with per-cycle decay envelopes and phase offsets. Stage three: three parallel multipath models each pass through a first-order LP/HP cascade crossover (Low → LowMid → MidHigh → High), with each band scaled by path gain. The linear IR, harmonic template, and multipath overlay are then blended at the preset ratio, Hann-windowed, L1-normalized, and saved as both +bias and −bias versions.'
+                },
+                'harmonics.card2_title': { zh: '🎛️ 设计精度', en: '🎛️ Design Precision' },
+                'harmonics.card2_desc': {
+                    zh: '所有谐波电平、相位、偏置量、多径延迟与增益以及混合比例均由预设参数精确控制。每一个预设的 IR 都是数百个参数协同作用的结果——不同的谐波分布决定了听感的冷暖与密度，不同的多径配置决定了空间的远近与厚度，而线性 IR 的群延迟曲线则锁定了整体的速度感。这一切在 IR 生成完成后即固化，确保实时运行时的一致性与 CPU 效率。',
+                    en: 'All harmonic levels, phases, bias amounts, multipath delays and gains, and blend ratios are precisely controlled by preset parameters. Each preset\'s IR is the result of hundreds of parameters working in concert — different harmonic distributions determine the warmth/coolness and density of the tone; different multipath configurations define spatial depth and thickness; and the linear IR\'s group-delay curve locks in the overall sense of speed. Everything is baked into the IR upon generation, ensuring consistency and CPU efficiency at runtime.'
+                },
+                'delay.title': { zh: 'IR 生成：群延迟曲线', en: 'IR Generation: Group Delay Curve' },
+                'delay.card1_title': { zh: '⏱️ 频率相关的相位延迟',
+                    en: '⏱️ Frequency-Dependent Phase Delay' },
+                'delay.card1_desc': {
+                    zh: '在 IR 生成阶段，群延迟曲线被映射到线性 IR 的每个频点：对频率 f，从曲线中插值得到延迟值 d(f)，换算为相位偏移 φ = −2πf·d(f)，再通过 IFFT 变换到时域。这为不同频率赋予了不同的到达时间——低频的微小延迟让声音更松弛、更有重量感；中高频的即时响应则保留瞬态清晰度和细节。整个过程在 IR 内完成，实时运行时无需额外计算。',
+                    en: 'During IR generation, the group-delay curve is mapped onto every frequency bin of the linear IR: for each frequency f, a delay value d(f) is interpolated from the curve and converted to a phase offset φ = −2πf·d(f), then transformed to the time domain via IFFT. This gives different frequencies different arrival times — subtle low-frequency delay makes the sound more relaxed and weighty; immediate mid-high response preserves transient clarity and detail. The entire process is baked into the IR, requiring no extra computation at runtime.'
+                },
+                'delay.card2_title': { zh: '🎯 精确调校', en: '🎯 Fine-Tuned Calibration' },
+                'delay.card2_desc': {
+                    zh: '每个预设的群延迟曲线均经过仔细调校。其设计目标是让频率之间的时序关系产生自然的"电路感"——不是刻意地模糊某些频段，而是让各个频段以微妙的不同时刻到达耳朵，从而营造出模拟设备中电容与电感网络特有的速度感与空间组织方式。',
+                    en: 'Each preset\'s group-delay curve has been carefully calibrated. The design goal is to create a natural "circuit feel" in the timing relationships between frequencies — not to deliberately blur certain bands, but to let each frequency range arrive at the ear at subtly different moments, recreating the characteristic sense of speed and spatial organization found in the capacitor and inductor networks of analog hardware.'
+                },
+                'feedback.title': { zh: '反馈网络', en: 'Feedback Network' },
+                'feedback.p1': {
+                    zh: '信号在电路中并非单向流动。反馈回路会将一部分输出信号重新注入输入端，产生递归式的频率叠加。AngelKiss 模拟了这一机制：卷积输出的湿信号乘以反馈量后，经<strong>一阶低通平滑</strong>叠加到下一帧的输入中。这让每个预设都有了自己独特的"尾音"——反馈量大时延音绵长悠远，反馈量小时干净利落。',
+                    en: 'Signals don\'t flow in just one direction inside a circuit. Feedback loops re-inject a portion of the output back into the input, producing recursive frequency叠加. AngelKiss models this mechanism: the wet convolution output, multiplied by the feedback amount, is smoothed through a <strong>first-order low-pass filter</strong> and叠加 onto the next frame\'s input. This gives each preset its own unique "ring-out" — high feedback creates a long, lingering tail; low feedback yields a crisp, decisive finish.'
+                },
+                'eq.title': { zh: '自适应 5 段均衡（A/B 双通道）',
+                en: 'Adaptive 5-Band EQ (A/B Dual-Channel)' },
+                'eq.p1': {
+                    zh: 'Color 旋钮超过 100% 时，信号会进入一套<strong>自适应 5 段动态均衡器</strong>。分频采用一阶低通/高通级联结构，将信号划分为 Low / LowMid / MidHigh / High / Air 五个频段。',
+                    en: 'When the Color knob exceeds 100%, the signal enters an <strong>adaptive 5-band dynamic equalizer</strong>. Crossover is achieved via a first-order LP/HP cascade, splitting the signal into five bands: Low / LowMid / MidHigh / High / Air.'
+                },
+                'eq.p2': {
+                    zh: '均衡强度由 Color 旋钮的超量部分与瞬时包络电平共同决定——信号越强、旋钮推得越高，频段塑形越明显。处理在立体声左右通道上独立执行，可根据需要联动（link）或独立（unlink），从而<strong>在不拆分 Mid/Side 的前提下控制声场宽度</strong>，这意味着：',
+                    en: 'EQ intensity is jointly determined by how far the Color knob exceeds 100% and the instantaneous envelope level — the stronger the signal and the higher the knob, the more pronounced the spectral shaping. Processing runs independently on the left and right channels and can be linked or unlinked as needed, <strong>controlling stereo width without actually splitting into Mid and Side channels</strong>. This means:'
+                },
+                'eq.li1': { zh: '完全遵守"复现模拟电路"的设计理念，所有处理均在时域完成',
+                    en: 'Full adherence to the "reproduce analog circuits" design philosophy — all processing happens in the time domain' },
+                'eq.li2': { zh: '让中央的人声或底鼓更温暖，同时保持两侧乐器的开阔度',
+                    en: 'Warm up the center vocal or kick drum while maintaining the openness of side instruments' },
+                'eq.li3': { zh: '更自然地收紧两侧的低频，避免立体声低频的相位问题',
+                    en: 'Naturally tighten the low end on the sides, avoiding stereo低频 phase issues' },
+                'eq.li4': { zh: '在两侧增加高频空气感，而不让人声变得刺耳',
+                    en: 'Add high-frequency air on the sides without making the vocal harsh' },
+                'eq.li5': { zh: '或者任何你需要的组合', en: 'Or any combination you need' },
+                'eq.p3': {
+                    zh: '每个预设的 EQ 都配置了<strong>两组参数（A 和 B）</strong>，分别对应两条独立的频段增益组合。最终输出由 A/B 混合比例决定。这种设计让你在单一预设内就能获得微妙的立体声宽度和自然的相位交互——不需要手动调节，一切都已经为你调好。',
+                    en: 'Each preset\'s EQ is configured with <strong>two parameter sets (A and B)</strong>, corresponding to two independent band-gain combinations. The final output is determined by the A/B blend ratio. This design gives you subtle stereo width and natural phase interaction within a single preset — no manual tweaking needed; everything has already been dialed in for you.'
+                },
+                'presets.title': { zh: '预设音色指南', en: 'Preset Tone Guide' },
+                'presets.intro': {
+                    zh: 'AngelKiss 内置了 <strong>11 个精心调校的预设</strong>，每一个都针对特定的听感目标和音乐风格进行了优化。所有预设均为轻柔染色，你不会听到剧烈的音色变化——但当你 bypass 它时，你会立刻注意到缺失。',
+                    en: 'AngelKiss includes <strong>11 meticulously tuned presets</strong>, each optimized for specific sonic goals and musical genres. All presets deliver gentle saturation — you won\'t hear dramatic tonal shifts. But when you bypass it, you\'ll immediately notice something is missing.'
+                },
+                'preset.01.subtitle': { zh: '谐波增强', en: 'Harmonic Enhancement' },
+                'preset.01.desc': {
+                    zh: '泛音列丰满且富有光泽，中低频有扎实的支撑感，高频带着自然的空气延伸。',
+                    en: 'A rich and lustrous overtone series, with solid low-mid support and a natural airy extension in the highs.'
+                },
+                'preset.01.use': {
+                    zh: '适合原声乐器、钢琴独奏，以及需要华丽泛音质感的人声。如果你觉得一段录音听起来"太干"或"缺乏灵性"，试试这个。',
+                    en: 'Perfect for acoustic instruments, solo piano, and vocals that need a gorgeous harmonic sheen. If a recording sounds "too dry" or "lacking soul," try this.'
+                },
+                'preset.02.subtitle': { zh: '清透明亮', en: 'Crystal Clear' },
+                'preset.02.desc': {
+                    zh: '极度干净的响应，几乎不留染色痕迹，只提供轻微的清晰度提升。',
+                    en: 'An exceptionally clean response, leaving almost no saturation footprint — only a subtle clarity enhancement.'
+                },
+                'preset.02.use': {
+                    zh: '适合已经混好的母带素材，或者追求高保真度、不愿破坏原始音色的场景。它在你听不出来的时候做最多的事。',
+                    en: 'Ideal for already well-mixed mastering material, or scenarios demanding high fidelity where you don\'t want to disturb the original tone. It does the most when you hear it the least.'
+                },
+                'preset.03.subtitle': { zh: '80年代摇滚 / 流行', en: '80s Rock / Pop' },
+                'preset.03.desc': {
+                    zh: '中频饱满有力，带有轻微的模拟过载感，瞬态迅速直接。',
+                    en: 'Full and punchy midrange with a touch of analog overdrive, fast and direct transients.'
+                },
+                'preset.03.use': {
+                    zh: '适合鼓组、摇滚吉他，以及需要那个年代粗粝又温暖的冲击力的声音。放一首 80 年代的经典摇滚，它会让你想起为什么那个年代的声音至今无法复制。',
+                    en: 'Great for drum kits, rock guitars, and sounds that need that era\'s gritty yet warm impact. Put on a classic 80s rock track — it will remind you why that decade\'s sound remains impossible to replicate.'
+                },
+                'preset.04.subtitle': { zh: '爵士绒毯', en: 'Jazz Velvet' },
+                'preset.04.desc': {
+                    zh: '中频区域顺滑绵密，延音丰满，泛音带有温暖的毛边感。',
+                    en: 'Smooth and dense midrange, rich sustain, with harmonics carrying a warm, felt-like texture.'
+                },
+                'preset.04.use': {
+                    zh: '适合萨克斯、爵士小号、温暖的男声。它不会让你的声音变"暗"，但会让它变"厚"——像一层精心编织的天鹅绒轻轻盖在上面。',
+                    en: 'Perfect for saxophone, jazz trumpet, and warm male vocals. It won\'t make your sound "dark" — but it will make it "thick" — like a layer of finely woven velvet draped gently over everything.'
+                },
+                'preset.05.subtitle': { zh: '10年代华语情歌', en: '2010s Mandopop Ballad' },
+                'preset.05.desc': {
+                    zh: '泛音结构有细腻的凹陷处理，高频通透但不刺耳，两路 EQ 的差异带来微妙的立体声宽度。',
+                    en: 'The overtone structure features delicate notching, with crystalline yet non-fatiguing highs. The subtle difference between the two EQ paths introduces a nuanced stereo width.'
+                },
+                'preset.05.use': {
+                    zh: '适合抒情流行的人声和钢琴，听感克制而深情。它是那种让你在副歌响起时不由自主闭上眼睛的声音。',
+                    en: 'Tailored for lyrical pop vocals and piano, with a restrained yet deeply emotional feel. It\'s the kind of sound that makes you involuntarily close your eyes when the chorus hits.'
+                },
+                'preset.06.subtitle': { zh: '00年代城市流行', en: '2000s City Pop' },
+                'preset.06.desc': {
+                    zh: '低频有慵懒的拖尾感，中高频适度收敛，整体听感温柔放松。',
+                    en: 'A慵懒, laid-back low-end tail with moderately tamed mid-highs — the overall feel is gentle and relaxed.'
+                },
+                'preset.06.use': {
+                    zh: '适合复古都市风格的电子流行和 R&B 人声。它带着傍晚的暖色调——不是正午的阳光，而是黄昏时分城市天际线的那一抹橘色。',
+                    en: 'Suits retro-urban electro-pop and R&B vocals. It carries the warm hues of dusk — not the midday sun, but that shade of orange across the city skyline at twilight.'
+                },
+                'preset.07.subtitle': { zh: '20年代卧室流行', en: '2020s Bedroom Pop' },
+                'preset.07.desc': {
+                    zh: '刻意压低中频，制造疏离感和距离感，高频却保留充足的空气。',
+                    en: 'Deliberately scooped mids create a sense of detachment and distance, yet the highs retain plenty of air.'
+                },
+                'preset.07.use': {
+                    zh: '适合低保真美学的人声和独立电子。它听起来像隔着玻璃唱歌——情感浓度极高，但始终保持着一层克制的距离。',
+                    en: 'Perfect for lo-fi vocal aesthetics and indie electronica. It sounds like singing through a pane of glass — emotionally intense, yet always maintaining a layer of restrained distance.'
+                },
+                'preset.08.subtitle': { zh: '金属 / 北地之声', en: 'Metal / Northern Sound' },
+                'preset.08.desc': {
+                    zh: '中高频锋利清晰，泛音衰减陡峭，听感冷峻而沉重。',
+                    en: 'Sharp and articulate mid-highs with steep overtone decay — the feel is cold, severe, and heavy.'
+                },
+                'preset.08.use': {
+                    zh: '最初为前卫金属设计，后来加重了冰冷感。如果你需要一种来自俄罗斯北地冻土的呼唤感——寒冷、荒凉、但充满力量——它是唯一的选择。',
+                    en: 'Originally designed for progressive metal, later intensified with an icy character. If you need the call of the frozen tundra of the Russian north — cold, desolate, yet full of power — this is the only choice.'
+                },
+                'preset.09.subtitle': { zh: '氛围', en: 'Ambience' },
+                'preset.09.desc': {
+                    zh: '中频大幅凹陷，空间感深不见底，声音仿佛消散在雾气里。',
+                    en: 'A deep midrange scoop creates a bottomless sense of space — the sound seems to dissolve into mist.'
+                },
+                'preset.09.use': {
+                    zh: '适合环境音乐、电影配乐，以及任何需要让声音失去边界的场合。它不会让你的声音变得模糊，但它会让声音的轮廓变得不再重要。',
+                    en: 'Ideal for ambient music, film scores, and any situation where you need sound to lose its boundaries. It won\'t make your sound blurry — but it will make the contours of the sound no longer matter.'
+                },
+                'preset.10.subtitle': { zh: '电子霓虹', en: 'Electric Neon' },
+                'preset.10.desc': {
+                    zh: '中频有弹性的延迟感，高频冷艳明亮，低频紧实有力。',
+                    en: 'A springy, elastic midrange delay character, with cold-bright highs and tight, punchy lows.'
+                },
+                'preset.10.use': {
+                    zh: '适合合成器、电子鼓、vocoder。听感像深夜城市中闪烁的电子脉冲——冷，但迷人。',
+                    en: 'Perfect for synthesizers, electronic drums, and vocoders. It sounds like electronic pulses flickering through a late-night city — cold, yet mesmerizing.'
+                },
+                'preset.11.subtitle': { zh: '后朋克 / 张力控制', en: 'Post-Punk / Tension Control' },
+                'preset.11.desc': {
+                    zh: '中频锐利紧致，泛音迅速收敛，整体听感干燥而充满张力。专为后朋克的棱角美学——那些拒绝圆滑、拥抱紧张感的声音而设计。',
+                    en: 'Midrange is sharp and tightly coiled, harmonics decay rapidly, the overall feel is dry and tense. Designed for the angular aesthetic of post-punk — sounds that refuse to be smooth and embrace tension.'
+                },
+                'preset.11.use': {
+                    zh: '适合后朋克吉他、贝斯驱动的编曲、需要紧绷感但拒绝情感宣泄的人声。如果你想得到类似 Joy Division 那种克制到令人不安的声场，或者 Gang of Four 式的锋利攻击感，这是你的选择。',
+                    en: 'Perfect for post-punk guitars, bass-driven arrangements, and vocals that demand tension without catharsis. If you want that unsettling, restrained soundfield reminiscent of Joy Division, or the razor-sharp attack of Gang of Four, this is your choice.'
+                },
+                'tips.title': { zh: '使用建议', en: 'Usage Tips' },
+                'tips.header': { zh: '💡 最佳实践', en: '💡 Best Practices' },
+                'tips.li1': {
+                    zh: '预设没有"对"或"错"。如果 <strong>08 Frost</strong> 用在一段爵士钢琴上让你觉得好听，那就是对的。',
+                    en: 'There is no "right" or "wrong" preset. If <strong>08 Frost</strong> sounds great on a jazz piano passage to you, then it\'s right.'
+                },
+                'tips.li2': {
+                    zh: '建议将 AngelKiss 放在效果链的<strong>靠前位置</strong>，让染色先于其他动态处理。',
+                    en: 'We recommend placing AngelKiss <strong>early in your effects chain</strong>, allowing the saturation to precede other dynamics processing.'
+                },
+                'tips.li3': {
+                    zh: '建议在混音的一开始，就在 bus 上使用 AngelKiss，并给予一个<strong>相对较大的数值</strong>。',
+                    en: 'We recommend using AngelKiss on your bus from the very start of a mix, with a <strong>relatively generous amount</strong>.'
+                },
+                'footer.sub': { zh: '天使之吻', en: '— The Angel\'s Kiss' },
+                'footer.tagline': { zh: '声音的电路记忆。', en: 'The Circuit Memory of Sound.' },
+            };
+
+            function applyLanguage(lang) {
+                document.documentElement.setAttribute('data-lang', lang);
+                document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (t[key] && t[key][lang]) el.innerHTML = t[key][lang];
+                });
+                document.getElementById('btnLangZh').classList.toggle('active-lang', lang === 'zh');
+                document.getElementById('btnLangEn').classList.toggle('active-lang', lang === 'en');
+                try { localStorage.setItem('angelkiss-lang', lang); } catch (e) {}
+            }
+
+            document.getElementById('btnLangZh').addEventListener('click', () => applyLanguage('zh'));
+            document.getElementById('btnLangEn').addEventListener('click', () => applyLanguage('en'));
+
+            const savedLang = (function() { try { return localStorage.getItem('angelkiss-lang'); } catch (e) { return null; } })();
+            if (savedLang && (savedLang === 'zh' || savedLang === 'en')) applyLanguage(savedLang);
+
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const toggleBtn = document.getElementById('mobileNavToggle');
+            const navLinks = sidebar.querySelectorAll('a[href^="#"]');
+
+            function openSidebar() { sidebar.classList.add('open');
+                overlay.classList.add('show');
+                document.body.style.overflow = 'hidden'; }
+
+            function closeSidebar() { sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+                document.body.style.overflow = ''; }
+
+            toggleBtn.addEventListener('click', () => { sidebar.classList.contains('open') ? closeSidebar() :
+                openSidebar(); });
+            overlay.addEventListener('click', closeSidebar);
+            navLinks.forEach(link => { link.addEventListener('click', () => { if (window.innerWidth <= 860)
+                    closeSidebar(); }); });
+
+            const sections = [];
+            navLinks.forEach(link => { const id = link.getAttribute('href'); if (id && id.startsWith('#')) { const
+                    el = document.getElementById(id.substring(1)); if (el) sections.push({ link, el }); } });
+
+            const observer = new IntersectionObserver((entries) => { let best = null;
+                entries.forEach(entry => { if (entry.isIntersecting) { if (!best || entry.intersectionRatio > best
+                            .ratio) { best = { el: entry.target, ratio: entry.intersectionRatio }; } } }); if (
+                    best) { navLinks.forEach(l => l.classList.remove('active')); const match = sections.find(s => s
+                        .el === best.el); if (match) match.link.classList.add('active'); } }, { rootMargin: '-80px 0px -60% 0px',
+                threshold: [0, 0.25, 0.5, 0.75, 1] });
+            sections.forEach(s => observer.observe(s.el));
+
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains(
+                    'open')) closeSidebar(); });
+            window.addEventListener('resize', () => { if (window.innerWidth > 860 && sidebar.classList.contains(
+                    'open')) closeSidebar(); });
+        })();
+    </script>
+</body>
+</html>
