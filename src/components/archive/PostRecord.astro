@@ -1,0 +1,76 @@
+---
+import PlateCard from "./PlateCard.astro";
+import ActionLink from "../ui/ActionLink.astro";
+
+interface Props {
+  title: string;
+  date: string | Date;
+  description?: string;
+  category?: string;
+  href: string;
+  readingTime?: string;
+  index?: number;
+}
+
+const {
+  title,
+  date,
+  description,
+  category = "思想档案",
+  href,
+  readingTime,
+  index = 0,
+} = Astro.props;
+
+const dateObject = new Date(date);
+
+const formattedDate = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(dateObject);
+
+const meta = [formattedDate, category, readingTime].filter(Boolean).join(" · ");
+---
+
+<PlateCard
+  index={index}
+  title={title}
+  meta={meta}
+  description={description}
+  tone="ink"
+>
+  <div class="post-record">
+    <div class="post-record__classification">
+      <span>{category}</span>
+      <time datetime={dateObject.toISOString()}>{formattedDate}</time>
+    </div>
+
+    <ActionLink href={href} variant="light">阅读全文</ActionLink>
+  </div>
+</PlateCard>
+
+<style>
+  .post-record {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .post-record__classification {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgb(239 238 232 / 16%);
+    color: rgb(239 238 232 / 58%);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .post-record__classification span {
+    color: var(--brass-light);
+  }
+</style>

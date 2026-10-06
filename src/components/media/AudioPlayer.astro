@@ -1,0 +1,483 @@
+---
+export interface Track {
+  title: string;
+  artist?: string;
+  artistUrl?: string;
+  url: string;
+}
+
+interface Props {
+  tracks: Track[];
+}
+
+const { tracks = [] } = Astro.props;
+---
+
+<div class="audio-player" data-player>
+  <audio class="audio-player__audio" preload="none"></audio>
+
+  <div class="audio-player__layout">
+    <!-- 左侧：播放器 -->
+    <div class="audio-player__stage">
+      <div class="audio-player__now">
+        <span class="audio-player__kicker">Now Playing / 正在播放</span>
+        <h3 class="audio-player__title" data-title>选择一首曲目</h3>
+        <a class="audio-player__artist" data-artist href="#" target="_blank" rel="noreferrer">—</a>
+      </div>
+
+      <div class="audio-player__controls">
+        <button class="audio-player__btn" data-action="prev" aria-label="上一首">◀◀</button>
+        <button class="audio-player__btn audio-player__btn--main" data-action="toggle" aria-label="播放 / 暂停">
+          <span data-play-icon>▶</span>
+        </button>
+        <button class="audio-player__btn" data-action="next" aria-label="下一首">▶▶</button>
+      </div>
+
+      <div class="audio-player__meter">
+        <div class="audio-player__bars" data-bars aria-hidden="true">
+          {
+            Array.from({ length: 16 }).map((_, index) => (
+              <i style={`--i:${index}`}></i>
+            ))
+          }
+        </div>
+
+        <div class="audio-player__progress">
+          <span class="audio-player__time mono" data-current>00:00</span>
+          <div class="audio-player__track" data-track>
+            <div class="audio-player__fill" data-fill></div>
+          </div>
+          <span class="audio-player__time mono" data-duration>00:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧：播放列表 -->
+    <ol class="audio-player__playlist">
+      {
+        tracks.map((track, index) => (
+          <li>
+            <button
+              class="audio-player__item"
+              data-index={index}
+              data-src={track.url}
+              data-title={track.title}
+              data-artist={track.artist ?? ""}
+              data-artist-url={track.artistUrl ?? ""}
+            >
+              <span class="audio-player__num mono">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="audio-player__item-title">{track.title}</span>
+              <span class="audio-player__item-artist">{track.artist}</span>
+            </button>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</div>
+
+<script>
+  const players = document.querySelectorAll<HTMLElement>("[data-player]");
+
+  const formatTime = (seconds: number) => {
+    const safe = Math.max(0, Math.floor(seconds || 0));
+    const minutes = Math.floor(safe / 60);
+    const secs = safe % 60;
+    return `${minutes}:${String(secs).padStart(2, "0")}`;
+  };
+
+  players.forEach((root) => {
+    const audio = root.querySelector<HTMLAudioElement>(".audio-player__audio");
+    const items = Array.from(
+      root.querySelectorAll<HTMLButtonElement>(".audio-player__item"),
+    );
+
+    const titleEl = root.querySelector<HTMLElement>("[data-title]");
+    const artistEl = root.querySelector<HTMLAnchorElement>("[data-artist]");
+    const playIcon = root.querySelector<HTMLElement>("[data-play-icon]");
+    const currentEl = root.querySelector<HTMLElement>("[data-current]");
+    const durationEl = root.querySelector<HTMLElement>("[data-duration]");
+    const fillEl = root.querySelector<HTMLElement>("[data-fill]");
+    const trackEl = root.querySelector<HTMLElement>("[data-track]");
+    const barsEl = root.querySelector<HTMLElement>("[data-bars]");
+
+    if (!audio || items.length === 0) return;
+
+    let currentIndex = -1;
+
+    const loadTrack = (index: number, autoplay = true) => {
+      const item = items[index];
+      if (!item) return;
+
+      currentIndex = index;
+
+      items.forEach((el) => {
+        const isActive = el.dataset.index === String(index);
+        el.classList.toggle("is-active", isActive);
+      });
+
+      if (titleEl) titleEl.textContent = item.dataset.title ?? "";
+      if (artistEl) {
+        const artistUrl = item.dataset.artistUrl || "";
+        artistEl.textContent = item.dataset.artist || "—";
+        artistEl.href = artistUrl || "#";
+        artistEl.style.pointerEvents = artistUrl ? "auto" : "none";
+        artistEl.style.opacity = artistUrl ? "1" : "0.7";
+      }
+
+      audio.src = item.dataset.src ?? "";
+      audio.load();
+
+      if (autoplay) {
+        audio.play().catch(() => undefined);
+      }
+    };
+
+    const play = () => {
+      audio.play().catch(() => undefined);
+    };
+
+    const pause = () => {
+      audio.pause();
+    };
+
+    const toggle = () => {
+      if (currentIndex === -1) {
+        loadTrack(0);
+        return;
+      }
+      if (audio.paused) {
+        play();
+      } else {
+        pause();
+      }
+    };
+
+    const step = (direction: 1 | -1) => {
+      if (currentIndex === -1) {
+        loadTrack(0);
+        return;
+      }
+      const next = currentIndex + direction;
+      if (next >= 0 && next < items.length) {
+        loadTrack(next);
+      }
+    };
+
+    const setPlayingState = (playing: boolean) => {
+      root.classList.toggle("is-playing", playing);
+      if (playIcon) playIcon.textContent = playing ? "❚❚" : "▶";
+      if (barsEl) barsEl.classList.toggle("is-active", playing);
+
+      items.forEach((el) => {
+        if (el.dataset.index === String(currentIndex)) {
+          el.classList.toggle("is-playing", playing);
+        }
+      });
+    };
+
+    root.querySelector<HTMLElement>("[data-action='toggle']")?.addEventListener(
+      "click",
+      toggle,
+    );
+    root.querySelector<HTMLElement>("[data-action='next']")?.addEventListener(
+      "click",
+      () => step(1),
+    );
+    root.querySelector<HTMLElement>("[data-action='prev']")?.addEventListener(
+      "click",
+      () => step(-1),
+    );
+
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        const index = Number(item.dataset.index);
+        if (index === currentIndex) {
+          toggle();
+        } else {
+          loadTrack(index);
+        }
+      });
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (!durationEl) return;
+      const duration = audio.duration || 0;
+      const ratio = duration > 0 ? audio.currentTime / duration : 0;
+      if (fillEl) fillEl.style.width = `${ratio * 100}%`;
+      if (currentEl) currentEl.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener("loadedmetadata", () => {
+      if (durationEl) durationEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("play", () => setPlayingState(true));
+    audio.addEventListener("pause", () => setPlayingState(false));
+
+    audio.addEventListener("ended", () => {
+      if (currentIndex < items.length - 1) {
+        loadTrack(currentIndex + 1);
+      } else {
+        setPlayingState(false);
+      }
+    });
+
+    trackEl?.addEventListener("click", (event) => {
+      if (!audio.duration) return;
+      const rect = trackEl.getBoundingClientRect();
+      const ratio = (event.clientX - rect.left) / rect.width;
+      audio.currentTime = ratio * audio.duration;
+    });
+  });
+</script>
+
+<style>
+  .audio-player {
+    --player-accent: var(--brass);
+  }
+
+  .audio-player__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: stretch;
+  }
+
+  /* —— 左侧：播放器 —— */
+  .audio-player__stage {
+    position: relative;
+    display: grid;
+    align-content: center;
+    gap: 2.2rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid var(--ink);
+    background:
+      repeating-linear-gradient(
+        122deg,
+        rgb(255 255 255 / 3%) 0 1px,
+        transparent 1px 4px
+      ),
+      linear-gradient(160deg, var(--graphite), var(--ink));
+    box-shadow: 0.5rem 0.5rem 0 rgb(20 20 19 / 18%);
+    color: var(--text-inverse);
+    overflow: hidden;
+  }
+
+  .audio-player__stage::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    background: var(--player-accent);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    content: "";
+  }
+
+  .audio-player__now {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .audio-player__kicker {
+    width: fit-content;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid var(--player-accent);
+    color: var(--brass-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .audio-player__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+  }
+
+  .audio-player__artist {
+    width: fit-content;
+    color: rgb(239 238 232 / 62%);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    transition: color var(--duration-fast) ease;
+  }
+
+  .audio-player__artist:hover {
+    color: var(--brass-light);
+  }
+
+  .audio-player__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .audio-player__btn {
+    display: grid;
+    width: 2.8rem;
+    height: 2.8rem;
+    place-items: center;
+    border: 1px solid rgb(239 238 232 / 30%);
+    background: rgb(255 255 255 / 4%);
+    color: var(--text-inverse);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition:
+      background var(--duration-fast) ease,
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .audio-player__btn:hover {
+    border-color: var(--player-accent);
+    color: var(--player-accent);
+  }
+
+  .audio-player__btn--main {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-color: var(--player-accent);
+    background: var(--player-accent);
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+
+  .audio-player__btn--main:hover {
+    background: var(--brass-light);
+    border-color: var(--brass-light);
+    color: var(--ink);
+  }
+
+  .audio-player__meter {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .audio-player__bars {
+    display: flex;
+    height: 2.4rem;
+    align-items: center;
+    gap: 0.22rem;
+  }
+
+  .audio-player__bars i {
+    flex: 1;
+    height: 12%;
+    background: var(--brass-light);
+    opacity: 0.4;
+    transform-origin: center;
+  }
+
+  .audio-player__bars.is-active i {
+    animation: player-bar 0.8s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -0.07s);
+  }
+
+  @keyframes player-bar {
+    from {
+      transform: scaleY(0.3);
+    }
+
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  .audio-player__progress {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .audio-player__time {
+    color: rgb(239 238 232 / 60%);
+    font-size: 0.62rem;
+  }
+
+  .audio-player__track {
+    position: relative;
+    height: 0.4rem;
+    background: rgb(239 238 232 / 16%);
+    cursor: pointer;
+  }
+
+  .audio-player__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: var(--player-accent);
+  }
+
+  /* —— 右侧：播放列表 —— */
+  .audio-player__playlist {
+    display: grid;
+    align-content: start;
+    list-style: none;
+    border: 1px solid var(--line-medium);
+    background: var(--paper-bright);
+  }
+
+  .audio-player__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid var(--line-soft);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--duration-fast) ease;
+  }
+
+  .audio-player__item:last-child {
+    border-bottom: 0;
+  }
+
+  .audio-player__item:hover {
+    background: var(--concrete);
+  }
+
+  .audio-player__item.is-active {
+    background: rgb(63 143 123 / 14%);
+    box-shadow: inset 3px 0 0 var(--brass);
+  }
+
+  .audio-player__num {
+    color: var(--brass-dark);
+    font-size: 0.62rem;
+  }
+
+  .audio-player__item-title {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  .audio-player__item-artist {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+  }
+
+  @media (max-width: 56rem) {
+    .audio-player__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .audio-player__stage {
+      order: -1;
+    }
+  }
+</style>

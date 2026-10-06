@@ -1,0 +1,393 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/sections/PageHeader.astro";
+import SectionShell from "../components/sections/SectionShell.astro";
+import ArchiveGrid from "../components/archive/ArchiveGrid.astro";
+import PluginRecord from "../components/archive/PluginRecord.astro";
+
+const plugins = [
+  {
+    title: "Sonaris",
+    category: "Bus Effect",
+    version: "v2.0.0",
+    size: "30.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "独创硬件卷积引擎，对高品质放大电路进行高精度建模，创意性复现任意设备。",
+  },
+  {
+    title: "SSC4k",
+    category: "Channelstrip",
+    version: "v1.1.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典英式模拟通道条，带来复古冲击力。",
+  },
+  {
+    title: "SSC9k",
+    category: "Channelstrip",
+    version: "v1.1.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典英式模拟通道条，现代音色的完美演绎。",
+  },
+  {
+    title: "HAC32C",
+    category: "Channelstrip",
+    version: "v1.0.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典英式模拟通道条，奶油般质感的出色之选。",
+  },
+  {
+    title: "NEC84",
+    category: "Channelstrip",
+    version: "v1.0.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典美式模拟通道条，再次梦回温暖的秋日。",
+  },
+  {
+    title: "APC550",
+    category: "Channelstrip",
+    version: "v1.0.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典美式模拟通道条，复古摇滚、现代前卫都能驾驭。",
+  },
+  {
+    title: "Rainhere",
+    category: "Modulation",
+    version: "v1.0.0",
+    size: "4.3 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "基于工业级通信场景的雨天电台调制效果器。",
+  },
+];
+
+const download = {
+  version: "v1.1.0",
+  buildDate: "2026-07-11",
+  mac: "https://vst3.oss-cn-beijing.aliyuncs.com/fusstudio/mac/1.1.0/FUS_Studio_1.1.0.pkg",
+  win: "https://vst3.oss-cn-beijing.aliyuncs.com/fusstudio/win/1.1.0/FUS_Studio_1.1.0.exe",
+  history: "https://github.com/FUS-37/fusstudio",
+  manual: "https://fusmixing.site/html/maunal_v1.html",
+};
+
+const techRoutes = [
+  {
+    title: "硬件卷积建模",
+    description:
+      "通过独创的硬件卷积引擎，对高品质放大电路进行高精度建模，真实还原经典模拟设备的频响特性与空间特征。",
+  },
+  {
+    title: "元器件级建模",
+    description:
+      "深入每个电子元器件的物理特性，对晶体管、变压器、电容等核心元件精确建模，捕捉电路的非线性失真、饱和与动态响应。",
+  },
+  {
+    title: "创新调制算法",
+    description:
+      "从工业级通信场景中汲取灵感，将复杂的调制算法应用于音频处理，为声音设计提供更多可能性。",
+  },
+];
+---
+
+<BaseLayout
+  title="VST3 插件中心 — FUS STUDIO"
+  description="FUS Studio 专业音频插件与内置下载管理器，免激活、一键安装更新。"
+  name="FUS STUDIO"
+>
+  <PageHeader
+    label="Tools / VST3 插件"
+    lead="FUS Studio 提供专业级音频插件，内置下载管理器，一键安装更新所有插件。"
+  >
+    建筑的另一侧存放着工具。
+  </PageHeader>
+
+  <!-- 01 下载管理器（石墨底） -->
+  <SectionShell
+    index={1}
+    label="Download Manager"
+    title="内置下载管理器"
+    description="无需手动下载安装包，FUS Studio 内置下载管理器，自动检测插件版本，一键安装更新所有插件。"
+    tone="graphite"
+  >
+    <div class="manager">
+      <div class="manager__panel">
+        <span class="manager__brand mono">FUS Studio</span>
+
+        <div class="manager__version">
+          <strong>{download.version}</strong>
+          <span class="manager__date mono">构建时间：{download.buildDate}</span>
+        </div>
+
+        <div class="manager__actions">
+          <a class="manager__btn" href={download.mac} target="_blank" rel="noreferrer">
+            <span>macOS 版 (PKG)</span>
+            <i aria-hidden="true">↗</i>
+          </a>
+          <a class="manager__btn manager__btn--alt" href={download.win} target="_blank" rel="noreferrer">
+            <span>Windows 版 (EXE)</span>
+            <i aria-hidden="true">↗</i>
+          </a>
+        </div>
+
+        <p class="manager__note mono">macOS 版本支持 Apple M 系列芯片</p>
+
+        <div class="manager__links mono">
+          <a href={download.history} target="_blank" rel="noreferrer">历史版本</a>
+          <span aria-hidden="true">/</span>
+          <a href={download.manual} target="_blank" rel="noreferrer">用户手册</a>
+        </div>
+      </div>
+
+      <ul class="manager__features">
+        <li>自动检测插件更新</li>
+        <li>一键安装 / 更新 / 卸载</li>
+        <li>插件数据文件统一管理</li>
+        <li>支持 macOS 和 Windows</li>
+      </ul>
+    </div>
+  </SectionShell>
+
+  <!-- 02 插件目录 -->
+  <SectionShell
+    index={2}
+    label="Software Catalog"
+    title="插件系列"
+    description="专业级音频处理工具，覆盖总线、通道条与调制效果。"
+  >
+    <ArchiveGrid columns={3} density="compact">
+      {
+        plugins.map((plugin, index) => (
+          <PluginRecord {...plugin} index={index} />
+        ))
+      }
+    </ArchiveGrid>
+  </SectionShell>
+
+  <!-- 03 核心技术路线 -->
+  <SectionShell
+    index={3}
+    label="Technology"
+    title="核心技术路线"
+    description="将经典的模拟硬件声音，通过现代数字信号处理技术，以更高效、更灵活的方式呈现。"
+  >
+    <div class="tech">
+      {
+        techRoutes.map((route, index) => (
+          <article class="tech__card">
+            <span class="tech__num mono">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{route.title}</h3>
+            <p>{route.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </SectionShell>
+
+  <!-- 04 联系（石墨底） -->
+  <SectionShell
+    id="contact"
+    index={4}
+    label="Support & Contact"
+    title="技术支持与咨询"
+    description="对插件有疑问、反馈问题，或需要定制音频算法与 JUCE / VST3 开发？"
+    tone="graphite"
+    isContact={true}
+    email="zyf1253607602@163.com"
+    socialLinks={[
+      { label: "售后 Q 群 874666623", href: "https://qm.qq.com/q/WfyLwwVdGE" },
+      { label: "GitHub", href: "https://github.com/FUS-37/fusstudio" },
+    ]}
+  />
+</BaseLayout>
+
+<style>
+  /* —— 下载管理器 —— */
+  .manager {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: stretch;
+  }
+
+  .manager__panel {
+    display: grid;
+    gap: 1.7rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid rgb(239 238 232 / 22%);
+    background:
+      repeating-linear-gradient(
+        122deg,
+        rgb(255 255 255 / 3%) 0 1px,
+        transparent 1px 4px
+      ),
+      linear-gradient(160deg, rgb(255 255 255 / 7%), rgb(255 255 255 / 2%));
+  }
+
+  .manager__brand {
+    width: fit-content;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--brass);
+    color: var(--brass-light);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .manager__version {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .manager__version strong {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text-inverse);
+  }
+
+  .manager__date {
+    color: rgb(239 238 232 / 58%);
+    font-size: var(--text-xs);
+  }
+
+  .manager__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .manager__btn {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--brass);
+    background: var(--brass);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition:
+      background var(--duration-fast) ease,
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .manager__btn:hover {
+    background: var(--brass-light);
+    border-color: var(--brass-light);
+  }
+
+  .manager__btn--alt {
+    border-color: rgb(239 238 232 / 40%);
+    background: transparent;
+    color: var(--text-inverse);
+  }
+
+  .manager__btn--alt:hover {
+    border-color: var(--brass);
+    color: var(--brass-light);
+    background: transparent;
+  }
+
+  .manager__note {
+    color: rgb(239 238 232 / 55%);
+    font-size: var(--text-xs);
+  }
+
+  .manager__links {
+    display: flex;
+    gap: 0.7rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgb(239 238 232 / 16%);
+    color: rgb(239 238 232 / 60%);
+    font-size: var(--text-xs);
+  }
+
+  .manager__links a {
+    transition: color var(--duration-fast) ease;
+  }
+
+  .manager__links a:hover {
+    color: var(--brass-light);
+  }
+
+  .manager__features {
+    display: grid;
+    align-content: center;
+    gap: 1.1rem;
+    list-style: none;
+  }
+
+  .manager__features li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: rgb(239 238 232 / 80%);
+    font-size: var(--text-body);
+  }
+
+  .manager__features li::before {
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--brass);
+    content: "";
+  }
+
+  /* —— 技术路线 —— */
+  .tech {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .tech__card {
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+    padding: 1.6rem;
+    border: 1px solid var(--line-medium);
+    background: var(--paper-bright);
+  }
+
+  .tech__num {
+    color: var(--brass-dark);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+  }
+
+  .tech__card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+
+  .tech__card p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 56rem) {
+    .manager {
+      grid-template-columns: 1fr;
+    }
+
+    .tech {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

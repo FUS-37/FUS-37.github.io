@@ -1,0 +1,256 @@
+---
+import ActionLink from "../ui/ActionLink.astro";
+
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface SocialLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  id?: string;
+  index?: number;
+  label?: string;
+  title?: string;
+  description?: string;
+  tone?: "paper" | "graphite";
+  width?: "container" | "reading";
+  action?: Action;
+  isContact?: boolean;
+  email?: string;
+  socialLinks?: SocialLink[];
+}
+
+const {
+  id,
+  index = 0,
+  label,
+  title,
+  description,
+  tone = "paper",
+  width = "container",
+  action,
+  isContact = false,
+  email = "1253607602@qq.com",
+  socialLinks = [],
+} = Astro.props;
+
+const indexLabel = String(index).padStart(2, "0");
+---
+
+<section
+  id={id}
+  class:list={[
+    "section-shell",
+    `section-shell--${tone}`,
+    isContact && "section-shell--contact",
+  ]}
+  data-reveal
+>
+  <div class={width === "reading" ? "reading-width" : "container"}>
+    {
+      (label || title || description || action) && (
+        <header class="section-shell__header">
+          <div class="section-shell__label">
+            <span class="section-shell__index" aria-hidden="true">{indexLabel}</span>
+            {label && <span class="section-shell__kicker">{label}</span>}
+          </div>
+
+          <div class="section-shell__heading">
+            {title && <h2>{title}</h2>}
+            {description && <p>{description}</p>}
+          </div>
+
+          {action && (
+            <div class="section-shell__action">
+              <ActionLink href={action.href} variant={tone === "graphite" ? "light" : "solid"}>
+                {action.label}
+              </ActionLink>
+            </div>
+          )}
+        </header>
+      )
+    }
+
+    {
+      isContact ? (
+        <div class="contact-body">
+          <a class="contact-email" href={`mailto:${email}`}>
+            <span>{email}</span>
+            <i aria-hidden="true">↗</i>
+          </a>
+
+          {socialLinks.length > 0 && (
+            <div class="contact-socials">
+              {socialLinks.map((link) => (
+                <ActionLink href={link.href} variant="light" external>
+                  {link.label}
+                </ActionLink>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="section-shell__body">
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .section-shell {
+    --section-text: var(--text-primary);
+    --section-muted: var(--text-secondary);
+    --section-line: var(--line-medium);
+
+    position: relative;
+    z-index: var(--z-content);
+    padding-block: var(--section-space);
+    color: var(--section-text);
+  }
+
+  .section-shell--graphite {
+    --section-text: var(--text-inverse);
+    --section-muted: rgb(239 238 232 / 68%);
+    --section-line: rgb(239 238 232 / 22%);
+
+    background:
+      repeating-linear-gradient(
+        122deg,
+        rgb(255 255 255 / 3%) 0 1px,
+        transparent 1px 4px
+      ),
+      linear-gradient(160deg, var(--graphite), var(--ink));
+    box-shadow: 0 2rem 4rem rgb(20 20 19 / 20%);
+  }
+
+  /* 斜切上边缘（构成主义硬切面） */
+  .section-shell--graphite::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: clamp(2rem, 5vw, 4.5rem);
+    background: var(--paper);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    content: "";
+  }
+
+  .section-shell__header {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.3fr) minmax(0, 1fr) auto;
+    align-items: start;
+    gap: clamp(1.5rem, 5vw, 6rem);
+    margin-bottom: clamp(3rem, 7vw, 6rem);
+    padding-top: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .section-shell--graphite .section-shell__header {
+    padding-top: clamp(4rem, 9vw, 8rem);
+  }
+
+  .section-shell__label {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .section-shell__index {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--brass-dark);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .section-shell--graphite .section-shell__index {
+    -webkit-text-stroke-color: var(--brass-light);
+  }
+
+  .section-shell__kicker {
+    width: fit-content;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--brass);
+    color: var(--section-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .section-shell__heading {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .section-shell__heading h2 {
+    max-width: 16ch;
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.02;
+  }
+
+  .section-shell__heading p {
+    max-width: 42rem;
+    color: var(--section-muted);
+  }
+
+  .section-shell__action {
+    align-self: start;
+  }
+
+  .contact-body {
+    display: grid;
+    gap: 2.5rem;
+    padding-top: 1rem;
+  }
+
+  .contact-email {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: 1.2rem;
+    border-bottom: 1px solid var(--section-line);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition:
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .contact-email:hover {
+    border-color: var(--brass-light);
+    color: var(--brass-light);
+  }
+
+  .contact-email i {
+    font-style: normal;
+  }
+
+  .contact-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 52rem) {
+    .section-shell__header {
+      grid-template-columns: 1fr;
+    }
+
+    .section-shell__action {
+      margin-top: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+interface Props {
+  href: string;
+  variant?: "solid" | "outline" | "quiet" | "light";
+  external?: boolean;
+}
+
+const {
+  href,
+  variant = "solid",
+  external = false,
+} = Astro.props;
+---
+
+<a
+  class:list={["action-link", `action-link--${variant}`]}
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noreferrer" : undefined}
+>
+  <span><slot /></span>
+  <i aria-hidden="true">↗</i>
+</a>
+
+<style>
+  .action-link {
+    display: inline-flex;
+    min-height: 2.9rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper-bright);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition:
+      background var(--duration-fast) ease,
+      color var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+  }
+
+  .action-link--outline {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .action-link--quiet {
+    border-color: var(--line-medium);
+    background: transparent;
+    color: var(--text-primary);
+  }
+
+  .action-link--light {
+    border-color: rgb(239 238 232 / 40%);
+    background: transparent;
+    color: var(--text-inverse);
+  }
+
+  .action-link:hover {
+    background: var(--brass);
+    border-color: var(--brass-dark);
+    box-shadow: 0.3rem 0.3rem 0 var(--ink);
+    color: var(--ink);
+  }
+
+  .action-link i {
+    font-style: normal;
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .action-link:hover i {
+    transform: translate(0.18rem, -0.18rem);
+  }
+</style>

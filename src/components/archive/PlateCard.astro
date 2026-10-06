@@ -1,0 +1,151 @@
+---
+interface Props {
+  index: number;
+  title: string;
+  meta?: string;
+  description?: string;
+  tone?: "paper" | "steel" | "ink";
+}
+
+const {
+  index,
+  title,
+  meta,
+  description,
+  tone = "paper",
+} = Astro.props;
+---
+
+<article class:list={["plate", `plate--${tone}`]}>
+  <span class="plate__corner" aria-hidden="true"></span>
+  <span class="plate__index" aria-hidden="true">
+    {String(index + 1).padStart(2, "0")}
+  </span>
+
+  <div class="plate__head">
+    <h3>{title}</h3>
+    {meta && <p class="plate__meta">{meta}</p>}
+  </div>
+
+  {description && <p class="plate__desc">{description}</p>}
+
+  <div class="plate__body">
+    <slot />
+  </div>
+</article>
+
+<style>
+  .plate {
+    --plate-bg: var(--paper-bright);
+    --plate-end: rgb(0 0 0 / 5%);
+    --plate-text: var(--text-primary);
+    --plate-muted: var(--text-secondary);
+
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 1.4rem;
+    height: 100%;
+    padding: clamp(1.4rem, 2.6vw, 2.2rem);
+    border: 1px solid var(--line-medium);
+    background:
+      repeating-radial-gradient(
+        circle,
+        rgb(27 28 27 / 4%) 0 0.4px,
+        transparent 0.6px 5px
+      ),
+      linear-gradient(135deg, var(--plate-bg), var(--plate-end));
+    box-shadow:
+      0 0.5rem 1.6rem rgb(20 20 19 / 8%),
+      inset 0 1px rgb(255 255 255 / 45%);
+    color: var(--plate-text);
+    overflow: hidden;
+    transition:
+      transform var(--duration-medium) var(--ease-out),
+      box-shadow var(--duration-medium) var(--ease-out);
+  }
+
+  .plate--steel {
+    --plate-bg: var(--concrete);
+    --plate-end: var(--concrete-cool);
+  }
+
+  .plate--ink {
+    --plate-bg: var(--graphite);
+    --plate-end: var(--ink);
+    --plate-text: var(--text-inverse);
+    --plate-muted: rgb(239 238 232 / 66%);
+    border-color: var(--ink);
+  }
+
+  .plate:hover {
+    transform: translateY(-0.25rem);
+    box-shadow:
+      0 1.2rem 2.6rem rgb(20 20 19 / 16%),
+      inset 0 1px rgb(255 255 255 / 45%);
+  }
+
+  /* 右上角黄铜斜切 */
+  .plate__corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--brass);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+  }
+
+  /* 大号描边序号 */
+  .plate__index {
+    position: absolute;
+    right: 1.1rem;
+    bottom: 0.6rem;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--plate-text) 24%, transparent);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1;
+    opacity: 0.7;
+  }
+
+  .plate__head {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 0.6rem;
+    padding-right: 2rem;
+  }
+
+  .plate__head h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .plate__meta {
+    color: var(--plate-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .plate__desc {
+    position: relative;
+    z-index: 1;
+    color: var(--plate-muted);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+  }
+
+  .plate__body {
+    position: relative;
+    z-index: 1;
+  }
+</style>

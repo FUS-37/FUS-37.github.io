@@ -1,0 +1,294 @@
+---
+export interface BilibiliVideo {
+  title: string;
+  aid: string;
+  bvid: string;
+  cid: string;
+}
+
+interface Props {
+  videos: BilibiliVideo[];
+}
+
+const { videos = [] } = Astro.props;
+
+const iframeSrc = (video: BilibiliVideo) => {
+  const params = new URLSearchParams({
+    isOutside: "true",
+    aid: video.aid,
+    bvid: video.bvid,
+    cid: video.cid,
+    p: "1",
+    autoplay: "0",
+    high_quality: "1",
+  });
+
+  return `https://player.bilibili.com/player.html?${params.toString()}`;
+};
+
+const firstVideo = videos[0];
+---
+
+<div class="video-player" data-video-player>
+  <div class="video-player__layout">
+    <!-- 左侧：视频列表 -->
+    <ol class="video-player__playlist">
+      {
+        videos.map((video, index) => (
+          <li>
+            <button
+              class="video-player__item"
+              data-index={index}
+              data-src={iframeSrc(video)}
+              data-title={video.title}
+              data-bvid={video.bvid}
+            >
+              <span class="video-player__num mono">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="video-player__item-title">{video.title}</span>
+              <span class="video-player__arrow" aria-hidden="true">▶</span>
+            </button>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- 右侧：视频播放器 -->
+    <div class="video-player__stage">
+      <div class="video-player__screen">
+        <iframe
+          data-frame
+          src={firstVideo ? iframeSrc(firstVideo) : ""}
+          title={firstVideo?.title}
+          scrolling="no"
+          frameborder="0"
+          allowfullscreen="true"
+        ></iframe>
+      </div>
+
+      <div class="video-player__caption">
+        <span class="video-player__index mono" data-index>01</span>
+        <span class="video-player__title" data-title>
+          {firstVideo?.title ?? "—"}
+        </span>
+        <a
+          class="video-player__link mono"
+          data-link
+          href={firstVideo ? `https://www.bilibili.com/video/${firstVideo.bvid}` : "#"}
+          target="_blank"
+          rel="noreferrer"
+        >
+          在 Bilibili 打开 ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const roots = document.querySelectorAll<HTMLElement>("[data-video-player]");
+
+  roots.forEach((root) => {
+    const frame = root.querySelector<HTMLIFrameElement>("[data-frame]");
+    const items = Array.from(
+      root.querySelectorAll<HTMLButtonElement>(".video-player__item"),
+    );
+    const titleEl = root.querySelector<HTMLElement>(
+      ".video-player__title[data-title]",
+    );
+    const indexEl = root.querySelector<HTMLElement>(
+      ".video-player__index[data-index]",
+    );
+    const linkEl = root.querySelector<HTMLAnchorElement>(
+      ".video-player__link[data-link]",
+    );
+
+    if (!frame || items.length === 0) return;
+
+    const activate = (index: number) => {
+      const item = items[index];
+      if (!item) return;
+
+      items.forEach((el) => {
+        el.classList.toggle(
+          "is-active",
+          el.dataset.index === String(index),
+        );
+      });
+
+      const src = item.dataset.src ?? "";
+      const title = item.dataset.title ?? "";
+      const bvid = item.dataset.bvid ?? "";
+
+      if (frame.getAttribute("src") !== src) {
+        frame.setAttribute("src", src);
+        frame.setAttribute("title", title);
+      }
+
+      if (titleEl) titleEl.textContent = title;
+      if (indexEl) indexEl.textContent = String(index + 1).padStart(2, "0");
+      if (linkEl) linkEl.href = `https://www.bilibili.com/video/${bvid}`;
+    };
+
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        activate(Number(item.dataset.index));
+      });
+    });
+
+    // 初始高亮
+    activate(0);
+  });
+</script>
+
+<style>
+  .video-player__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  /* —— 左侧：视频列表 —— */
+  .video-player__playlist {
+    display: grid;
+    align-content: start;
+    list-style: none;
+    border: 1px solid var(--line-medium);
+    background: var(--paper-bright);
+  }
+
+  .video-player__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid var(--line-soft);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--duration-fast) ease;
+  }
+
+  .video-player__item:last-child {
+    border-bottom: 0;
+  }
+
+  .video-player__item:hover {
+    background: var(--concrete);
+  }
+
+  .video-player__item.is-active {
+    background: rgb(63 143 123 / 14%);
+    box-shadow: inset 3px 0 0 var(--brass);
+  }
+
+  .video-player__num {
+    color: var(--brass-dark);
+    font-size: 0.62rem;
+  }
+
+  .video-player__item-title {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .video-player__arrow {
+    color: var(--brass-dark);
+    font-size: 0.7rem;
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .video-player__item:hover .video-player__arrow {
+    transform: translateX(0.2rem);
+  }
+
+  /* —— 右侧：视频播放器 —— */
+  .video-player__stage {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .video-player__screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    box-shadow: 0.5rem 0.5rem 0 rgb(20 20 19 / 16%);
+    overflow: hidden;
+  }
+
+  .video-player__screen::after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    background: var(--brass);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    content: "";
+    pointer-events: none;
+  }
+
+  .video-player__screen iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .video-player__caption {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--line-medium);
+  }
+
+  .video-player__index {
+    color: var(--brass-dark);
+    font-size: 0.66rem;
+  }
+
+  .video-player__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    font-weight: 700;
+  }
+
+  .video-player__link {
+    color: var(--text-secondary);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .video-player__link:hover {
+    color: var(--brass-dark);
+  }
+
+  @media (max-width: 56rem) {
+    .video-player__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .video-player__stage {
+      order: -1;
+    }
+
+    .video-player__caption {
+      grid-template-columns: auto 1fr;
+    }
+
+    .video-player__link {
+      grid-column: 2;
+    }
+  }
+</style>

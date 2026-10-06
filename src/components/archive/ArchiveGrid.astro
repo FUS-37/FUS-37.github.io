@@ -1,0 +1,54 @@
+---
+interface Props {
+  density?: "regular" | "compact";
+  columns?: 2 | 3;
+}
+
+const {
+  density = "regular",
+  columns = 2,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "archive-grid",
+    `archive-grid--${density}`,
+    `archive-grid--${columns}`,
+  ]}
+>
+  <slot />
+</div>
+
+<style>
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--archive-columns), minmax(0, 1fr));
+    gap: var(--grid-gap);
+    align-items: stretch;
+  }
+
+  .archive-grid--2 {
+    --archive-columns: 2;
+  }
+
+  .archive-grid--3 {
+    --archive-columns: 3;
+  }
+
+  .archive-grid--compact {
+    gap: clamp(0.7rem, 1.4vw, 1.2rem);
+  }
+
+  @media (max-width: 62rem) {
+    .archive-grid--3 {
+      --archive-columns: 2;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .archive-grid {
+      --archive-columns: 1;
+    }
+  }
+</style>

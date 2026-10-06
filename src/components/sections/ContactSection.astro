@@ -1,0 +1,173 @@
+---
+import ActionLink from "../ui/ActionLink.astro";
+
+interface SocialLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  email: string;
+  socialLinks?: SocialLink[];
+}
+
+const {
+  title = "开始一次合作。",
+  description = "混音、母带、插件开发与专业咨询。",
+  email,
+  socialLinks = [],
+} = Astro.props;
+---
+
+<footer id="contact" class="contact">
+  <div class="contact__halftone" aria-hidden="true"></div>
+
+  <div class="contact__content container">
+    <header>
+      <span class="contact__kicker">Contact / 联系与咨询</span>
+      <h2>{title}</h2>
+      <p>{description}</p>
+    </header>
+
+    <div class="contact__links">
+      <a class="contact__email" href={`mailto:${email}`}>
+        <span>{email}</span>
+        <i aria-hidden="true">↗</i>
+      </a>
+
+      {socialLinks.length > 0 && (
+        <nav aria-label="社交链接">
+          {socialLinks.map((link) => (
+            <ActionLink href={link.href} variant="light" external>
+              {link.label}
+            </ActionLink>
+          ))}
+        </nav>
+      )}
+    </div>
+
+    <div class="contact__end">
+      <span>FUS STUDIO · AUDIO ENGINEERING</span>
+      <span>© {new Date().getFullYear()}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .contact {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--section-space) 2rem;
+    background:
+      repeating-linear-gradient(
+        122deg,
+        rgb(255 255 255 / 3%) 0 1px,
+        transparent 1px 4px
+      ),
+      linear-gradient(160deg, var(--graphite), var(--ink));
+    color: var(--text-inverse);
+  }
+
+  .contact__halftone {
+    position: absolute;
+    z-index: -1;
+    top: -6rem;
+    right: -6rem;
+    width: 24rem;
+    height: 24rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      var(--brass) 0 1px,
+      transparent 1px 10px
+    );
+    background-size: 10px 10px;
+    opacity: 0.35;
+  }
+
+  .contact__content {
+    display: grid;
+    gap: 4rem;
+  }
+
+  header {
+    display: grid;
+    max-width: 56rem;
+    gap: 1.5rem;
+  }
+
+  .contact__kicker {
+    width: fit-content;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--brass-light);
+    color: var(--brass-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.02;
+  }
+
+  header p {
+    color: rgb(239 238 232 / 66%);
+  }
+
+  .contact__links {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .contact__email {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: 1.2rem;
+    border-bottom: 1px solid rgb(239 238 232 / 24%);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition:
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .contact__email:hover {
+    border-color: var(--brass-light);
+    color: var(--brass-light);
+  }
+
+  .contact__email i {
+    font-style: normal;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .contact__end {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgb(239 238 232 / 14%);
+    color: rgb(239 238 232 / 46%);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+</style>

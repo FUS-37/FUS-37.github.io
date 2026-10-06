@@ -1,0 +1,98 @@
+@layer reset, tokens, base, layout, components, utilities;
+
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    /* —— 工业构成主义材质体系（专业沉稳，无红） —— */
+
+    /* 混凝土表面（超写实底） */
+    --paper: #e9e8e3;
+    --paper-bright: #f4f3ef;
+    --concrete: #d9d7d1;
+    --concrete-cool: #c8c7c1;
+    --concrete-shadow: #a3a29b;
+    --concrete-deep: #494a47;
+    --concrete-dark: #1b1c1b;
+
+    /* 兼容别名（旧组件/黑胶播放器仍引用） */
+    --concrete-warm: var(--paper);
+    --concrete-light: var(--paper-bright);
+
+    /* 墨色 / 石墨 */
+    --ink: #171817;
+    --graphite: #242524;
+
+    --text-primary: #1b1c1b;
+    --text-secondary: #5c5e5a;
+    --text-label: #2a2b29;
+    --text-inverse: #efeee8;
+
+    /* 森林青（唯一清新强调，克制） */
+    --brass: #3f8f7b;
+    --brass-light: #6fb2a0;
+    --brass-dark: #2c6455;
+
+    /* 钢 / 铁 */
+    --iron: #2c2e2c;
+    --iron-light: #6a6d68;
+    --iron-dark: #171817;
+
+    --steel: #878a85;
+    --steel-light: #b6b8b2;
+
+    /* 线 / 玻璃 / 阴影 */
+    --line-soft: rgb(27 28 27 / 12%);
+    --line-medium: rgb(27 28 27 / 28%);
+    --line-strong: rgb(27 28 27 / 55%);
+
+    --surface-glass: rgb(244 243 239 / 74%);
+    --surface-shadow: rgb(20 20 19 / 14%);
+
+    /* 排版：几何无衬线（构成主义） */
+    --font-display:
+      Futura, "Avenir Next", "Helvetica Neue", "PingFang SC", "Noto Sans SC",
+      sans-serif;
+    --font-sans:
+      Inter, "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+    --font-serif:
+      "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+    --font-mono:
+      "SFMono-Regular", "JetBrains Mono", Consolas, "Liberation Mono", monospace;
+
+    --text-xs: clamp(0.66rem, 0.63rem + 0.12vw, 0.76rem);
+    --text-sm: clamp(0.8rem, 0.76rem + 0.16vw, 0.9rem);
+    --text-body: clamp(0.98rem, 0.94rem + 0.18vw, 1.1rem);
+    --text-lead: clamp(1.15rem, 1.05rem + 0.5vw, 1.5rem);
+    --text-display: clamp(3.4rem, 11vw, 11rem);
+    --text-title: clamp(2.5rem, 8vw, 7.5rem);
+    --text-section: clamp(2rem, 5.5vw, 5.2rem);
+
+    /* 布局 */
+    --container: 90rem;
+    --reading-width: 50rem;
+    --gutter: clamp(1.1rem, 4vw, 4rem);
+    --section-space: clamp(6rem, 13vw, 13rem);
+    --grid-gap: clamp(1rem, 2vw, 2rem);
+
+    /* 形状 */
+    --radius-xs: 0.1rem;
+    --radius-sm: 0.2rem;
+
+    /* 动效 */
+    --ease-out: cubic-bezier(0.2, 0.75, 0.2, 1);
+    --ease-architectural: cubic-bezier(0.65, 0, 0.2, 1);
+    --duration-fast: 180ms;
+    --duration-medium: 420ms;
+    --duration-slow: 900ms;
+
+    /* 层级 */
+    --z-environment: 0;
+    --z-content: 1;
+    --z-navigation: 100;
+    --z-overlay: 200;
+
+    /* 电影颗粒噪点（内联 SVG feTurbulence） */
+    --noise-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}

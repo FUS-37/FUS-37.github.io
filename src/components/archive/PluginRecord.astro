@@ -1,0 +1,185 @@
+---
+import PlateCard from "./PlateCard.astro";
+import ActionLink from "../ui/ActionLink.astro";
+
+interface Props {
+  title: string;
+  category?: string;
+  version: string;
+  size?: string;
+  platforms: string;
+  description: string;
+  features?: readonly string[];
+  price?: string;
+  href?: string;
+  status?: "available" | "development" | "archived";
+  tagVariant?: "ghost" | "solid";
+  index?: number;
+}
+
+const {
+  title,
+  category,
+  version,
+  size,
+  platforms,
+  description,
+  features = [],
+  price,
+  href,
+  status = "available",
+  tagVariant = "ghost",
+  index = 0,
+} = Astro.props;
+
+const statusLabels: Record<
+  NonNullable<Props["status"]>,
+  string
+> = {
+  available: "Available",
+  development: "In Development",
+  archived: "Archived",
+};
+
+const meta = [version, size, platforms].filter(Boolean).join(" · ");
+---
+
+<PlateCard
+  index={index}
+  title={title}
+  meta={meta}
+  description={description}
+  tone="steel"
+>
+  <div class="plugin-record">
+    <div class="plugin-record__tags">
+      {category && (
+        <span
+          class:list={[
+            "plugin-record__category",
+            `plugin-record__category--${tagVariant}`,
+          ]}
+        >
+          {category}
+        </span>
+      )}
+      {status !== "available" && (
+        <span
+          class:list={[
+            "plugin-record__badge",
+            `plugin-record__badge--${status}`,
+          ]}
+        >
+          {statusLabels[status]}
+        </span>
+      )}
+    </div>
+
+    {
+      features.length > 0 && (
+        <ul class="plugin-record__features">
+          {features.map((feature) => <li>{feature}</li>)}
+        </ul>
+      )
+    }
+
+    <div class="plugin-record__foot">
+      {price && <strong>{price}</strong>}
+      {
+        href && (
+          <ActionLink href={href} variant="outline">
+            {status === "available" ? "查看与下载" : "查看开发记录"}
+          </ActionLink>
+        )
+      }
+    </div>
+  </div>
+</PlateCard>
+
+<style>
+  .plugin-record {
+    display: grid;
+    gap: 1.3rem;
+  }
+
+  .plugin-record__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* 分类标签 + 状态标签：统一「淡色实心底 + 主色字」，避免与浅灰卡片底冲突 */
+  .plugin-record__category,
+  .plugin-record__badge {
+    padding: 0.28rem 0.6rem;
+    border: 1px solid;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .plugin-record__category {
+    border-color: rgb(63 143 123 / 42%);
+    background: rgb(63 143 123 / 16%);
+    color: var(--brass-dark);
+  }
+
+  /* 首页深色分区的醒目标签：实心黄铜底 + 深色字 */
+  .plugin-record__category--solid {
+    border-color: var(--brass);
+    background: var(--brass);
+    color: var(--ink);
+  }
+
+  .plugin-record__badge--development {
+    border-color: rgb(106 109 104 / 42%);
+    background: rgb(106 109 104 / 16%);
+    color: var(--iron);
+  }
+
+  .plugin-record__badge--archived {
+    border-color: rgb(163 162 155 / 45%);
+    background: rgb(163 162 155 / 18%);
+    color: var(--text-secondary);
+  }
+
+  .plugin-record__features {
+    display: grid;
+    gap: 0.55rem;
+    list-style: none;
+  }
+
+  .plugin-record__features li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .plugin-record__features li::before {
+    position: absolute;
+    top: 0.62em;
+    left: 0;
+    width: 0.55rem;
+    height: 2px;
+    background: var(--brass);
+    content: "";
+  }
+
+  .plugin-record__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .plugin-record__foot strong {
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    letter-spacing: 0.02em;
+  }
+</style>

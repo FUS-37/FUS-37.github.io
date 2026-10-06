@@ -1,0 +1,592 @@
+---
+export interface PlaylistItem {
+  title: string;
+  artist: string;
+  audioUrl?: string;
+  videoUrl?: string; // 支持 Bilibili 完整链接、BV号
+  duration?: string; // 可选填视频/音频预设时长，例如 "04:32"
+}
+
+interface Props {
+  items: PlaylistItem[];
+}
+
+const { items = [] } = Astro.props;
+const defaultItem = items[0];
+---
+
+<div class="gramophone-chamber" data-player>
+  <div class="gramophone-chamber__grid">
+    <!-- 左侧：播放舞台 -->
+    <div class="player-stage">
+      <!-- 1. 视频模式窗口（纯音频模式下隐藏） -->
+      <div class="player-stage__screen hidden" data-screen>
+        <iframe
+          data-video-iframe
+          src=""
+          scrolling="no"
+          border="0"
+          frameborder="no"
+          framespacing="0"
+          allowfullscreen="true"
+        ></iframe>
+      </div>
+
+      <!-- 2. 纯音频模式：黑胶唱机实体结构（视频模式下隐藏） -->
+      <div class="deck" data-deck>
+        <div class="deck__platter">
+          <div class="vinyl-record" data-vinyl>
+            <div class="vinyl-record__grooves"></div>
+            <div class="vinyl-record__label">
+              <span class="mono" data-vinyl-label-title>{defaultItem?.title}</span>
+              <small class="mono" data-vinyl-label-artist>{defaultItem?.artist}</small>
+            </div>
+          </div>
+
+          <div class="tonearm" data-tonearm>
+            <div class="tonearm__pivot"></div>
+            <div class="tonearm__arm"></div>
+            <div class="tonearm__head"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 纯音频播放控制条（视频模式下隐藏，视频采用 B站自带控制） -->
+      <div class="deck__controls" data-controls>
+        <button type="button" class="deck-btn" data-play-btn aria-label="播放/暂停">
+          <span class="deck-btn__indicator"></span>
+          <span class="mono" data-play-btn-text>PLAY</span>
+        </button>
+
+        <div class="deck__progress">
+          <div class="time-readout mono">
+            <span data-time-current>00:00</span>
+            <span data-time-duration>{defaultItem?.duration || "00:00"}</span>
+          </div>
+          <div class="progress-bar" data-progress-bar>
+            <div class="progress-bar__fill" data-progress-fill></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧：唱片/视频列表 -->
+    <div class="playlist-shelf">
+      <div class="playlist-shelf__header">
+        <span class="mono">PLAYLIST ARCHIVE</span>
+        <small class="mono">{items.length} TRACKS</small>
+      </div>
+
+      <div class="playlist-shelf__items">
+        {
+          items.map((item, index) => (
+            <button
+              type="button"
+              class:list={["playlist-item", index === 0 && "is-active"]}
+              data-playlist-item
+              data-title={item.title}
+              data-artist={item.artist}
+              data-audio-url={item.audioUrl || ""}
+              data-video-url={item.videoUrl || ""}
+              data-preset-duration={item.duration || ""}
+            >
+              <span class="playlist-item__num mono">{String(index + 1).padStart(2, "0")}</span>
+
+              <div class="playlist-item__info">
+                <strong>{item.title}</strong>
+                <small>{item.artist}</small>
+              </div>
+
+              <div class="playlist-item__meta mono">
+                <span data-item-duration>{item.duration || (item.videoUrl ? "VIDEO" : "--:--")}</span>
+              </div>
+
+              <i class="playlist-item__active-dot"></i>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- 原生 Audio 引擎（用于 OSS 音频解析与播放） -->
+  <audio data-audio-element crossorigin="anonymous" preload="metadata"></audio>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-player]").forEach((container) => {
+    const audioElement = container.querySelector<HTMLAudioElement>("[data-audio-element]");
+    const playBtn = container.querySelector<HTMLButtonElement>("[data-play-btn]");
+    const playBtnText = container.querySelector<HTMLElement>("[data-play-btn-text]");
+    const vinyl = container.querySelector<HTMLElement>("[data-vinyl]");
+    const tonearm = container.querySelector<HTMLElement>("[data-tonearm]");
+    const deck = container.querySelector<HTMLElement>("[data-deck]");
+    const controls = container.querySelector<HTMLElement>("[data-controls]");
+    const screen = container.querySelector<HTMLElement>("[data-screen]");
+    const videoIframe = container.querySelector<HTMLIFrameElement>("[data-video-iframe]");
+    const progressFill = container.querySelector<HTMLElement>("[data-progress-fill]");
+    const progressBar = container.querySelector<HTMLElement>("[data-progress-bar]");
+    const timeCurrent = container.querySelector<HTMLElement>("[data-time-current]");
+    const timeDuration = container.querySelector<HTMLElement>("[data-time-duration]");
+
+    const vinylTitle = container.querySelector<HTMLElement>("[data-vinyl-label-title]");
+    const vinylArtist = container.querySelector<HTMLElement>("[data-vinyl-label-artist]");
+
+    const playlistItems = container.querySelectorAll<HTMLButtonElement>("[data-playlist-item]");
+
+    let isPlaying = false;
+    let activeItem: HTMLButtonElement | null = playlistItems[0] || null;
+
+    const extractBvid = (url: string) => {
+      if (!url) return null;
+      const match = url.match(/BV[a-zA-Z0-9]+/);
+      return match ? match[0] : null;
+    };
+
+    const formatTime = (secs: number) => {
+      if (isNaN(secs) || !isFinite(secs)) return "00:00";
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    };
+
+    const setPlayState = (playing: boolean) => {
+      isPlaying = playing;
+      if (playing) {
+        vinyl?.classList.add("is-spinning");
+        tonearm?.classList.add("is-playing");
+        if (playBtnText) playBtnText.textContent = "PAUSE";
+      } else {
+        vinyl?.classList.remove("is-spinning");
+        tonearm?.classList.remove("is-playing");
+        if (playBtnText) playBtnText.textContent = "PLAY";
+      }
+    };
+
+    const loadTrack = (btn: HTMLButtonElement) => {
+      playlistItems.forEach((item) => item.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      activeItem = btn;
+
+      const title = btn.dataset.title || "";
+      const artist = btn.dataset.artist || "";
+      const audioUrl = btn.dataset.audioUrl || "";
+      const rawVideoUrl = btn.dataset.videoUrl || "";
+      const presetDuration = btn.dataset.presetDuration || "";
+
+      if (vinylTitle) vinylTitle.textContent = title;
+      if (vinylArtist) vinylArtist.textContent = artist;
+
+      if (timeCurrent) timeCurrent.textContent = "00:00";
+      if (timeDuration) timeDuration.textContent = presetDuration || "--:--";
+
+      const bvid = extractBvid(rawVideoUrl);
+
+      if (bvid && videoIframe && screen && deck && controls) {
+        // 视频模式
+        videoIframe.src = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0`;
+        screen.classList.remove("hidden");
+        deck.classList.add("hidden");
+        controls.classList.add("hidden");
+
+        if (audioElement) {
+          audioElement.pause();
+          setPlayState(false);
+        }
+      } else {
+        // 纯音频模式
+        if (videoIframe) videoIframe.src = "";
+        screen?.classList.add("hidden");
+        deck?.classList.remove("hidden");
+        controls?.classList.remove("hidden");
+
+        if (audioElement && audioUrl) {
+          audioElement.src = audioUrl;
+          audioElement.load();
+        }
+      }
+    };
+
+    // 音频获取到真实时长后覆盖更新
+    if (audioElement) {
+      audioElement.addEventListener("loadedmetadata", () => {
+        const realDuration = formatTime(audioElement.duration);
+        if (timeDuration) timeDuration.textContent = realDuration;
+
+        if (activeItem) {
+          const durationSpan = activeItem.querySelector<HTMLElement>("[data-item-duration]");
+          if (durationSpan) durationSpan.textContent = realDuration;
+        }
+      });
+
+      audioElement.addEventListener("timeupdate", () => {
+        if (!audioElement.duration) return;
+        const pct = (audioElement.currentTime / audioElement.duration) * 100;
+        if (progressFill) progressFill.style.width = `${pct}%`;
+        if (timeCurrent) timeCurrent.textContent = formatTime(audioElement.currentTime);
+      });
+
+      audioElement.addEventListener("ended", () => {
+        setPlayState(false);
+        if (progressFill) progressFill.style.width = "0%";
+      });
+    }
+
+    playlistItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        loadTrack(item);
+        if (audioElement?.src && !item.dataset.videoUrl) {
+          audioElement.play().then(() => setPlayState(true)).catch(() => {});
+        }
+      });
+    });
+
+    playBtn?.addEventListener("click", () => {
+      if (!audioElement || !audioElement.src) return;
+
+      if (isPlaying) {
+        audioElement.pause();
+        setPlayState(false);
+      } else {
+        audioElement.play().then(() => setPlayState(true)).catch(() => {});
+      }
+    });
+
+    progressBar?.addEventListener("click", (e) => {
+      if (!audioElement || !audioElement.duration) return;
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      audioElement.currentTime = pct * audioElement.duration;
+    });
+
+    if (playlistItems[0]) {
+      loadTrack(playlistItems[0]);
+    }
+  });
+</script>
+
+<style>
+  .gramophone-chamber {
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(
+        135deg,
+        rgb(255 255 255 / 4%),
+        transparent 45%
+      ),
+      var(--surface-glass);
+    box-shadow: 0 1.5rem 3rem var(--surface-shadow);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+  }
+
+  .gramophone-chamber__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
+  }
+
+  .player-stage {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-right: 1px solid var(--line-soft);
+    display: grid;
+    gap: 1.5rem;
+    align-content: center;
+  }
+
+  .player-stage__screen {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-sm);
+    background: var(--concrete-dark);
+    overflow: hidden;
+  }
+
+  .player-stage__screen iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .deck {
+    display: grid;
+    gap: 1.5rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .deck__platter {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block: 2.5rem;
+    background:
+      radial-gradient(circle, rgb(0 0 0 / 25%) 0%, transparent 70%),
+      rgb(35 38 36 / 45%);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+  }
+
+  .vinyl-record {
+    position: relative;
+    width: clamp(11rem, 22vw, 15rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%);
+    box-shadow:
+      0 0 0 2px #262626,
+      0 0 2rem rgb(0 0 0 / 60%);
+    display: grid;
+    place-items: center;
+    transition: transform 0.5s ease;
+  }
+
+  .vinyl-record.is-spinning {
+    animation: vinyl-spin 2.8s linear infinite;
+  }
+
+  .vinyl-record__grooves {
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 8%);
+    box-shadow:
+      inset 0 0 0 8px rgb(255 255 255 / 2%),
+      inset 0 0 0 16px rgb(255 255 255 / 3%),
+      inset 0 0 0 24px rgb(255 255 255 / 2%);
+  }
+
+  .vinyl-record__label {
+    position: relative;
+    z-index: 2;
+    width: 38%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--brass-dark);
+    border: 2px solid var(--brass-light);
+    display: grid;
+    place-content: center;
+    text-align: center;
+    padding: 0.3rem;
+    color: var(--concrete-light);
+  }
+
+  .vinyl-record__label span {
+    font-size: 0.62rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 4rem;
+  }
+
+  .vinyl-record__label small {
+    font-size: 0.5rem;
+    opacity: 0.75;
+  }
+
+  .tonearm {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    width: 5rem;
+    height: 9rem;
+    pointer-events: none;
+    transform-origin: 80% 15%;
+    transform: rotate(-28deg);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .tonearm.is-playing {
+    transform: rotate(4deg);
+  }
+
+  .tonearm__pivot {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--iron-light);
+    border: 2px solid var(--brass);
+  }
+
+  .tonearm__arm {
+    position: absolute;
+    right: 0.6rem;
+    top: 1.2rem;
+    width: 3px;
+    height: 7rem;
+    background: var(--brass-light);
+  }
+
+  .tonearm__head {
+    position: absolute;
+    left: -0.3rem;
+    bottom: 0;
+    width: 0.9rem;
+    height: 1.4rem;
+    background: var(--iron-dark);
+    border: 1px solid var(--brass);
+  }
+
+  .deck__controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .deck-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.2rem;
+    border: 1px solid var(--brass);
+    border-radius: var(--radius-xs);
+    background: var(--surface-glass);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: var(--text-xs);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .deck-btn:hover {
+    background: var(--brass);
+    color: var(--concrete-light);
+  }
+
+  .deck-btn__indicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--brass-dark);
+  }
+
+  .deck__progress {
+    flex: 1;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .time-readout {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--line-medium);
+    border-radius: 2px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .progress-bar__fill {
+    width: 0%;
+    height: 100%;
+    background: var(--brass);
+    transition: width 0.1s linear;
+  }
+
+  .playlist-shelf {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: rgb(20 24 22 / 20%);
+  }
+
+  .playlist-shelf__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  .playlist-shelf__items {
+    overflow-y: auto;
+    max-height: 38rem;
+  }
+
+  .playlist-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2rem 1fr auto 1rem;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    border: 0;
+    border-bottom: 1px solid var(--line-soft);
+    background: transparent;
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .playlist-item:hover,
+  .playlist-item.is-active {
+    background: rgb(63 143 123 / 12%);
+  }
+
+  .playlist-item__num {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+  }
+
+  .playlist-item__info strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .playlist-item__info small {
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+  }
+
+  .playlist-item__meta {
+    display: grid;
+    justify-items: end;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+  }
+
+  .playlist-item__active-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .playlist-item.is-active .playlist-item__active-dot {
+    background: var(--brass);
+    box-shadow: 0 0 0.6rem var(--brass);
+  }
+
+  @keyframes vinyl-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 58rem) {
+    .gramophone-chamber__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .player-stage {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+  }
+</style>

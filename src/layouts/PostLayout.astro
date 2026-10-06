@@ -1,0 +1,267 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
+
+const {
+  frontmatter: {
+    title,
+    description,
+    publishedAt,
+    updatedAt,
+    category = "思想档案",
+    tags = [],
+  },
+} = Astro.props;
+
+const publishedDate = new Date(publishedAt);
+
+const formattedPublished = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(publishedDate);
+---
+
+<BaseLayout
+  title={`${title} — FUS STUDIO`}
+  description={description}
+  name="FUS STUDIO"
+>
+  <article>
+    <header class="post-header">
+      <div class="post-header__band" aria-hidden="true"></div>
+
+      <div class="post-header__content container">
+        <a class="post-header__back" href="/posts">
+          ← 返回思想档案
+        </a>
+
+        <div class="post-header__classification">
+          <span>{category}</span>
+          <time datetime={publishedDate.toISOString()}>
+            {formattedPublished}
+          </time>
+        </div>
+
+        <h1>{title}</h1>
+
+        {description && <p>{description}</p>}
+
+        {
+          tags.length > 0 && (
+            <ul aria-label="文章标签">
+              {tags.map((tag: string) => <li>{tag}</li>)}
+            </ul>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="post-body">
+      <div class="post-body__document reading-width">
+        <slot />
+      </div>
+    </div>
+
+    {
+      updatedAt && (
+        <footer class="post-update reading-width">
+          最后更新：{new Intl.DateTimeFormat("zh-CN").format(
+            new Date(updatedAt),
+          )}
+        </footer>
+      )
+    }
+  </article>
+
+  <ContactSection
+    title="档案到此结束。"
+    description="回到建筑，或者继续开启另一份记录。"
+    email="hello@example.com"
+  />
+</BaseLayout>
+
+<style>
+  .post-header {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(9rem, 18vw, 15rem) clamp(5rem, 8vw, 7rem);
+    background:
+      repeating-linear-gradient(
+        122deg,
+        rgb(255 255 255 / 3%) 0 1px,
+        transparent 1px 4px
+      ),
+      linear-gradient(160deg, var(--graphite), var(--ink));
+    color: var(--text-inverse);
+  }
+
+  .post-header__band {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    width: 46%;
+    height: 100%;
+    background: linear-gradient(122deg, transparent, rgb(255 255 255 / 4%));
+    clip-path: polygon(34% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .post-header__content {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  .post-header__back {
+    width: fit-content;
+    color: rgb(239 238 232 / 60%);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    transition: color var(--duration-fast) ease;
+  }
+
+  .post-header__back:hover {
+    color: var(--brass-light);
+  }
+
+  .post-header__classification {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: rgb(239 238 232 / 56%);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .post-header__classification span {
+    color: var(--brass-light);
+  }
+
+  h1 {
+    max-width: 18ch;
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  .post-header p {
+    max-width: 42rem;
+    color: rgb(239 238 232 / 68%);
+    font-size: var(--text-lead);
+    line-height: 1.7;
+  }
+
+  .post-header ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+  }
+
+  .post-header li {
+    padding: 0.35rem 0.55rem;
+    border: 1px solid rgb(239 238 232 / 20%);
+    color: rgb(239 238 232 / 58%);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+  }
+
+  .post-body {
+    padding-block: clamp(5rem, 12vw, 10rem);
+    background: linear-gradient(180deg, var(--paper), var(--concrete));
+  }
+
+  .post-body__document {
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+    line-height: 1.85;
+  }
+
+  .post-body__document :global(*) {
+    max-width: 100%;
+  }
+
+  .post-body__document :global(* + *) {
+    margin-top: 1.5em;
+  }
+
+  .post-body__document :global(h2),
+  .post-body__document :global(h3) {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .post-body__document :global(h2) {
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: 2px solid var(--ink);
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
+  }
+
+  .post-body__document :global(h3) {
+    margin-top: 2.5em;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+  }
+
+  .post-body__document :global(p),
+  .post-body__document :global(li) {
+    color: #3c3d39;
+  }
+
+  .post-body__document :global(ul),
+  .post-body__document :global(ol) {
+    padding-left: 1.4rem;
+  }
+
+  .post-body__document :global(a) {
+    border-bottom: 1px solid var(--brass);
+    color: var(--brass-dark);
+  }
+
+  .post-body__document :global(blockquote) {
+    padding: 1.2rem 0 1.2rem 1.5rem;
+    border-left: 3px solid var(--brass);
+    color: var(--text-secondary);
+    font-size: var(--text-lead);
+  }
+
+  .post-body__document :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+  }
+
+  .post-body__document :global(:not(pre) > code) {
+    padding: 0.15em 0.35em;
+    background: rgb(27 28 27 / 8%);
+  }
+
+  .post-body__document :global(pre) {
+    overflow-x: auto;
+    padding: 1.5rem;
+    border: 1px solid rgb(239 238 232 / 10%);
+    background: var(--ink);
+    color: var(--text-inverse);
+    font-family: var(--font-mono);
+    line-height: 1.65;
+  }
+
+  .post-body__document :global(hr) {
+    height: 2px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--brass), transparent);
+  }
+
+  .post-update {
+    padding-block: 2rem 5rem;
+    background: var(--concrete);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+</style>

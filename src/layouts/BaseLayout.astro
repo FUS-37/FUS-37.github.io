@@ -1,0 +1,90 @@
+---
+import "../styles/tokens.css";
+import "../styles/global.css";
+import Atmosphere from "../components/atmosphere/Atmosphere.astro";
+import MinimalHeader from "../components/navigation/MinimalHeader.astro";
+import SoundToggle from "../components/ui/SoundToggle.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  name?: string;
+  environment?: boolean;
+  ambientAudio?: string;
+  header?: boolean;
+}
+
+const {
+  title = "FUS STUDIO",
+  description = "音乐制作、混音、母带与音频软件。",
+  name = "FUS STUDIO",
+  environment = true,
+  ambientAudio,
+  header = true,
+} = Astro.props;
+
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site)
+  : Astro.url;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#e9e8e3" />
+
+    <link rel="canonical" href={canonical} />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/fslogo.png"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+
+    <title>{title}</title>
+  </head>
+
+  <body>
+    {environment && <Atmosphere />}
+    {header && <MinimalHeader name={name} />}
+
+    <main>
+      <slot />
+    </main>
+
+    <SoundToggle src={ambientAudio} />
+  </body>
+</html>
+
+<script>
+  /* 滚动进场：为 [data-reveal] 添加可见态 */
+  const revealEls = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+  if (revealEls.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    revealEls.forEach((el) => observer.observe(el));
+  }
+</script>

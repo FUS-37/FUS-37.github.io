@@ -1,0 +1,200 @@
+---
+export interface Album {
+  title: string;
+  artist: string;
+  cover: string;
+}
+
+interface Props {
+  albums: Album[];
+}
+
+const { albums = [] } = Astro.props;
+
+// 复制一份，实现无缝横向循环
+const loop = [...albums, ...albums];
+---
+
+<div class="album-carousel">
+  <div class="album-carousel__viewport">
+    <div class="album-carousel__track">
+      {
+        loop.map((album, index) => {
+          const position = index % albums.length;
+          return (
+            <figure class="album-carousel__cover">
+              <img
+                src={album.cover}
+                alt={`${album.title} — ${album.artist}`}
+                loading="lazy"
+                draggable="false"
+              />
+              <span class="album-carousel__index mono">
+                {String(position + 1).padStart(2, "0")}
+              </span>
+              <figcaption class="album-carousel__meta">
+                <span class="album-carousel__title">{album.title}</span>
+                <span class="album-carousel__artist">{album.artist}</span>
+              </figcaption>
+            </figure>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .album-carousel {
+    position: relative;
+  }
+
+  .album-carousel__viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 5%,
+      #000 95%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 5%,
+      #000 95%,
+      transparent
+    );
+  }
+
+  .album-carousel__track {
+    display: flex;
+    width: max-content;
+    animation: album-marquee 34s linear infinite;
+  }
+
+  .album-carousel__viewport:hover .album-carousel__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes album-marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .album-carousel__cover {
+    position: relative;
+    flex: none;
+    width: clamp(14rem, 22vw, 18rem);
+    aspect-ratio: 1 / 1;
+    margin-right: 1.5rem;
+    border: 1px solid var(--ink);
+    background:
+      repeating-linear-gradient(
+        122deg,
+        rgb(255 255 255 / 4%) 0 1px,
+        transparent 1px 4px
+      ),
+      var(--graphite);
+    overflow: hidden;
+    box-shadow: 0.35rem 0.35rem 0 rgb(20 20 19 / 14%);
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .album-carousel__cover:hover {
+    transform: translateY(-0.35rem);
+  }
+
+  .album-carousel__cover::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.9rem;
+    height: 1.9rem;
+    background: var(--brass);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    content: "";
+    z-index: 2;
+  }
+
+  .album-carousel__cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) ease;
+  }
+
+  .album-carousel__cover:hover img {
+    transform: scale(1.05);
+  }
+
+  /* 底部渐变遮罩，保证文字可读 */
+  .album-carousel__cover::before {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgb(18 18 17 / 92%) 0%,
+      rgb(18 18 17 / 0%) 46%
+    );
+    content: "";
+    z-index: 1;
+  }
+
+  .album-carousel__index {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    z-index: 3;
+    padding: 0.15rem 0.4rem;
+    background: var(--ink);
+    color: var(--brass-light);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+
+  .album-carousel__meta {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 3;
+    display: grid;
+    gap: 0.3rem;
+    color: var(--text-inverse);
+  }
+
+  .album-carousel__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+
+  .album-carousel__artist {
+    color: rgb(239 238 232 / 66%);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .album-carousel__track {
+      animation: none;
+    }
+
+    .album-carousel__viewport {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+</style>

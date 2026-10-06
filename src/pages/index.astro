@@ -1,11 +1,170 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSection from "../components/sections/HeroSection.astro";
+import SectionShell from "../components/sections/SectionShell.astro";
+import ArchiveGrid from "../components/archive/ArchiveGrid.astro";
+import PluginRecord from "../components/archive/PluginRecord.astro";
+import PostRecord from "../components/archive/PostRecord.astro";
+import AlbumCarousel from "../components/media/AlbumCarousel.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// 专辑封面复用现有 OSS 封面图，可在 cover 字段逐项替换为各自封面
+const coverUrl =
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E8%9B%B91.jpg";
+
+const albums = [
+  { title: "Remember (remix)", artist: "烁音Ayane", cover: coverUrl },
+  { title: "僕だけの青い空", artist: "烁音Ayane", cover: coverUrl },
+  { title: "月下缭乱 (Orchestral)", artist: "DeemoAlice", cover: coverUrl },
+  { title: "Final Battle", artist: "热爱音乐的王小明同学", cover: coverUrl },
+  { title: "Winter", artist: "Alyxium欧石楠", cover: coverUrl },
+];
+
+const plugins = [
+  {
+    title: "Sonaris",
+    category: "Bus Effect",
+    version: "v2.0.0",
+    size: "30.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "独创硬件卷积引擎，对高品质放大电路进行高精度建模，创意性复现任意设备。",
+  },
+  {
+    title: "SSC4k",
+    category: "Channelstrip",
+    version: "v1.1.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典英式模拟通道条，带来复古冲击力。",
+  },
+  {
+    title: "APC550",
+    category: "Channelstrip",
+    version: "v1.0.0",
+    size: "4.4 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "复刻经典美式模拟通道条，复古摇滚、现代前卫都能驾驭。",
+  },
+  {
+    title: "Rainhere",
+    category: "Modulation",
+    version: "v1.0.0",
+    size: "4.3 MB",
+    platforms: "VST3 · WIN / MAC",
+    description: "基于工业级通信场景的雨天电台调制效果器。",
+  },
+];
+
+const postModules = import.meta.glob("./posts/**/*.md", {
+  eager: true,
+});
+
+const posts = Object.values(postModules)
+  .map((module: any) => ({
+    ...module.frontmatter,
+    url: module.url,
+  }))
+  .filter((post) => !post.draft)
+  .sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() -
+      new Date(a.publishedAt).getTime(),
+  )
+  .slice(0, 2);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="FUS STUDIO — 音乐制作与音频软件"
+  description="混音、母带、音乐制作、VST3 插件开发与专业咨询。"
+  name="FUS STUDIO"
+>
+  <HeroSection name="FUS STUDIO" />
+
+  <!-- 01 唱片 -->
+  <SectionShell
+    id="work"
+    index={1}
+    label="Discography / 唱片"
+    title="声音被保存在这里。"
+    description="横向滚动的专辑封面，每一张都是一组关于力度、空间、质感与情绪的判断。"
+    action={{ label: "查看全部作品", href: "/work" }}
+  >
+    <AlbumCarousel albums={albums} />
+  </SectionShell>
+
+  <!-- 02 插件（石墨底） -->
+  <SectionShell
+    id="plugins"
+    index={2}
+    label="Tools / VST3 插件"
+    title="建筑的另一侧存放着工具。"
+    description="FUS Studio 专业音频插件，内置下载管理器，一键安装更新。"
+    tone="graphite"
+    action={{ label: "插件中心", href: "/plugins" }}
+  >
+    <ArchiveGrid columns={2} density="compact">
+      {
+        plugins.map((plugin, index) => (
+          <PluginRecord {...plugin} href="/plugins" index={index} tagVariant="solid" />
+        ))
+      }
+    </ArchiveGrid>
+  </SectionShell>
+
+  <!-- 03 文章 -->
+  <SectionShell
+    id="posts"
+    index={3}
+    label="Thought Archive / Blog"
+    title="方法、观察与尚未完成的判断。"
+    description="关于混音、母带、声音设计、DSP 与音频软件开发的记录。"
+    action={{ label: "进入阅览室", href: "/posts" }}
+  >
+    {
+      posts.length > 0 ? (
+        <ArchiveGrid columns={2}>
+          {posts.map((post, index) => (
+            <PostRecord
+              title={post.title}
+              date={post.publishedAt}
+              description={post.description}
+              category={post.category}
+              readingTime={post.readingTime}
+              href={post.url}
+              index={index}
+            />
+          ))}
+        </ArchiveGrid>
+      ) : (
+        <p class="empty-archive">思想档案尚未开放。</p>
+      )
+    }
+  </SectionShell>
+
+  <!-- 04 联系（石墨底） -->
+  <SectionShell
+    id="contact"
+    index={4}
+    label="Exit / 联系与咨询"
+    title="在森林重新合拢以前，留下一个信号。"
+    description="接受混音与母带预约、音频插件合作、以及工作室/DSP 相关咨询。"
+    tone="graphite"
+    action={{ label: "关于我", href: "/about" }}
+    isContact={true}
+    email="1253607602@qq.com"
+    socialLinks={[
+      { label: "GitHub", href: "https://github.com/" },
+      { label: "Bilibili", href: "https://www.bilibili.com/" },
+      { label: "Instagram", href: "https://www.instagram.com/" },
+    ]}
+  />
+</BaseLayout>
+
+<style>
+  .empty-archive {
+    padding-block: 4rem;
+    border-block: 1px solid var(--line-soft);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+</style>
