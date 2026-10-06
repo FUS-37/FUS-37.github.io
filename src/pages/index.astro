@@ -6,6 +6,7 @@ import ArchiveGrid from "../components/archive/ArchiveGrid.astro";
 import PluginRecord from "../components/archive/PluginRecord.astro";
 import PostRecord from "../components/archive/PostRecord.astro";
 import AlbumCarousel from "../components/media/AlbumCarousel.astro";
+import { plugins as catalogPlugins } from "../data/plugins";
 
 // 专辑封面复用现有 OSS 封面图，可在 cover 字段逐项替换为各自封面
 const coverUrl =
@@ -19,40 +20,7 @@ const albums = [
   { title: "Winter", artist: "Alyxium欧石楠", cover: coverUrl },
 ];
 
-const plugins = [
-  {
-    title: "Sonaris",
-    category: "Bus Effect",
-    version: "v2.0.0",
-    size: "30.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "独创硬件卷积引擎，对高品质放大电路进行高精度建模，创意性复现任意设备。",
-  },
-  {
-    title: "SSC4k",
-    category: "Channelstrip",
-    version: "v1.1.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典英式模拟通道条，带来复古冲击力。",
-  },
-  {
-    title: "APC550",
-    category: "Channelstrip",
-    version: "v1.0.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典美式模拟通道条，复古摇滚、现代前卫都能驾驭。",
-  },
-  {
-    title: "Rainhere",
-    category: "Modulation",
-    version: "v1.0.0",
-    size: "4.3 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "基于工业级通信场景的雨天电台调制效果器。",
-  },
-];
+const plugins = catalogPlugins.slice(0, 4);
 
 const postModules = import.meta.glob("./posts/**/*.md", {
   eager: true,
@@ -104,7 +72,18 @@ const posts = Object.values(postModules)
     <ArchiveGrid columns={2} density="compact">
       {
         plugins.map((plugin, index) => (
-          <PluginRecord {...plugin} href="/plugins" index={index} tagVariant="solid" />
+          <PluginRecord
+            title={plugin.name}
+            category={plugin.category}
+            version={`v${plugin.version}`}
+            size={plugin.size}
+            platforms={plugin.platforms.join(" / ")}
+            description={plugin.description}
+            price={plugin.price === "$0.00" ? "Free" : plugin.price}
+            href={`/plugins/${plugin.slug}/`}
+            index={index}
+            tagVariant="solid"
+          />
         ))
       }
     </ArchiveGrid>
@@ -152,9 +131,8 @@ const posts = Object.values(postModules)
     isContact={true}
     email="1253607602@qq.com"
     socialLinks={[
-      { label: "GitHub", href: "https://github.com/" },
-      { label: "Bilibili", href: "https://www.bilibili.com/" },
-      { label: "Instagram", href: "https://www.instagram.com/" },
+      { label: "GitHub", href: "https://github.com/FUS-37" },
+      { label: "Bilibili", href: "https://space.bilibili.com/22665738" },
     ]}
   />
 </BaseLayout>

@@ -1,0 +1,291 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/sections/PageHeader.astro";
+import { plugins } from "../../data/plugins";
+
+export function getStaticPaths() {
+  return plugins.map((plugin) => ({
+    params: { slug: plugin.slug },
+    props: { plugin },
+  }));
+}
+
+const { plugin } = Astro.props;
+const priceLabel = plugin.price === "$0.00" ? "Free / 免费" : plugin.price;
+---
+
+<BaseLayout
+  title={`${plugin.name} — FUS STUDIO`}
+  description={plugin.description}
+  name="FUS STUDIO"
+>
+  <PageHeader
+    label={`${plugin.category} / VST3 插件`}
+    lead={plugin.description}
+  >
+    {plugin.name}
+  </PageHeader>
+
+  <section class="plugin container">
+    <figure class="plugin__figure">
+      {
+        plugin.image ? (
+          <img src={plugin.image} alt={plugin.name} loading="lazy" />
+        ) : (
+          <div class="plugin__figure-empty" aria-hidden="true">
+            <span>{plugin.name}</span>
+            <small>{plugin.category}</small>
+          </div>
+        )
+      }
+    </figure>
+
+    <div class="plugin__layout">
+      <div class="plugin__main">
+        <section class="plugin__block">
+          <h2 class="plugin__heading">介绍</h2>
+          <p class="plugin__lead">{plugin.description}</p>
+          <p class="plugin__en">{plugin.descriptionEn}</p>
+        </section>
+
+        <section class="plugin__block">
+          <h2 class="plugin__heading">使用建议</h2>
+          {
+            plugin.usage.length > 0 ? (
+              <ul class="plugin__usage">
+                {plugin.usage.map((tip) => <li>{tip}</li>)}
+              </ul>
+            ) : (
+              <p class="plugin__muted">使用建议整理中。</p>
+            )
+          }
+        </section>
+      </div>
+
+      <aside class="plugin__side">
+        <dl class="plugin__facts">
+          <div>
+            <dt>Category</dt>
+            <dd>{plugin.category}</dd>
+          </div>
+          <div>
+            <dt>Version</dt>
+            <dd>v{plugin.version}</dd>
+          </div>
+          <div>
+            <dt>Size</dt>
+            <dd>{plugin.size}</dd>
+          </div>
+          <div>
+            <dt>Platforms</dt>
+            <dd>{plugin.platforms.join(" · ")}</dd>
+          </div>
+          <div>
+            <dt>Price</dt>
+            <dd>{priceLabel}</dd>
+          </div>
+        </dl>
+
+        <p class="plugin__note">
+          插件通过 FUS Studio 应用统一安装与更新。
+        </p>
+      </aside>
+    </div>
+
+    <a class="plugin__back" href="/plugins">← 返回插件中心</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .plugin {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(5rem, 10vw, 9rem);
+  }
+
+  .plugin__figure {
+    position: relative;
+    aspect-ratio: 16 / 7;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line-medium);
+    background: var(--graphite);
+  }
+
+  .plugin__figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .plugin__figure-empty {
+    display: grid;
+    height: 100%;
+    place-content: center;
+    gap: 0.6rem;
+    background:
+      radial-gradient(
+        120% 100% at 80% 0%,
+        var(--brass-dark),
+        transparent 60%
+      ),
+      var(--graphite);
+    color: var(--text-inverse);
+    text-align: center;
+  }
+
+  .plugin__figure-empty span {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .plugin__figure-empty small {
+    color: var(--brass-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .plugin__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .plugin__main {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  .plugin__heading {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line-medium);
+    color: var(--text-label);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .plugin__lead {
+    color: var(--text-primary);
+    font-family: var(--font-serif);
+    font-size: var(--text-lead);
+    line-height: 1.8;
+  }
+
+  .plugin__en {
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    font-size: var(--text-body);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .plugin__usage {
+    display: grid;
+    gap: 0.8rem;
+    padding-left: 1.1rem;
+    list-style: none;
+  }
+
+  .plugin__usage li {
+    position: relative;
+    color: var(--text-primary);
+    font-size: var(--text-body);
+    line-height: 1.7;
+  }
+
+  .plugin__usage li::before {
+    position: absolute;
+    top: 0.62em;
+    left: -1.1rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--brass);
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .plugin__muted {
+    color: var(--text-secondary);
+    font-size: var(--text-body);
+  }
+
+  .plugin__side {
+    display: grid;
+    align-content: start;
+    gap: 1.4rem;
+  }
+
+  .plugin__facts {
+    border: 1px solid var(--line-medium);
+    background: var(--paper-bright);
+  }
+
+  .plugin__facts div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .plugin__facts div:last-child {
+    border-bottom: 0;
+  }
+
+  .plugin__facts dt {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .plugin__facts dd {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .plugin__note {
+    padding: 0.9rem 1.1rem;
+    border-left: 2px solid var(--brass);
+    background: rgb(63 143 123 / 8%);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    line-height: 1.6;
+  }
+
+  .plugin__back {
+    width: fit-content;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .plugin__back:hover {
+    color: var(--brass-dark);
+  }
+
+  @media (max-width: 52rem) {
+    .plugin__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .plugin__figure {
+      aspect-ratio: 16 / 9;
+    }
+  }
+</style>

@@ -4,65 +4,7 @@ import PageHeader from "../components/sections/PageHeader.astro";
 import SectionShell from "../components/sections/SectionShell.astro";
 import ArchiveGrid from "../components/archive/ArchiveGrid.astro";
 import PluginRecord from "../components/archive/PluginRecord.astro";
-
-const plugins = [
-  {
-    title: "Sonaris",
-    category: "Bus Effect",
-    version: "v2.0.0",
-    size: "30.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "独创硬件卷积引擎，对高品质放大电路进行高精度建模，创意性复现任意设备。",
-  },
-  {
-    title: "SSC4k",
-    category: "Channelstrip",
-    version: "v1.1.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典英式模拟通道条，带来复古冲击力。",
-  },
-  {
-    title: "SSC9k",
-    category: "Channelstrip",
-    version: "v1.1.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典英式模拟通道条，现代音色的完美演绎。",
-  },
-  {
-    title: "HAC32C",
-    category: "Channelstrip",
-    version: "v1.0.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典英式模拟通道条，奶油般质感的出色之选。",
-  },
-  {
-    title: "NEC84",
-    category: "Channelstrip",
-    version: "v1.0.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典美式模拟通道条，再次梦回温暖的秋日。",
-  },
-  {
-    title: "APC550",
-    category: "Channelstrip",
-    version: "v1.0.0",
-    size: "4.4 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "复刻经典美式模拟通道条，复古摇滚、现代前卫都能驾驭。",
-  },
-  {
-    title: "Rainhere",
-    category: "Modulation",
-    version: "v1.0.0",
-    size: "4.3 MB",
-    platforms: "VST3 · WIN / MAC",
-    description: "基于工业级通信场景的雨天电台调制效果器。",
-  },
-];
+import { plugins } from "../data/plugins";
 
 const download = {
   version: "v1.1.0",
@@ -108,7 +50,7 @@ const techRoutes = [
   <SectionShell
     index={1}
     label="Download Manager"
-    title="内置下载管理器"
+    title="插件管理器"
     description="无需手动下载安装包，FUS Studio 内置下载管理器，自动检测插件版本，一键安装更新所有插件。"
     tone="graphite"
   >
@@ -132,7 +74,7 @@ const techRoutes = [
           </a>
         </div>
 
-        <p class="manager__note mono">macOS 版本支持 Apple M 系列芯片</p>
+        <p class="manager__note mono">macOS 版本仅支持 Apple M 系列芯片</p>
 
         <div class="manager__links mono">
           <a href={download.history} target="_blank" rel="noreferrer">历史版本</a>
@@ -155,12 +97,22 @@ const techRoutes = [
     index={2}
     label="Software Catalog"
     title="插件系列"
-    description="专业级音频处理工具，覆盖总线、通道条与调制效果。"
+    description="基于 JUCE 重新架构，覆盖通道条、饱和、均衡与调制效果。"
   >
     <ArchiveGrid columns={3} density="compact">
       {
         plugins.map((plugin, index) => (
-          <PluginRecord {...plugin} index={index} />
+          <PluginRecord
+            title={plugin.name}
+            category={plugin.category}
+            version={`v${plugin.version}`}
+            size={plugin.size}
+            platforms={plugin.platforms.join(" / ")}
+            description={plugin.description}
+            price={plugin.price === "$0.00" ? "Free" : plugin.price}
+            href={`/plugins/${plugin.slug}/`}
+            index={index}
+          />
         ))
       }
     </ArchiveGrid>
@@ -198,7 +150,7 @@ const techRoutes = [
     email="zyf1253607602@163.com"
     socialLinks={[
       { label: "售后 Q 群 874666623", href: "https://qm.qq.com/q/WfyLwwVdGE" },
-      { label: "GitHub", href: "https://github.com/FUS-37/fusstudio" },
+      { label: "GitHub", href: "https://github.com/FUS-37" },
     ]}
   />
 </BaseLayout>

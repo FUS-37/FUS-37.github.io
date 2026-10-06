@@ -20,6 +20,30 @@ const formattedPublished = new Intl.DateTimeFormat("zh-CN", {
   month: "long",
   day: "numeric",
 }).format(publishedDate);
+
+const postModules = import.meta.glob("../pages/posts/**/*.md", {
+  eager: true,
+});
+
+const posts = Object.values(postModules)
+  .map((module: any) => ({
+    ...module.frontmatter,
+    url: module.url,
+  }))
+  .filter((post: any) => !post.draft)
+  .sort(
+    (a: any, b: any) =>
+      new Date(b.publishedAt).getTime() -
+      new Date(a.publishedAt).getTime(),
+  );
+
+const normalize = (path: string) => path.replace(/\/$/, "");
+
+const currentIndex = posts.findIndex(
+  (post: any) => normalize(post.url) === normalize(Astro.url.pathname),
+);
+
+const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
 ---
 
 <BaseLayout
@@ -32,10 +56,6 @@ const formattedPublished = new Intl.DateTimeFormat("zh-CN", {
       <div class="post-header__band" aria-hidden="true"></div>
 
       <div class="post-header__content container">
-        <a class="post-header__back" href="/posts">
-          ← 返回思想档案
-        </a>
-
         <div class="post-header__classification">
           <span>{category}</span>
           <time datetime={publishedDate.toISOString()}>
@@ -74,10 +94,30 @@ const formattedPublished = new Intl.DateTimeFormat("zh-CN", {
     }
   </article>
 
+  <nav class="post-nav" aria-label="文章导航">
+    <div class="container">
+      <a class="post-nav__item post-nav__item--back" href="/posts">
+        <small>返回</small>
+        <strong>回到档案室</strong>
+      </a>
+
+      {
+        next ? (
+          <a class="post-nav__item post-nav__item--next" href={next.url}>
+            <small>下一篇 · 继续开启另一份记录</small>
+            <strong>{next.title}</strong>
+          </a>
+        ) : (
+          <span class="post-nav__item post-nav__item--end">已是最后一篇</span>
+        )
+      }
+    </div>
+  </nav>
+
   <ContactSection
     title="档案到此结束。"
-    description="回到建筑，或者继续开启另一份记录。"
-    email="hello@example.com"
+    description="如果某项记录与你正在处理的问题有关，可以直接联系。"
+    email="1253607602@qq.com"
   />
 </BaseLayout>
 
@@ -111,18 +151,6 @@ const formattedPublished = new Intl.DateTimeFormat("zh-CN", {
   .post-header__content {
     display: grid;
     gap: 1.6rem;
-  }
-
-  .post-header__back {
-    width: fit-content;
-    color: rgb(239 238 232 / 60%);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    transition: color var(--duration-fast) ease;
-  }
-
-  .post-header__back:hover {
-    color: var(--brass-light);
   }
 
   .post-header__classification {
@@ -263,5 +291,74 @@ const formattedPublished = new Intl.DateTimeFormat("zh-CN", {
     color: var(--text-secondary);
     font-family: var(--font-mono);
     font-size: var(--text-xs);
+  }
+
+  .post-nav {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--concrete);
+  }
+
+  .post-nav .container {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .post-nav__item {
+    display: grid;
+    min-width: 0;
+    gap: 0.45rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--line-medium);
+    background: var(--paper-bright);
+    text-decoration: none;
+    transition:
+      background var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+  }
+
+  .post-nav__item--next {
+    text-align: right;
+  }
+
+  .post-nav__item--end {
+    align-content: center;
+    border-style: dashed;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .post-nav__item small {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .post-nav__item strong {
+    overflow: hidden;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .post-nav__item:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+  }
+
+  .post-nav__item:hover strong {
+    color: var(--text-inverse);
+  }
+
+  .post-nav__item:hover small {
+    color: var(--brass-light);
   }
 </style>
