@@ -4,7 +4,6 @@ import PageHeader from "../components/sections/PageHeader.astro";
 import SectionShell from "../components/sections/SectionShell.astro";
 import ArchiveGrid from "../components/archive/ArchiveGrid.astro";
 import PostRecord from "../components/archive/PostRecord.astro";
-import ContactSection from "../components/sections/ContactSection.astro";
 
 const postModules = import.meta.glob("./posts/**/*.md", {
   eager: true,
@@ -30,9 +29,9 @@ const posts = Object.values(postModules)
 >
   <PageHeader
     label="Reading Room / 思想档案"
-    lead="关于声音、工具和工作方法的持续记录。"
+    lead="关于声音、工具和工作方法的持续记录。自2020年起开始维护的个人博客，归档于此。"
   >
-    建筑深处的档案室。
+    在建筑深处，有一间档案室
   </PageHeader>
 
   <SectionShell
@@ -62,10 +61,19 @@ const posts = Object.values(postModules)
     }
   </SectionShell>
 
-  <ContactSection
+  <SectionShell
+    id="contact"
+    index={2}
+    label="Contact / 联系与咨询"
     title="阅读结束，空间重新通向建筑。"
     description="如果某项记录与你正在处理的问题有关，可以直接联系。"
+    tone="graphite"
+    isContact={true}
     email="1253607602@qq.com"
+    socialLinks={[
+      { label: "GitHub", href: "https://github.com/FUS-37" },
+      { label: "Bilibili", href: "https://space.bilibili.com/22665738" },
+    ]}
   />
 </BaseLayout>
 

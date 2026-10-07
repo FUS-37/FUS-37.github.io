@@ -64,7 +64,7 @@
     --text-sm: clamp(0.8rem, 0.76rem + 0.16vw, 0.9rem);
     --text-body: clamp(0.98rem, 0.94rem + 0.18vw, 1.1rem);
     --text-lead: clamp(1.15rem, 1.05rem + 0.5vw, 1.5rem);
-    --text-display: clamp(3.4rem, 11vw, 11rem);
+    --text-display: clamp(3.2rem, 10vw, 10rem);
     --text-title: clamp(2.5rem, 8vw, 7.5rem);
     --text-section: clamp(2rem, 5.5vw, 5.2rem);
 
