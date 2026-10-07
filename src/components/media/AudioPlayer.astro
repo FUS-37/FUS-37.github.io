@@ -4,6 +4,7 @@ export interface Track {
   artist?: string;
   artistUrl?: string;
   url: string;
+  cover?: string;
 }
 
 interface Props {
@@ -19,6 +20,13 @@ const { tracks = [] } = Astro.props;
   <div class="audio-player__layout">
     <!-- 左侧：播放器 -->
     <div class="audio-player__stage">
+      <img
+        class="audio-player__stage-bg"
+        src={tracks[0]?.cover ?? ""}
+        alt=""
+        data-cover
+      />
+
       <div class="audio-player__now">
         <span class="audio-player__kicker">Now Playing / 正在播放</span>
         <h3 class="audio-player__title" data-title>选择一首曲目</h3>
@@ -64,6 +72,7 @@ const { tracks = [] } = Astro.props;
               data-title={track.title}
               data-artist={track.artist ?? ""}
               data-artist-url={track.artistUrl ?? ""}
+              data-cover={track.cover ?? ""}
             >
               <span class="audio-player__num mono">
                 {String(index + 1).padStart(2, "0")}
@@ -102,6 +111,7 @@ const { tracks = [] } = Astro.props;
     const fillEl = root.querySelector<HTMLElement>("[data-fill]");
     const trackEl = root.querySelector<HTMLElement>("[data-track]");
     const barsEl = root.querySelector<HTMLElement>("[data-bars]");
+    const coverEl = root.querySelector<HTMLImageElement>("[data-cover]");
 
     if (!audio || items.length === 0) return;
 
@@ -126,6 +136,7 @@ const { tracks = [] } = Astro.props;
         artistEl.style.pointerEvents = artistUrl ? "auto" : "none";
         artistEl.style.opacity = artistUrl ? "1" : "0.7";
       }
+      if (coverEl) coverEl.src = item.dataset.cover || "";
 
       audio.src = item.dataset.src ?? "";
       audio.load();
@@ -270,11 +281,30 @@ const { tracks = [] } = Astro.props;
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 3;
     width: 2.2rem;
     height: 2.2rem;
     background: var(--player-accent);
     clip-path: polygon(100% 0, 100% 100%, 0 0);
     content: "";
+  }
+
+  /* 封面截取铺满舞台，作半透明背景 */
+  .audio-player__stage-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+  }
+
+  .audio-player__now,
+  .audio-player__controls,
+  .audio-player__meter {
+    position: relative;
+    z-index: 2;
   }
 
   .audio-player__now {

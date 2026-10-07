@@ -5,36 +5,44 @@ import SectionShell from "../components/sections/SectionShell.astro";
 import AudioPlayer, { type Track } from "../components/media/AudioPlayer.astro";
 import BilibiliPlayer, { type BilibiliVideo } from "../components/media/BilibiliPlayer.astro";
 
+const coverUrl =
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E8%9B%B91.jpg";
+
 const tracks: Track[] = [
   {
     title: "Remember (remix)",
     artist: "烁音Ayane",
     artistUrl: "https://space.bilibili.com/19346228",
     url: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/remember.mp3",
+    cover: coverUrl,
   },
   {
     title: "僕だけの青い空",
     artist: "烁音Ayane",
     artistUrl: "https://space.bilibili.com/19346228",
     url: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E5%83%95%E3%81%A0%E3%81%91%E3%81%AE%E9%9D%92%E3%81%84%E7%A9%BA.mp3",
+    cover: coverUrl,
   },
   {
     title: "月下缭乱 (Orchestral)",
     artist: "DeemoAlice",
     artistUrl: "https://space.bilibili.com/389430530",
     url: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/%E6%9C%88%E4%B8%8B%E7%BC%AD%E4%B9%B1-Orchestral.mp3",
+    cover: coverUrl,
   },
   {
     title: "Final Battle",
     artist: "热爱音乐的王小明同学",
     artistUrl: "https://space.bilibili.com/380065177",
     url: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/Final%20Battle.mp3",
+    cover: coverUrl,
   },
   {
     title: "Winter",
     artist: "Alyxium欧石楠",
     artistUrl: "https://space.bilibili.com/1192681736",
     url: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/mp3/winter.mp3",
+    cover: coverUrl,
   },
 ];
 
