@@ -7,13 +7,13 @@
     /* —— 工业构成主义材质体系（专业沉稳，无红） —— */
 
     /* 混凝土表面（超写实底） */
-    --paper: #e9e8e3;
-    --paper-bright: #f4f3ef;
-    --concrete: #d9d7d1;
-    --concrete-cool: #c8c7c1;
-    --concrete-shadow: #a3a29b;
-    --concrete-deep: #494a47;
-    --concrete-dark: #1b1c1b;
+    --paper: #e8eaec;
+    --paper-bright: #f3f4f5;
+    --concrete: #d9dbdd;
+    --concrete-cool: #c7cacd;
+    --concrete-shadow: #a2a5a8;
+    --concrete-deep: #48494b;
+    --concrete-dark: #1b1c1d;
 
     /* 兼容别名（旧组件/黑胶播放器仍引用） */
     --concrete-warm: var(--paper);
