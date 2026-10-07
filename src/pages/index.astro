@@ -8,16 +8,20 @@ import PostRecord from "../components/archive/PostRecord.astro";
 import AlbumCarousel from "../components/media/AlbumCarousel.astro";
 import { plugins as catalogPlugins } from "../data/plugins";
 
-// 专辑封面复用现有 OSS 封面图，可在 cover 字段逐项替换为各自封面
-const coverUrl =
-  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/%E8%9B%B91.jpg";
+const covers = [
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(2).jpg",
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(1).jpg",
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(3).jpg",
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(4).jpg",
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(5).jpg",
+];
 
 const albums = [
-  { title: "Remember (remix)", artist: "烁音Ayane", cover: coverUrl },
-  { title: "僕だけの青い空", artist: "烁音Ayane", cover: coverUrl },
-  { title: "月下缭乱 (Orchestral)", artist: "DeemoAlice", cover: coverUrl },
-  { title: "Final Battle", artist: "热爱音乐的王小明同学", cover: coverUrl },
-  { title: "Winter", artist: "Alyxium欧石楠", cover: coverUrl },
+  { title: "Remember (remix)", artist: "烁音Ayane", cover: covers[0] },
+  { title: "僕だけの青い空", artist: "烁音Ayane", cover: covers[1] },
+  { title: "月下缭乱 (Orchestral)", artist: "DeemoAlice", cover: covers[2] },
+  { title: "Final Battle", artist: "热爱音乐的王小明同学", cover: covers[3] },
+  { title: "Winter", artist: "Alyxium欧石楠", cover: covers[4] },
 ];
 
 const plugins = catalogPlugins.slice(0, 4);
