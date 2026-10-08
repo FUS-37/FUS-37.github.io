@@ -7,22 +7,7 @@ import PluginRecord from "../components/archive/PluginRecord.astro";
 import PostRecord from "../components/archive/PostRecord.astro";
 import AlbumCarousel from "../components/media/AlbumCarousel.astro";
 import { plugins as catalogPlugins } from "../data/plugins";
-
-const covers = [
-  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(2).jpg",
-  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(1).jpg",
-  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(3).jpg",
-  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(4).jpg",
-  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(5).jpg",
-];
-
-const albums = [
-  { title: "Remember (remix)", artist: "烁音Ayane", cover: covers[0] },
-  { title: "僕だけの青い空", artist: "烁音Ayane", cover: covers[1] },
-  { title: "月下缭乱 (Orchestral)", artist: "DeemoAlice", cover: covers[2] },
-  { title: "Final Battle", artist: "热爱音乐的王小明同学", cover: covers[3] },
-  { title: "Winter", artist: "Alyxium欧石楠", cover: covers[4] },
-];
+import { albums } from "../data/media";
 
 const plugins = catalogPlugins.slice(0, 4);
 
@@ -45,7 +30,7 @@ const posts = Object.values(postModules)
 ---
 
 <BaseLayout
-  title="FUS STUDIO — 音乐制作与音频软件"
+  title="FUS STUDIO — 音乐制作与音频插件"
   description="混音、母带、音乐制作、VST3 插件开发与专业咨询。"
   name="FUS STUDIO"
 >
@@ -57,7 +42,7 @@ const posts = Object.values(postModules)
     index={1}
     label="Discography / 唱片"
     title="声音被保存在这里。"
-    description="横向滚动的专辑封面，每一张都是一组关于力度、空间、质感与情绪的判断。"
+    description="横向滚动的专辑封面，记录着不同的灵感、创意和情绪。"
     action={{ label: "查看全部作品", href: "/work" }}
   >
     <AlbumCarousel albums={albums} />

@@ -1,0 +1,152 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/sections/PageHeader.astro";
+import SectionShell from "../components/sections/SectionShell.astro";
+import { photos } from "../data/albums";
+---
+
+<BaseLayout
+  title="相册 — FUS STUDIO"
+  description="录音与创作过程中的影像记录。"
+  name="FUS STUDIO"
+>
+  <PageHeader
+    label="Gallery / 相册"
+    lead="一些散落在声音之间的影像片段。"
+  >
+    声音之外的，另一面。
+  </PageHeader>
+
+  <SectionShell
+    index={1}
+    label="Photo Wall / 照片墙"
+    title="相册"
+    description="横竖不一的照片在此自然排布，记录不同的灵感、创意和情绪。"
+  >
+    <div class="gallery">
+      {
+        photos.map((photo, index) => (
+          <figure class="gallery__item">
+            <img
+              src={photo.src}
+              alt={photo.title ?? `照片 ${String(index + 1).padStart(2, "0")}`}
+              loading="lazy"
+            />
+            {
+              photo.title && (
+                <figcaption class="gallery__caption">
+                  <span class="gallery__index mono">{String(index + 1).padStart(2, "0")}</span>
+                  <span class="gallery__title">{photo.title}</span>
+                </figcaption>
+              )
+            }
+          </figure>
+        ))
+      }
+    </div>
+  </SectionShell>
+
+  <SectionShell
+    id="contact"
+    index={2}
+    label="Contact / 联系与咨询"
+    title="如果这些影像触动了你。"
+    description="欢迎联系我，聊聊声音与画面背后的故事。"
+    tone="graphite"
+    isContact={true}
+    email="1253607602@qq.com"
+    socialLinks={[
+      { label: "GitHub", href: "https://github.com/FUS-37" },
+      { label: "Bilibili", href: "https://space.bilibili.com/22665738" },
+    ]}
+  />
+</BaseLayout>
+
+<style>
+  /* 照片墙：多列瀑布流，图片按原始宽高比自然排布 */
+  .gallery {
+    columns: 3;
+    column-gap: var(--grid-gap);
+  }
+
+  .gallery__item {
+    position: relative;
+    margin: 0 0 var(--grid-gap);
+    break-inside: avoid;
+    overflow: hidden;
+    border: 1px solid var(--ink);
+    background: var(--graphite);
+    box-shadow: 0.35rem 0.35rem 0 rgb(20 20 19 / 14%);
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .gallery__item:hover {
+    transform: translateY(-0.3rem);
+  }
+
+  .gallery__item::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: 1.9rem;
+    height: 1.9rem;
+    background: var(--brass);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    content: "";
+  }
+
+  .gallery__item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform var(--duration-slow) ease;
+  }
+
+  .gallery__item:hover img {
+    transform: scale(1.05);
+  }
+
+  .gallery__caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: grid;
+    gap: 0.3rem;
+    padding: 1rem;
+    background: linear-gradient(
+      to top,
+      rgb(18 18 17 / 92%) 0%,
+      rgb(18 18 17 / 0%) 46%
+    );
+    color: var(--text-inverse);
+  }
+
+  .gallery__index {
+    color: var(--brass-light);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+
+  .gallery__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+
+  @media (max-width: 62rem) {
+    .gallery {
+      columns: 2;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .gallery {
+      columns: 1;
+    }
+  }
+</style>

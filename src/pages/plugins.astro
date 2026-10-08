@@ -12,7 +12,7 @@ const download = {
   mac: "https://vst3.oss-cn-beijing.aliyuncs.com/fusstudio/mac/1.1.0/FUS_Studio_1.1.0.pkg",
   win: "https://vst3.oss-cn-beijing.aliyuncs.com/fusstudio/win/1.1.0/FUS_Studio_1.1.0.exe",
   history: "https://github.com/FUS-37/fusstudio",
-  manual: "https://fusmixing.site/html/maunal_v1.html",
+  terms: "/html/terms.html",
 };
 
 const techRoutes = [
@@ -79,11 +79,12 @@ const techRoutes = [
         <div class="manager__links mono">
           <a href={download.history} target="_blank" rel="noreferrer">历史版本</a>
           <span aria-hidden="true">/</span>
-          <a href={download.manual} target="_blank" rel="noreferrer">用户手册</a>
+          <a href={download.terms}>用户协议</a>
         </div>
       </div>
 
       <ul class="manager__features">
+        <li>免激活授权（No-Activation）</li>
         <li>自动检测插件更新</li>
         <li>一键安装 / 更新 / 卸载</li>
         <li>插件数据文件统一管理</li>

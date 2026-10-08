@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户协议 · FUS Studio</title>
+
+    <link rel="icon" type="image/png" href="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/fslogo.png">
+
+    <meta name="description" content="FUS Studio 用户协议 / Terms of Service">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --accent: #3f8f7b;
+            --accent-dark: #2c6455;
+            --ink: #171817;
+            --paper: #e8eaec;
+            --paper-bright: #f3f4f5;
+            --text: #1b1c1b;
+            --text-secondary: #5c5e5a;
+            --line: rgb(27 28 27 / 12%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Noto Sans SC', sans-serif;
+            line-height: 1.75;
+            color: var(--text);
+            background: var(--paper);
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px 96px;
+        }
+
+        .header {
+            padding: 64px 0 40px;
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 48px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+        }
+
+        .brand img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .header h1 {
+            font-size: clamp(1.9rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .header .sub {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 10px 18px;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            color: var(--accent-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.18s ease, color 0.18s ease;
+        }
+
+        .back:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .version {
+            display: inline-block;
+            margin-left: 12px;
+            padding: 3px 10px;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            color: var(--accent-dark);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        .intro {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding-bottom: 40px;
+            margin-bottom: 8px;
+        }
+
+        .section {
+            padding: 32px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .section:last-child {
+            border-bottom: 0;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-num {
+            flex-shrink: 0;
+            color: var(--accent-dark);
+            font-family: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        .section-title-en {
+            margin-left: auto;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', monospace;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .cn {
+            margin-bottom: 18px;
+            font-size: 0.98rem;
+        }
+
+        .en {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            padding-left: 16px;
+            border-left: 2px solid var(--accent);
+        }
+
+        .en p + p,
+        .cn p + p {
+            margin-top: 12px;
+        }
+
+        .footer {
+            margin-top: 48px;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+        }
+
+        @media (max-width: 560px) {
+            .section-title-en {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <a class="brand" href="https://fusmixing.site">
+                <img src="https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/fslogo.png" alt="FUS Studio">
+                <span>FUS Studio</span>
+            </a>
+            <h1>用户协议<span class="version">v1.0</span></h1>
+            <p class="sub">Terms of Service · 中英双语版本</p>
+        </header>
+
+        <p class="intro">请在使用 FUS Studio 及本系列插件前，仔细阅读以下协议。继续使用即视为您已接受全部条款。</p>
+
+        <div class="section">
+            <div class="section-head">
+                <span class="section-num">01</span>
+                <h2 class="section-title">软件许可</h2>
+                <span class="section-title-en">Software License</span>
+            </div>
+            <div class="cn">
+                <p>FUS Studio（以下简称“授权方”）授予您（以下简称“被授权方”）一项全球范围内、非独占、不可转让、免激活的个人/商业使用权。鉴于本软件采用“免激活（No-Activation）”技术架构，您被允许在任意数量的计算机设备上安装、运行本软件及本系列附属插件（以下简称“本软件”）。您可以使用本软件进行商业项目创作、非商业项目创作或内部工作流搭建。</p>
+                <p>本许可并非放弃著作权，亦并非开源许可（Open Source License）。未经授权方书面同意，您不得对本软件进行反向工程、反编译、修改内核，亦或者销售、分发、租赁本软件和本系列插件。</p>
+            </div>
+            <div class="en">
+                <p>FUS Studio ("Licensor") grants you ("Licensee") a worldwide, non-exclusive, non-transferable, activation-free personal/commercial license. As this software uses a "No-Activation" architecture, you may install and run this software and its plugin series ("the Software") on any number of computers for commercial projects, non-commercial projects, or internal workflows.</p>
+                <p>This license does not waive copyright nor is it an Open Source License. Without the Licensor's written consent, you may not reverse engineer, decompile, modify the kernel, or sell, distribute, or lease the Software.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-head">
+                <span class="section-num">02</span>
+                <h2 class="section-title">付款义务</h2>
+                <span class="section-title-en">Payment Obligation</span>
+            </div>
+            <div class="cn">
+                <p>本软件并非免费软件（Freeware）。使用本软件即代表您同意向授权方支付软件许可费用。鉴于授权方简化了销售流程，您有权在支付时自行决定实际支付的金额。</p>
+                <p>您可在赞助页面支付任意的金额，但是不建议超过软件本身的建议定价。超出部分授权方将视为您对本软件的自愿赞助，不予退还。即使您没有足额支付，也并不会因此被取消使用权。</p>
+            </div>
+            <div class="en">
+                <p>This software is not freeware. By using it, you agree to pay the license fee. The Licensor has simplified the sales process, allowing you to decide the payment amount.</p>
+                <p>You may pay any amount on the sponsor page, but it's recommended not to exceed the suggested price. Excess amounts are considered voluntary donations and are non-refundable. Even if you underpay, your usage rights will not be revoked.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-head">
+                <span class="section-num">03</span>
+                <h2 class="section-title">责任限制</h2>
+                <span class="section-title-en">Limitation of Liability</span>
+            </div>
+            <div class="cn">
+                <p>在适用法律允许的最大范围内，FUS Studio 及/或其关联方绝不承担由于使用或无法使用本软件所产生的任何间接、附带、特殊或惩罚性的损失，包括但不限于数据丢失、商业利润中断或第三方索赔。</p>
+            </div>
+            <div class="en">
+                <p>To the maximum extent permitted by law, FUS Studio and its affiliates shall not be liable for any indirect, incidental, special, or punitive damages arising from the use or inability to use the Software, including but not limited to data loss, business interruption, or third-party claims.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-head">
+                <span class="section-num">04</span>
+                <h2 class="section-title">隐私声明</h2>
+                <span class="section-title-en">Privacy Statement</span>
+            </div>
+            <div class="cn">
+                <p>我们非常注重保护您的隐私。本软件仅在检查插件及依赖库版本更新时，收集必要的产品元数据（如当前版本号、运行环境标识），绝不收集、上传或外泄任何与用户个人身份特征、音乐工程文件内容、本地文件路径相关的保密数据。</p>
+            </div>
+            <div class="en">
+                <p>We value your privacy. The Software only collects necessary product metadata (e.g., version number, runtime environment) when checking for updates. It never collects, uploads, or leaks personal identity information, music project content, or local file paths.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-head">
+                <span class="section-num">05</span>
+                <h2 class="section-title">售后支持</h2>
+                <span class="section-title-en">Support</span>
+            </div>
+            <div class="cn">
+                <p>您可以选择加入 FUS Studio 的社交频道或者是通过邮件的方式与开发者取得联系。</p>
+            </div>
+            <div class="en">
+                <p>You may contact the developer via FUS Studio's social channels or email.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-head">
+                <span class="section-num">06</span>
+                <h2 class="section-title">权利保留与协议完整性</h2>
+                <span class="section-title-en">Reservation of Rights</span>
+            </div>
+            <div class="cn">
+                <p>本协议中未明确授予您的所有权利，均归 FUS Studio 及其许可方所有。即使本协议中的某些条款因特定司法管辖区的法律而被认定为无效或不可执行，亦不影响其余条款的效力。授权方保留随时更新本协议条款的权利，更新后的版本将在官方下载页面公布，您继续使用本软件即视为接受更新后的协议。</p>
+            </div>
+            <div class="en">
+                <p>All rights not expressly granted are reserved by FUS Studio and its licensors. If any provision is held invalid, the remaining provisions shall remain in effect. The Licensor reserves the right to update this agreement; updated versions will be posted on the official download page.</p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <a class="back" href="https://fusmixing.site/plugins">← 返回插件中心</a>
+            <p>FUS Studio · Audio Engineering · 本协议更新后将在官方下载页面公布。</p>
+        </footer>
+    </div>
+</body>
+</html>

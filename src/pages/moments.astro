@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/sections/PageHeader.astro";
+import SectionShell from "../components/sections/SectionShell.astro";
+import ActionLink from "../components/ui/ActionLink.astro";
+import { moments } from "../data/moments";
+---
+
+<BaseLayout
+  title="动态 — FUS STUDIO"
+  description="近期动态与更新。"
+  name="FUS STUDIO"
+>
+  <PageHeader
+    label="Moments / 动态"
+    lead="近期的更新、发布与分享。"
+  >
+    这里记录正在发生的事。
+  </PageHeader>
+
+  <SectionShell
+    index={1}
+    label="Recent Updates / 最近更新"
+    title="动态"
+    description="最近发布的作品与进展。"
+  >
+    <div class="moments">
+      {
+        moments.map((moment, index) => (
+          <article class="moment">
+            <span class="moment__index mono">{String(index + 1).padStart(2, "0")}</span>
+            <div class="moment__body">
+              <h3>{moment.title}</h3>
+              <p class="moment__meta mono">{moment.source} · {moment.bvid}</p>
+            </div>
+            <div class="moment__action">
+              <ActionLink
+                href={moment.href}
+                variant="outline"
+                external
+              >
+                在 Bilibili 打开
+              </ActionLink>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </SectionShell>
+
+  <SectionShell
+    id="contact"
+    index={2}
+    label="Contact / 联系与咨询"
+    title="想看到更多动态？"
+    description="欢迎在 Bilibili 或 GitHub 关注我的最新进展。"
+    tone="graphite"
+    isContact={true}
+    email="1253607602@qq.com"
+    socialLinks={[
+      { label: "GitHub", href: "https://github.com/FUS-37" },
+      { label: "Bilibili", href: "https://space.bilibili.com/22665738" },
+    ]}
+  />
+</BaseLayout>
+
+<style>
+  .moments {
+    border-top: 1px solid var(--line-medium);
+  }
+
+  .moment {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    padding-block: 1.6rem;
+    border-bottom: 1px solid var(--line-medium);
+  }
+
+  .moment__index {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--brass-dark);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .moment__body {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .moment__body h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  .moment__meta {
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 48rem) {
+    .moment {
+      grid-template-columns: auto 1fr;
+    }
+
+    .moment__action {
+      grid-column: 2;
+    }
+  }
+</style>
