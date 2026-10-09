@@ -22,9 +22,26 @@ const {
 } = Astro.props;
 
 const parts = name.trim().split(/\s+/);
+
+// 首页 hero 背景轮播图（banner/1.png ~ 9.png）
+const BANNER_BASE =
+  "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/banner";
+const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png`);
 ---
 
 <section class="hero" aria-labelledby="hero-title">
+  <!-- 背景轮播图 -->
+  <div class="hero__slideshow" aria-hidden="true">
+    {
+      banners.map((src, i) => (
+        <span
+          class="hero__slide"
+          style={`--i: ${i}; background-image: url("${src}");`}
+        ></span>
+      ))
+    }
+  </div>
+
   <!-- 构成主义几何层：斜置黑色钢板 + 条码 -->
   <div class="hero__geometry" aria-hidden="true">
     <span class="hero__plate"></span>
@@ -90,6 +107,32 @@ const parts = name.trim().split(/\s+/);
     display: grid;
     max-width: 72rem;
     gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  /* 背景轮播图 */
+  .hero__slideshow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0;
+    animation: hero-slide 45s linear infinite;
+    animation-delay: calc(var(--i) * 5s);
+  }
+
+  /* 白色遮罩：让背景图淡化为浅色，保证标题可读 */
+  .hero__slideshow::after {
+    position: absolute;
+    inset: 0;
+    background: rgb(255 255 255 / 0.6);
+    content: "";
   }
 
   /* 几何层 */
@@ -282,6 +325,14 @@ const parts = name.trim().split(/\s+/);
     writing-mode: vertical-rl;
   }
 
+  @keyframes hero-slide {
+    0% { opacity: 0; }
+    2% { opacity: 1; }
+    9% { opacity: 1; }
+    11.11% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
   @keyframes hero-enter {
     from {
       opacity: 0;
@@ -312,6 +363,16 @@ const parts = name.trim().split(/\s+/);
     50% {
       opacity: 0.85;
       transform: scaleY(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__slide {
+      animation: none;
+    }
+
+    .hero__slide:first-child {
+      opacity: 1;
     }
   }
 
