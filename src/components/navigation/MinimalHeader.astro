@@ -36,7 +36,7 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
 ---
 
 <header class="header">
-  <div class="header__inner container">
+  <div class="header__inner">
     <a class="header__identity" href="/">
       <img
         class="header__mark"
@@ -140,10 +140,12 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
 
   .header__inner {
     display: flex;
+    width: 100%;
     min-height: 6rem;
     align-items: center;
     justify-content: space-between;
     gap: clamp(2rem, 5vw, 4rem);
+    padding-inline: var(--gutter);
   }
 
   .header__identity {

@@ -123,21 +123,23 @@ const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png
     background-position: center;
     background-size: cover;
     opacity: 0;
+    filter: contrast(1.12) saturate(0.92);
     animation: hero-slide 45s linear infinite;
     animation-delay: calc(var(--i) * 5s);
   }
 
-  /* 白色遮罩：让背景图淡化为浅色，保证标题可读 */
+  /* 白色遮罩：淡化低像素背景图、掩盖噪点，同时保证标题可读 */
   .hero__slideshow::after {
     position: absolute;
     inset: 0;
-    background: rgb(255 255 255 / 0.6);
+    background: rgb(255 255 255 / 0.35);
     content: "";
   }
 
   /* 几何层 */
   .hero__geometry {
     position: absolute;
+    z-index: 1;
     inset: 0;
     pointer-events: none;
   }
@@ -326,11 +328,11 @@ const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png
   }
 
   @keyframes hero-slide {
-    0% { opacity: 0; }
-    2% { opacity: 1; }
-    9% { opacity: 1; }
-    11.11% { opacity: 0; }
-    100% { opacity: 0; }
+    0% { opacity: 0; transform: scale(1); }
+    2% { opacity: 1; transform: scale(1); }
+    9% { opacity: 1; transform: scale(1.06); }
+    11.11% { opacity: 0; transform: scale(1.06); }
+    100% { opacity: 0; transform: scale(1.06); }
   }
 
   @keyframes hero-enter {

@@ -151,8 +151,9 @@ const indexLabel = String(index).padStart(2, "0");
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: var(--section-bg-image) center / cover no-repeat;
-    opacity: 0.15;
+    background:
+      linear-gradient(rgb(15 16 15 / 0.6), rgb(15 16 15 / 0.6)),
+      var(--section-bg-image) center / cover no-repeat;
     content: "";
     pointer-events: none;
   }
