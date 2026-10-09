@@ -132,7 +132,7 @@ const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png
   .hero__slideshow::after {
     position: absolute;
     inset: 0;
-    background: rgb(255 255 255 / 0.35);
+    background: rgb(255 255 255 / 0.5);
     content: "";
   }
 
@@ -329,9 +329,9 @@ const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png
 
   @keyframes hero-slide {
     0% { opacity: 0; transform: scale(1); }
-    2% { opacity: 1; transform: scale(1); }
-    9% { opacity: 1; transform: scale(1.06); }
-    11.11% { opacity: 0; transform: scale(1.06); }
+    2.22% { opacity: 1; transform: scale(1); }
+    11.11% { opacity: 1; transform: scale(1.06); }
+    13.33% { opacity: 0; transform: scale(1.06); }
     100% { opacity: 0; transform: scale(1.06); }
   }
 
