@@ -13,6 +13,7 @@ interface SocialLink {
 
 interface Props {
   id?: string;
+  class?: string;
   index?: number;
   label?: string;
   title?: string;
@@ -28,6 +29,7 @@ interface Props {
 
 const {
   id,
+  class: className,
   index = 0,
   label,
   title,
@@ -51,6 +53,7 @@ const indexLabel = String(index).padStart(2, "0");
     `section-shell--${tone}`,
     isContact && "section-shell--contact",
     backgroundImage && "section-shell--with-image",
+    className,
   ]}
   data-reveal
   style={backgroundImage ? `--section-bg-image: url("${backgroundImage}");` : undefined}
@@ -180,6 +183,10 @@ const indexLabel = String(index).padStart(2, "0");
 
   .section-shell--graphite .section-shell__header {
     padding-top: clamp(4rem, 9vw, 8rem);
+  }
+
+  .section-shell--first .section-shell__header {
+    padding-top: clamp(3.5rem, 7vw, 6.5rem);
   }
 
   .section-shell__label {

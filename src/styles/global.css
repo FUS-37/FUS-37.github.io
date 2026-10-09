@@ -11,6 +11,10 @@
     scroll-behavior: smooth;
   }
 
+  section[id] {
+    scroll-margin-top: -20vh;
+  }
+
   body,
   h1,
   h2,
