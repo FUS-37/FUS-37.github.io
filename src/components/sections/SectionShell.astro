@@ -19,6 +19,7 @@ interface Props {
   description?: string;
   tone?: "paper" | "graphite";
   width?: "container" | "reading";
+  backgroundImage?: string;
   action?: Action;
   isContact?: boolean;
   email?: string;
@@ -33,6 +34,7 @@ const {
   description,
   tone = "paper",
   width = "container",
+  backgroundImage,
   action,
   isContact = false,
   email = "1253607602@qq.com",
@@ -48,8 +50,10 @@ const indexLabel = String(index).padStart(2, "0");
     "section-shell",
     `section-shell--${tone}`,
     isContact && "section-shell--contact",
+    backgroundImage && "section-shell--with-image",
   ]}
   data-reveal
+  style={backgroundImage ? `--section-bg-image: url("${backgroundImage}");` : undefined}
 >
   <div class={width === "reading" ? "reading-width" : "container"}>
     {
@@ -140,6 +144,28 @@ const indexLabel = String(index).padStart(2, "0");
     background: var(--paper);
     clip-path: polygon(0 0, 100% 0, 0 100%);
     content: "";
+  }
+
+  /* 可选背景图：叠加在石墨底之上，通过 opacity 控制透明度 */
+  .section-shell--graphite.section-shell--with-image::after {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--section-bg-image) center / cover no-repeat;
+    opacity: 0.3;
+    content: "";
+    pointer-events: none;
+  }
+
+  /* 有背景图时，斜切块与内容提到背景图之上 */
+  .section-shell--graphite.section-shell--with-image::before {
+    z-index: 1;
+  }
+
+  .section-shell--with-image .container,
+  .section-shell--with-image .reading-width {
+    position: relative;
+    z-index: 1;
   }
 
   .section-shell__header {

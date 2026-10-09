@@ -6,12 +6,12 @@
 
     /* —— 工业构成主义材质体系（专业沉稳，无红） —— */
 
-    /* 混凝土表面（超写实底） */
-    --paper: #e8eaec;
-    --paper-bright: #f3f4f5;
-    --concrete: #d9dbdd;
-    --concrete-cool: #c7cacd;
-    --concrete-shadow: #a2a5a8;
+    /* 混凝土表面（超写实底）—— 提白去暖，参考 Vercel/Notion 的纯白 + 冷灰 */
+    --paper: #ffffff;
+    --paper-bright: #ffffff;
+    --concrete: #f4f4f5;
+    --concrete-cool: #ebebec;
+    --concrete-shadow: #d6d6d6;
     --concrete-deep: #48494b;
     --concrete-dark: #1b1c1d;
 
@@ -26,7 +26,7 @@
     --text-primary: #1b1c1b;
     --text-secondary: #5c5e5a;
     --text-label: #2a2b29;
-    --text-inverse: #efeee8;
+    --text-inverse: #f7f7f7;
 
     /* 森林青（唯一清新强调，克制） */
     --brass: #3f8f7b;
@@ -46,7 +46,7 @@
     --line-medium: rgb(27 28 27 / 28%);
     --line-strong: rgb(27 28 27 / 55%);
 
-    --surface-glass: rgb(244 243 239 / 74%);
+    --surface-glass: rgb(255 255 255 / 74%);
     --surface-shadow: rgb(20 20 19 / 14%);
 
     /* 排版：几何无衬线（构成主义） */

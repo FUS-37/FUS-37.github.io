@@ -19,8 +19,7 @@ const loop = [...albums, ...albums];
   <div class="album-carousel__viewport">
     <div class="album-carousel__track">
       {
-        loop.map((album, index) => {
-          const position = index % albums.length;
+        loop.map((album) => {
           return (
             <figure class="album-carousel__cover">
               <img
@@ -29,9 +28,6 @@ const loop = [...albums, ...albums];
                 loading="lazy"
                 draggable="false"
               />
-              <span class="album-carousel__index mono">
-                {String(position + 1).padStart(2, "0")}
-              </span>
               <figcaption class="album-carousel__meta">
                 <span class="album-carousel__title">{album.title}</span>
                 <span class="album-carousel__artist">{album.artist}</span>
@@ -114,8 +110,8 @@ const loop = [...albums, ...albums];
     position: absolute;
     top: 0;
     right: 0;
-    width: 1.9rem;
-    height: 1.9rem;
+    width: 1.2rem;
+    height: 1.2rem;
     background: var(--brass);
     clip-path: polygon(100% 0, 100% 100%, 0 0);
     content: "";
@@ -146,18 +142,6 @@ const loop = [...albums, ...albums];
     );
     content: "";
     z-index: 1;
-  }
-
-  .album-carousel__index {
-    position: absolute;
-    top: 0.9rem;
-    left: 0.9rem;
-    z-index: 3;
-    padding: 0.15rem 0.4rem;
-    background: var(--ink);
-    color: var(--brass-light);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
   }
 
   .album-carousel__meta {
