@@ -9,7 +9,7 @@ import AlbumCarousel from "../components/media/AlbumCarousel.astro";
 import { plugins as catalogPlugins } from "../data/plugins";
 import { albums } from "../data/media";
 
-const plugins = catalogPlugins.slice(0, 4);
+const plugins = catalogPlugins.slice(0, 2);
 
 const postModules = import.meta.glob("./posts/**/*.md", {
   eager: true,

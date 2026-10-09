@@ -31,8 +31,6 @@ const {
     ],
   },
 } = Astro.props;
-
-const moreIndex = String(links.length + 1).padStart(2, "0");
 ---
 
 <header class="header">
@@ -62,15 +60,17 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
         more && (
           <div class="nav__more">
             <button type="button" class="nav__more-trigger">
-              <span class="nav__index">{moreIndex}</span>
+              <span class="nav__index">{String(links.length + 1).padStart(2, "0")}</span>
               <span>{more.label}</span>
               <span class="nav__more-caret" aria-hidden="true">▾</span>
             </button>
             <div class="nav__more-panel">
               {more.links.map((link) => (
                 <a href={link.href}>
+                  <span class="nav__index nav__index--ghost" aria-hidden="true">
+                    {String(links.length + 1).padStart(2, "0")}
+                  </span>
                   <span>{link.label}</span>
-                  <i aria-hidden="true">↗</i>
                 </a>
               ))}
             </div>
@@ -153,8 +153,8 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
     align-items: center;
     gap: 0.8rem;
     font-family: var(--font-display);
-    font-size: var(--text-body);
-    font-weight: 700;
+    font-size: clamp(1.05rem, 1rem + 0.2vw, 1.2rem);
+    font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
@@ -180,7 +180,8 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
     gap: 0.5rem;
     color: var(--text-secondary);
     font-family: var(--font-mono);
-    font-size: var(--text-sm);
+    font-size: var(--text-body);
+    font-weight: 600;
     letter-spacing: 0.06em;
     transition: color var(--duration-fast) ease;
   }
@@ -188,6 +189,10 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
   .nav__index {
     color: var(--brass-dark);
     font-size: 0.68rem;
+  }
+
+  .nav__index--ghost {
+    visibility: hidden;
   }
 
   nav a::after {
@@ -212,7 +217,7 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
     transform-origin: left;
   }
 
-  /* —— 更多：hover 自动展开 / 收起 —— */
+  /* —— 更多：hover 展开子链接（无框） —— */
   .nav__more {
     position: relative;
     display: inline-flex;
@@ -234,7 +239,8 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
     gap: 0.5rem;
     color: var(--text-secondary);
     font-family: var(--font-mono);
-    font-size: var(--text-sm);
+    font-size: var(--text-body);
+    font-weight: 600;
     letter-spacing: 0.06em;
     cursor: default;
     transition: color var(--duration-fast) ease;
@@ -255,19 +261,17 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
     transform: rotate(180deg);
   }
 
+  /* 无框面板：子链接纯文字浮出，无边框/背景/阴影 */
   .nav__more-panel {
     position: absolute;
-    top: calc(100% + 1rem);
-    right: 0;
-    z-index: 30;
+    top: calc(100% + 0.75rem);
+    left: 0;
     display: grid;
-    min-width: 14rem;
-    border: 1px solid var(--ink);
-    background: var(--paper-bright);
-    box-shadow: 0.5rem 0.5rem 0 rgb(20 20 19 / 16%);
+    gap: 0.6rem;
+    justify-items: start;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-0.4rem);
+    transform: translateY(-0.25rem);
     transition:
       opacity var(--duration-fast) ease,
       transform var(--duration-fast) ease,
@@ -279,45 +283,6 @@ const moreIndex = String(links.length + 1).padStart(2, "0");
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-  }
-
-  .nav__more-panel a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 1.1rem;
-    border-bottom: 1px solid var(--line-soft);
-    color: var(--text-primary);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    letter-spacing: 0.06em;
-    transition:
-      background var(--duration-fast) ease,
-      color var(--duration-fast) ease;
-  }
-
-  .nav__more-panel a:last-child {
-    border-bottom: 0;
-  }
-
-  .nav__more-panel a::after {
-    display: none;
-  }
-
-  .nav__more-panel a:hover {
-    background: var(--brass);
-    color: var(--ink);
-  }
-
-  .nav__more-panel a i {
-    font-style: normal;
-    font-size: 0.72rem;
-    transition: transform var(--duration-fast) ease;
-  }
-
-  .nav__more-panel a:hover i {
-    transform: translate(0.12rem, -0.12rem);
   }
 
   @media (max-width: 40rem) {

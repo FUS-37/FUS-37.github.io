@@ -132,7 +132,7 @@ const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png
   .hero__slideshow::after {
     position: absolute;
     inset: 0;
-    background: rgb(255 255 255 / 0.6);
+    background: rgb(255 255 255 / 0.35);
     content: "";
   }
 
@@ -156,7 +156,7 @@ const banners = Array.from({ length: 9 }, (_, i) => `${BANNER_BASE}/${i + 1}.png
         rgb(255 255 255 / 4%) 0 1px,
         transparent 1px 4px
       ),
-      linear-gradient(122deg, var(--graphite), var(--ink));
+      linear-gradient(122deg, #1a1b1a, #0e0f0e);
     clip-path: polygon(46% 0, 100% 0, 100% 100%, 0 100%);
     box-shadow: -1.5rem 0 3rem rgb(20 20 19 / 20%);
     opacity: 0.8;
