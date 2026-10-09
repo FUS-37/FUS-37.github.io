@@ -132,11 +132,11 @@ const BRIGHTNESS = [0.85, 0.98, 1.14, 0.81, 0.95, 1.3, 0.97, 0.9, 1.39];
     animation-delay: calc(var(--i) * 5s);
   }
 
-  /* 白色遮罩：与页面背景色一致，淡化低像素背景图、掩盖噪点，同时保证标题可读 */
+  /* 白色遮罩：淡化低像素背景图、掩盖噪点，同时保证标题可读 */
   .hero__slideshow::after {
     position: absolute;
     inset: 0;
-    background: var(--paper);
+    background: rgb(255 255 255 / 0.5);
     content: "";
   }
 
