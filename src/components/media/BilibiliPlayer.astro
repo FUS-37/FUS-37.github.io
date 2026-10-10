@@ -87,9 +87,10 @@ const firstVideo = videos[0];
 </div>
 
 <script>
-  const roots = document.querySelectorAll<HTMLElement>("[data-video-player]");
+  document.addEventListener("astro:page-load", () => {
+    const roots = document.querySelectorAll<HTMLElement>("[data-video-player]");
 
-  roots.forEach((root) => {
+    roots.forEach((root) => {
     const frame = root.querySelector<HTMLIFrameElement>("[data-frame]");
     const items = Array.from(
       root.querySelectorAll<HTMLButtonElement>(".video-player__item"),
@@ -139,6 +140,7 @@ const firstVideo = videos[0];
 
     // 初始高亮
     activate(0);
+    });
   });
 </script>
 

@@ -136,7 +136,7 @@ const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
     inset: 0;
     z-index: -1;
     background-image:
-      linear-gradient(rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.4)),
+      linear-gradient(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.5)),
       url("https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/banner/posts.png");
     background-position: center;
     background-size: cover;
@@ -202,7 +202,8 @@ const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
   .post-header li {
     padding: 0.35rem 0.55rem;
     border: 1px solid rgb(27 28 27 / 20%);
-    color: var(--text-secondary);
+    background: var(--ink);
+    color: var(--text-inverse);
     font-family: var(--font-mono);
     font-size: 0.6rem;
   }

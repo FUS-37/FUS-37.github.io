@@ -114,7 +114,8 @@ const defaultItem = items[0];
 </div>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-player]").forEach((container) => {
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLElement>("[data-player]").forEach((container) => {
     const audioElement = container.querySelector<HTMLAudioElement>("[data-audio-element]");
     const playBtn = container.querySelector<HTMLButtonElement>("[data-play-btn]");
     const playBtnText = container.querySelector<HTMLElement>("[data-play-btn-text]");
@@ -263,6 +264,7 @@ const defaultItem = items[0];
     if (playlistItems[0]) {
       loadTrack(playlistItems[0]);
     }
+    });
   });
 </script>
 

@@ -32,7 +32,8 @@ const { src } = Astro.props;
 }
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-sound]").forEach((root) => {
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLElement>("[data-sound]").forEach((root) => {
     const audio = root.querySelector<HTMLAudioElement>("[data-sound-audio]");
     const button = root.querySelector<HTMLButtonElement>("[data-sound-button]");
     const label = root.querySelector<HTMLElement>("[data-sound-label]");
@@ -64,6 +65,7 @@ const { src } = Astro.props;
     });
 
     update();
+    });
   });
 </script>
 

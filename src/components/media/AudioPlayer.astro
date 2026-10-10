@@ -88,8 +88,6 @@ const { tracks = [] } = Astro.props;
 </div>
 
 <script>
-  const players = document.querySelectorAll<HTMLElement>("[data-player]");
-
   const formatTime = (seconds: number) => {
     const safe = Math.max(0, Math.floor(seconds || 0));
     const minutes = Math.floor(safe / 60);
@@ -97,7 +95,8 @@ const { tracks = [] } = Astro.props;
     return `${minutes}:${String(secs).padStart(2, "0")}`;
   };
 
-  players.forEach((root) => {
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLElement>("[data-player]").forEach((root) => {
     const audio = root.querySelector<HTMLAudioElement>(".audio-player__audio");
     const items = Array.from(
       root.querySelectorAll<HTMLButtonElement>(".audio-player__item"),
@@ -241,6 +240,7 @@ const { tracks = [] } = Astro.props;
       const rect = trackEl.getBoundingClientRect();
       const ratio = (event.clientX - rect.left) / rect.width;
       audio.currentTime = ratio * audio.duration;
+    });
     });
   });
 </script>

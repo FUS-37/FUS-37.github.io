@@ -1,6 +1,7 @@
 ---
 import "../styles/tokens.css";
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Atmosphere from "../components/atmosphere/Atmosphere.astro";
 import MinimalHeader from "../components/navigation/MinimalHeader.astro";
 import SoundToggle from "../components/ui/SoundToggle.astro";
@@ -41,6 +42,8 @@ const canonical = Astro.site
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
 
+    <ClientRouter />
+
     <link rel="canonical" href={canonical} />
 
     <link
@@ -71,10 +74,12 @@ const canonical = Astro.site
 </html>
 
 <script>
-  /* 滚动进场：为 [data-reveal] 添加可见态 */
-  const revealEls = document.querySelectorAll<HTMLElement>("[data-reveal]");
+  /* 滚动进场：为 [data-reveal] 添加可见态（初始加载与页面切换后均需重新初始化） */
+  document.addEventListener("astro:page-load", () => {
+    const revealEls = document.querySelectorAll<HTMLElement>("[data-reveal]");
 
-  if (revealEls.length > 0) {
+    if (revealEls.length === 0) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -88,5 +93,5 @@ const canonical = Astro.site
     );
 
     revealEls.forEach((el) => observer.observe(el));
-  }
+  });
 </script>
