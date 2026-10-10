@@ -33,9 +33,12 @@ const {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background:
+    background-image:
       linear-gradient(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.5)),
-      var(--page-header-bg) center / cover no-repeat;
+      var(--page-header-bg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     content: "";
     pointer-events: none;
   }
