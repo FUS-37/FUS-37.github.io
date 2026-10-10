@@ -126,6 +126,7 @@ const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    height: 90svh;
     padding-block: clamp(9rem, 18vw, 15rem) clamp(5rem, 8vw, 7rem);
     color: var(--text-primary);
   }
@@ -135,7 +136,7 @@ const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
     inset: 0;
     z-index: -1;
     background-image:
-      linear-gradient(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.5)),
+      linear-gradient(rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.4)),
       url("https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/banner/posts.png");
     background-position: center;
     background-size: cover;
