@@ -1,0 +1,140 @@
+---
+const PLAYLIST_EMBED =
+  "https://embed.music.apple.com/cn/playlist/pl.u-leyl1MGHMoL4MWe";
+---
+
+<div class="float-player" data-float-player>
+  <button
+    type="button"
+    class="float-player__toggle"
+    data-float-toggle
+    aria-label="打开 Apple Music 歌单"
+    aria-expanded="false"
+  >
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path
+        d="M9 18.5a3 3 0 1 1-2-2.83V6.5l11-2v10.17a3 3 0 1 1-2-2.83V8.2L10 10.4v8.1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  </button>
+
+  <div class="float-player__panel" data-float-panel hidden>
+    <div class="float-player__head">
+      <span>Apple Music</span>
+      <button
+        type="button"
+        class="float-player__close"
+        data-float-close
+        aria-label="关闭"
+      >&times;</button>
+    </div>
+    <iframe
+      allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+      sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+      loading="lazy"
+      src={PLAYLIST_EMBED}
+      title="Apple Music 歌单：面包与风林"
+    ></iframe>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-float-player]");
+
+  if (root) {
+    const toggle = root.querySelector<HTMLButtonElement>("[data-float-toggle]");
+    const close = root.querySelector<HTMLButtonElement>("[data-float-close]");
+    const panel = root.querySelector<HTMLElement>("[data-float-panel]");
+
+    const setOpen = (open: boolean) => {
+      panel?.toggleAttribute("hidden", !open);
+      toggle?.setAttribute("aria-expanded", String(open));
+    };
+
+    toggle?.addEventListener("click", () => {
+      setOpen(panel?.hasAttribute("hidden") ?? true);
+    });
+
+    close?.addEventListener("click", () => setOpen(false));
+
+    document.addEventListener("click", (event) => {
+      if (!root.contains(event.target as Node)) setOpen(false);
+    });
+  }
+</script>
+
+<style>
+  .float-player {
+    position: fixed;
+    z-index: var(--z-navigation);
+    right: 1.25rem;
+    bottom: 4.5rem;
+  }
+
+  .float-player__toggle {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    border: 1px solid var(--line-medium);
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper-bright);
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem rgb(20 20 19 / 24%);
+    transition:
+      transform var(--duration-fast) ease,
+      background var(--duration-fast) ease;
+  }
+
+  .float-player__toggle:hover {
+    background: var(--brass-dark);
+    transform: translateY(-2px);
+  }
+
+  .float-player__panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.75rem);
+    width: min(360px, calc(100vw - 2rem));
+    overflow: hidden;
+    border: 1px solid var(--line-medium);
+    background: var(--paper-bright);
+    box-shadow: 0 1rem 3rem rgb(20 20 19 / 28%);
+  }
+
+  .float-player__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .float-player__close {
+    border: 0;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .float-player__close:hover {
+    color: var(--ink);
+  }
+
+  .float-player iframe {
+    display: block;
+    width: 100%;
+    height: 450px;
+    border: 0;
+    background: transparent;
+  }
+</style>

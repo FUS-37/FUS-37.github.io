@@ -4,6 +4,7 @@ import "../styles/global.css";
 import Atmosphere from "../components/atmosphere/Atmosphere.astro";
 import MinimalHeader from "../components/navigation/MinimalHeader.astro";
 import SoundToggle from "../components/ui/SoundToggle.astro";
+import FloatingPlayer from "../components/ui/FloatingPlayer.astro";
 
 interface Props {
   title?: string;
@@ -65,6 +66,7 @@ const canonical = Astro.site
     </main>
 
     <SoundToggle src={ambientAudio} />
+    <FloatingPlayer />
   </body>
 </html>
 
