@@ -2,12 +2,17 @@
 interface Props {
   label: string;
   lead?: string;
+  image?: string;
 }
 
-const { label, lead } = Astro.props;
+const {
+  label,
+  lead,
+  image = "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(1).jpg",
+} = Astro.props;
 ---
 
-<header class="page-header">
+<header class="page-header" style={`--page-header-bg: url("${image}");`}>
   <div class="container">
     <span class="page-header__label">{label}</span>
     <h1><slot /></h1>
@@ -30,7 +35,7 @@ const { label, lead } = Astro.props;
     z-index: 0;
     background:
       linear-gradient(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.5)),
-      url("https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(1).jpg") center / cover no-repeat;
+      var(--page-header-bg) center / cover no-repeat;
     content: "";
     pointer-events: none;
   }
