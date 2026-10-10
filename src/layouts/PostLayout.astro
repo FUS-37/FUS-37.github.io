@@ -133,7 +133,8 @@ const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
         rgb(255 255 255 / 3%) 0 1px,
         transparent 1px 4px
       ),
-      linear-gradient(160deg, var(--graphite), var(--ink));
+      linear-gradient(160deg, rgb(15 16 15 / 0.82), rgb(12 13 12 / 0.82)),
+      url("https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/banner/posts.png") center / cover no-repeat;
     color: var(--text-inverse);
   }
 
@@ -256,7 +257,7 @@ const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
     padding: 1.2rem 0 1.2rem 1.5rem;
     border-left: 3px solid var(--brass);
     color: var(--text-secondary);
-    font-size: var(--text-lead);
+    font-size: var(--text-body);
   }
 
   .post-body__document :global(code) {
