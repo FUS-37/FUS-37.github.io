@@ -15,7 +15,6 @@ const {
 <div class="atmosphere" data-atmosphere aria-hidden="true">
   {concrete && <div class="atmosphere__concrete"></div>}
   {steel && <div class="atmosphere__steel"></div>}
-  <div class="atmosphere__triangle"></div>
 
   <div class="atmosphere__dots">
     <i class="atmosphere__dot atmosphere__dot--grid"></i>
@@ -61,25 +60,6 @@ const {
       linear-gradient(115deg, var(--concrete-cool), var(--ink));
     clip-path: polygon(34% 0, 100% 0, 100% 100%, 0 100%);
     opacity: 0.35;
-  }
-
-  /* 灰色三角形：左下角锐利几何楔形 */
-  .atmosphere__triangle {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-20deg);
-    width: clamp(14rem, 30vw, 30rem);
-    height: clamp(20rem, 44vw, 44rem);
-    background:
-      repeating-linear-gradient(
-        125deg,
-        rgb(255 255 255 / 80%) 0 1px,
-        transparent 1px 3px
-      ),
-      linear-gradient(125deg, var(--concrete-deep), var(--concrete-cool));
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-    opacity: 0.4;
   }
 
   /* 点阵图形：穿插于背景中的构成主义网点 */
