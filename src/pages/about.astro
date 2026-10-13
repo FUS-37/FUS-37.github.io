@@ -268,6 +268,16 @@ import SectionShell from "../components/sections/SectionShell.astro";
     padding: 1.25rem;
     border: 1px solid var(--line-medium);
     background: linear-gradient(135deg, var(--paper-bright), rgb(0 0 0 / 5%));
+    transition:
+      transform var(--duration-medium) var(--ease-out),
+      box-shadow var(--duration-medium) var(--ease-out),
+      border-color var(--duration-medium) var(--ease-out);
+  }
+
+  .biz-list li:hover {
+    transform: translateY(-0.25rem);
+    border-color: var(--line-strong);
+    box-shadow: 0 1rem 2.2rem rgb(20 20 19 / 12%);
   }
 
   .biz-steps {
