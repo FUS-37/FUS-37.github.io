@@ -10,6 +10,7 @@ interface Props {
   href: string;
   readingTime?: string;
   index?: number;
+  reveal?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   href,
   readingTime,
   index = 0,
+  reveal = true,
 } = Astro.props;
 
 const dateObject = new Date(date);
@@ -39,10 +41,11 @@ const meta = [formattedDate, category, readingTime].filter(Boolean).join(" · ")
   meta={meta}
   description={description}
   tone="ink"
+  reveal={reveal}
 >
   <div class="post-record">
     <div class="post-record__classification">
-      <span>{category}</span>
+      <span data-reveal={reveal ? true : undefined}>{category}</span>
       <time datetime={dateObject.toISOString()}>{formattedDate}</time>
     </div>
 

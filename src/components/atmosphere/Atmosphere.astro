@@ -14,11 +14,21 @@ const {
 
 <div class="atmosphere" data-atmosphere aria-hidden="true">
   {concrete && <div class="atmosphere__concrete"></div>}
-  {steel && <div class="atmosphere__steel"></div>}
+  {steel && (
+    <div class="atmosphere__steel" data-parallax data-parallax-speed="0.03"></div>
+  )}
 
   <div class="atmosphere__dots">
-    <i class="atmosphere__dot atmosphere__dot--grid"></i>
-    <i class="atmosphere__dot atmosphere__dot--band"></i>
+    <i
+      class="atmosphere__dot atmosphere__dot--grid"
+      data-parallax
+      data-parallax-speed="0.08"
+    ></i>
+    <i
+      class="atmosphere__dot atmosphere__dot--band"
+      data-parallax
+      data-parallax-speed="0.05"
+    ></i>
   </div>
 
   {light && <div class="atmosphere__light"></div>}

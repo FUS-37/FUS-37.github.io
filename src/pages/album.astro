@@ -94,6 +94,14 @@ import { photos } from "../data/albums";
     background: var(--brass);
     clip-path: polygon(100% 0, 100% 100%, 0 0);
     content: "";
+    transition:
+      width var(--duration-medium) var(--ease-out),
+      height var(--duration-medium) var(--ease-out);
+  }
+
+  .gallery__item:hover::after {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   .gallery__item img {

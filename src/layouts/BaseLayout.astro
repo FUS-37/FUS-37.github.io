@@ -74,8 +74,14 @@ const canonical = Astro.site
 </html>
 
 <script>
-  /* 滚动进场：为 [data-reveal] 添加可见态（初始加载与页面切换后均需重新初始化） */
+  /* —— 滚动进场 + 滚动视差（初始加载与 View Transitions 切换后均需重新初始化） —— */
   document.addEventListener("astro:page-load", () => {
+    initReveal();
+    initParallax();
+  });
+
+  /* 滚动进场：为 [data-reveal] 添加可见态 */
+  function initReveal() {
     const revealEls = document.querySelectorAll<HTMLElement>("[data-reveal]");
 
     if (revealEls.length === 0) return;
@@ -93,5 +99,99 @@ const canonical = Astro.site
     );
 
     revealEls.forEach((el) => observer.observe(el));
-  });
+  }
+
+  /* —— 滚动视差引擎（单例）：lerp 惯性平滑 + translate 走合成器 —— */
+  const PARALLAX_LERP = 0.1; // 惯性系数，越大越跟手（借鉴 cassette 的阻尼）
+
+  interface ParallaxEngine {
+    refresh: (els: HTMLElement[]) => void;
+    dispose: () => void;
+  }
+
+  let parallaxEngine: ParallaxEngine | null = null;
+
+  function initParallax() {
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-parallax]"),
+    );
+
+    if (reduced || els.length === 0) {
+      parallaxEngine?.dispose();
+      parallaxEngine = null;
+      return;
+    }
+
+    if (parallaxEngine) {
+      parallaxEngine.refresh(els);
+      return;
+    }
+
+    parallaxEngine = createParallaxEngine(els);
+  }
+
+  function createParallaxEngine(els: HTMLElement[]): ParallaxEngine {
+    const items = els.map((el) => ({
+      el,
+      speed: Number.parseFloat(el.dataset.parallaxSpeed ?? "0"),
+    }));
+
+    let target = window.scrollY;
+    let smooth = target;
+    let rafId = 0;
+    let running = false;
+
+    const onScroll = () => {
+      target = window.scrollY;
+      if (!running) {
+        running = true;
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    const tick = () => {
+      smooth += (target - smooth) * PARALLAX_LERP;
+
+      for (const it of items) {
+        it.el.style.setProperty(
+          "translate",
+          `0 ${(-smooth * it.speed).toFixed(2)}px`,
+        );
+      }
+
+      if (Math.abs(target - smooth) > 0.1) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        smooth = target;
+        running = false;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll();
+
+    return {
+      refresh(els: HTMLElement[]) {
+        items.length = 0;
+        for (const el of els) {
+          items.push({
+            el,
+            speed: Number.parseFloat(el.dataset.parallaxSpeed ?? "0"),
+          });
+        }
+        onScroll();
+      },
+      dispose() {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+        if (rafId) cancelAnimationFrame(rafId);
+        running = false;
+        for (const it of items) it.el.style.setProperty("translate", "");
+      },
+    };
+  }
 </script>

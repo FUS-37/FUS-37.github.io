@@ -202,6 +202,15 @@
   }
 }
 
+/* —— 滚动视差（全站统一语言，引擎见 BaseLayout） ——
+ * 任意元素加 data-parallax + data-parallax-speed 即可随滚动分层位移。
+ * speed 语义：0 = 静止（最远层）；常用 0.02 ~ 0.15，越小越远、滚得越慢。
+ * 位移 = -scrollY × speed，由 rAF 引擎 lerp 平滑后写入 translate（独立于 transform，仅合成器线程）。
+ */
+[data-parallax] {
+  will-change: translate;
+}
+
 /* —— 滚动进场（JS IntersectionObserver 兜底，见 BaseLayout） —— */
 [data-reveal] {
   opacity: 0;

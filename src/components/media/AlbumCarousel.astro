@@ -47,20 +47,6 @@ const loop = [...albums, ...albums];
 
   .album-carousel__viewport {
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 5%,
-      #000 95%,
-      transparent
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 5%,
-      #000 95%,
-      transparent
-    );
   }
 
   .album-carousel__track {
@@ -88,7 +74,7 @@ const loop = [...albums, ...albums];
     flex: none;
     width: clamp(18rem, 28vw, 24rem);
     aspect-ratio: 1 / 1;
-    margin-right: 1.75rem;
+    margin-right: 0.75rem;
     border: 1px solid var(--ink);
     background:
       repeating-linear-gradient(
@@ -116,6 +102,14 @@ const loop = [...albums, ...albums];
     clip-path: polygon(100% 0, 100% 100%, 0 0);
     content: "";
     z-index: 2;
+    transition:
+      width var(--duration-medium) var(--ease-out),
+      height var(--duration-medium) var(--ease-out);
+  }
+
+  .album-carousel__cover:hover::after {
+    width: 0.7rem;
+    height: 0.7rem;
   }
 
   .album-carousel__cover img {

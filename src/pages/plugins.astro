@@ -53,6 +53,7 @@ const techRoutes = [
     title="插件管理器"
     description="无需手动下载安装包，FUS Studio 内置下载管理器，自动检测插件版本，一键安装更新所有插件。"
     tone="graphite"
+    action={{ label: "了解更多", href: "/html/fusstudio.html" }}
   >
     <div class="manager">
       <div class="manager__panel">
@@ -129,7 +130,7 @@ const techRoutes = [
     <div class="tech">
       {
         techRoutes.map((route, index) => (
-          <article class="tech__card">
+          <article class="tech__card" data-reveal>
             <span class="tech__num mono">{String(index + 1).padStart(2, "0")}</span>
             <h3>{route.title}</h3>
             <p>{route.description}</p>
@@ -307,25 +308,84 @@ const techRoutes = [
   }
 
   .tech__card {
+    position: relative;
     display: grid;
     align-content: start;
-    gap: 0.9rem;
-    padding: 1.6rem;
+    gap: 1rem;
+    padding: clamp(1.5rem, 3vw, 2.2rem);
     border: 1px solid var(--line-medium);
-    background: var(--paper-bright);
+    background:
+      repeating-radial-gradient(
+        circle,
+        rgb(27 28 27 / 4%) 0 0.4px,
+        transparent 0.6px 5px
+      ),
+      linear-gradient(135deg, var(--paper-bright), rgb(0 0 0 / 4%));
+    box-shadow:
+      0 0.5rem 1.6rem rgb(20 20 19 / 7%),
+      inset 0 1px rgb(255 255 255 / 60%);
+    overflow: hidden;
+    transition:
+      transform var(--duration-medium) var(--ease-out),
+      box-shadow var(--duration-medium) var(--ease-out);
+  }
+
+  /* 右上角黄铜斜切（呼应 PlateCard） */
+  .tech__card::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2rem;
+    height: 2rem;
+    background: var(--brass);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    content: "";
+    transition:
+      width var(--duration-medium) var(--ease-out),
+      height var(--duration-medium) var(--ease-out);
+  }
+
+  .tech__card:hover::after {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .tech__card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow:
+      0 1.2rem 2.6rem rgb(20 20 19 / 14%),
+      inset 0 1px rgb(255 255 255 / 60%);
+  }
+
+  /* 技术卡片进场：与 PlateCard 一致的慢速淡入上移 */
+  .tech__card[data-reveal] {
+    transition:
+      opacity 1.5s var(--ease-out) 0.05s,
+      transform 1.5s var(--ease-out) 0.05s,
+      box-shadow var(--duration-medium) var(--ease-out);
+  }
+
+  .tech__card[data-reveal].is-visible {
+    transition:
+      transform var(--duration-medium) var(--ease-out),
+      box-shadow var(--duration-medium) var(--ease-out);
   }
 
   .tech__num {
+    width: fit-content;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid var(--brass);
     color: var(--brass-dark);
-    font-size: var(--text-xs);
-    letter-spacing: 0.1em;
+    font-size: var(--text-sm);
+    letter-spacing: 0.12em;
   }
 
   .tech__card h3 {
     font-family: var(--font-display);
-    font-size: var(--text-lead);
+    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem);
     font-weight: 800;
     letter-spacing: 0.01em;
+    line-height: 1.08;
   }
 
   .tech__card p {

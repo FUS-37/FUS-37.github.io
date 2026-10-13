@@ -5,6 +5,7 @@ interface Props {
   meta?: string;
   description?: string;
   tone?: "paper" | "steel" | "ink";
+  reveal?: boolean;
 }
 
 const {
@@ -13,10 +14,14 @@ const {
   meta,
   description,
   tone = "paper",
+  reveal = true,
 } = Astro.props;
 ---
 
-<article class:list={["plate", `plate--${tone}`]}>
+<article
+  class:list={["plate", `plate--${tone}`]}
+  data-reveal={reveal ? true : undefined}
+>
   <span class="plate__corner" aria-hidden="true"></span>
   <span class="plate__index" aria-hidden="true">
     {String(index + 1).padStart(2, "0")}
@@ -85,6 +90,20 @@ const {
       inset 0 1px rgb(255 255 255 / 45%);
   }
 
+  /* 卡片进场：比 section 慢半拍，进场完成后恢复 hover 的快速过渡 */
+  .plate[data-reveal] {
+    transition:
+      opacity 1.5s var(--ease-out) 0.05s,
+      transform 1.5s var(--ease-out) 0.05s,
+      box-shadow var(--duration-medium) var(--ease-out);
+  }
+
+  .plate[data-reveal].is-visible {
+    transition:
+      transform var(--duration-medium) var(--ease-out),
+      box-shadow var(--duration-medium) var(--ease-out);
+  }
+
   /* 右上角黄铜斜切 */
   .plate__corner {
     position: absolute;
@@ -94,6 +113,14 @@ const {
     height: 2.4rem;
     background: var(--brass);
     clip-path: polygon(100% 0, 100% 100%, 0 0);
+    transition:
+      width var(--duration-medium) var(--ease-out),
+      height var(--duration-medium) var(--ease-out);
+  }
+
+  .plate:hover .plate__corner {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   /* 大号描边序号 */

@@ -19,48 +19,54 @@ import SectionShell from "../components/sections/SectionShell.astro";
   <SectionShell
     index={1}
     label="Profile / 个人简介"
-    title="制作、工程与软件开发的结合"
+    title="你好，这里是FUS"
+    description="音乐制作、工程与软件开发的结合"
   >
-    <div class="profile-grid">
-      <div class="resume">
-        <h3 class="resume__title">个人履历</h3>
-        <div class="resume__group">
-          <h4 class="resume__group-title">混音 · 母带</h4>
-          <ul class="resume__list">
-            <li>合作音乐人：克艾尔西、烁音Ayane、热爱音乐的王小明同学</li>
-            <li>影视混音与声音设计：三福「定格万千生活」</li>
-          </ul>
-        </div>
-        <div class="resume__group">
-          <h4 class="resume__group-title">技术栈</h4>
-          <ul class="resume__list">
-            <li>C++ / JUCE、DSP 算法设计、音频工程</li>
-          </ul>
-        </div>
-        <div class="resume__group">
-          <h4 class="resume__group-title">当前状态</h4>
-          <ul class="resume__list">
-            <li>独立线上工作室，世界探索中</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="about-text">
-        <p>
-          我是 FUS，一名独立音乐制作人、混音与母带工程师，同时从事 VST3 音频软件开发；目前为 NTU EEE 在读研究生。
-        </p>
-        <p>
-          我不断探索 DSP 算法的边界，并将多年积累的音乐观察融入插件开发——不止追求更优的 DSP 算法，更相信值得信赖的人类审美判断。
-        </p>
-        <p>
-          这是一间个人工作室，独立运行于互联网之海，链接人与人之间的孤岛。
-        </p>
-      </div>
+    <div class="about-text">
+      <p>
+        这里是 FUS，一名独立音乐制作人、混音与母带工程师，同时从事 VST3 音频软件开发；目前为 NTU EEE 在读研究生。
+      </p>
+      <p>
+        我不断探索 DSP 算法的边界，并将多年积累的音乐观察融入插件开发——不止追求更优的 DSP 算法，更相信值得信赖的人类审美判断。
+      </p>
+      <p>
+        这是一间个人工作室，独立运行于互联网之海，链接人与人之间的孤岛。
+      </p>
     </div>
   </SectionShell>
 
   <SectionShell
     index={2}
+    label="Resume / 个人履历"
+    title="履历与作品"
+    tone="graphite"
+    description="我的音乐创作、混音与母带工程经历"
+  >
+    <div class="resume">
+      <div class="resume__group">
+        <h4 class="resume__group-title">混音 · 母带</h4>
+        <ul class="resume__list">
+          <li>合作音乐人：克艾尔西、烁音Ayane、热爱音乐的王小明同学</li>
+          <li>影视混音与声音设计：三福「定格万千生活」</li>
+        </ul>
+      </div>
+      <div class="resume__group">
+        <h4 class="resume__group-title">技术栈</h4>
+        <ul class="resume__list">
+          <li>C++ / Qt / JUCE、DSP 算法设计、音频工程</li>
+        </ul>
+      </div>
+      <div class="resume__group">
+        <h4 class="resume__group-title">当前状态</h4>
+        <ul class="resume__list">
+          <li>独立线上工作室，世界探索中</li>
+        </ul>
+      </div>
+    </div>
+  </SectionShell>
+
+  <SectionShell
+    index={3}
     label="Business & Cooperation / 业务与合作"
     title="业务范围与合作方式"
   >
@@ -137,7 +143,7 @@ import SectionShell from "../components/sections/SectionShell.astro";
 
   <SectionShell
     id="contact"
-    index={3}
+    index={4}
     label="Consultation Booking"
     title="预约咨询或开始合作"
     description="通过邮箱发送你的项目 Demo 或咨询需求。"
@@ -152,36 +158,39 @@ import SectionShell from "../components/sections/SectionShell.astro";
 </BaseLayout>
 
 <style>
-  .profile-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.35fr);
-    gap: clamp(2rem, 6vw, 6rem);
-    align-items: center;
-  }
-
   .about-text {
     display: grid;
     gap: 1.5rem;
+    max-width: var(--reading-width);
+    margin-inline: auto;
     font-family: var(--font-sans);
     font-size: var(--text-lead);
     line-height: 1.8;
   }
 
-  .resume {
-    display: grid;
-    gap: 1.75rem;
-    align-content: start;
+  .about-text p::before {
+    content: "·";
+    display: inline-block;
+    margin-right: 0.45em;
+    color: var(--brass);
+    font-family: var(--font-mono);
+    font-size: 1.5em;
+    line-height: 1;
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
   }
 
-  .resume__title {
-    width: fit-content;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid var(--brass);
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  .about-text p:hover::before {
+    transform: scale(0.7);
+    color: var(--brass-dark);
+  }
+
+  .resume {
+    display: grid;
+    gap: 2rem;
+    max-width: var(--reading-width);
+    margin-inline: auto;
   }
 
   .resume__group {
@@ -190,9 +199,9 @@ import SectionShell from "../components/sections/SectionShell.astro";
   }
 
   .resume__group-title {
-    color: var(--brass-dark);
+    color: var(--brass-light);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: var(--text-sm);
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
@@ -205,9 +214,9 @@ import SectionShell from "../components/sections/SectionShell.astro";
 
   .resume__list li {
     position: relative;
-    padding-left: 1rem;
-    color: var(--text-secondary);
-    font-size: var(--text-sm);
+    padding-left: 1.25rem;
+    color: var(--section-muted);
+    font-size: var(--text-body);
     line-height: 1.7;
   }
 
@@ -218,7 +227,7 @@ import SectionShell from "../components/sections/SectionShell.astro";
     width: 0.3rem;
     height: 0.3rem;
     border-radius: 50%;
-    background: var(--brass);
+    background: var(--brass-light);
     content: "";
   }
 
@@ -302,10 +311,6 @@ import SectionShell from "../components/sections/SectionShell.astro";
   }
 
   @media (max-width: 48rem) {
-    .profile-grid {
-      grid-template-columns: 1fr;
-    }
-
     .biz-grid {
       grid-template-columns: 1fr;
     }
