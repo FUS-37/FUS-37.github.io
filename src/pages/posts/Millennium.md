@@ -5,7 +5,8 @@ description: "第一次写年度总结，聊聊日常，顺便分享一些今年
 publishedAt: 2024-12-09
 category: "杂谈"
 readingTime: 4 min
-tags: []
+tags:
+  - "年度总结"
 draft: false
 ---
 

@@ -5,7 +5,8 @@ description: "从系统介绍到完成一首歌曲的混音的详细过程"
 publishedAt: 2025-11-21
 category: "linux"
 readingTime: 4 min
-tags: []
+tags:
+  - "linux"
 draft: false
 ---
 

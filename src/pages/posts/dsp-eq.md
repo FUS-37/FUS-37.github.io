@@ -5,7 +5,8 @@ description: "一封回信，带你快速了解EQ的构造，内容不算深入�
 publishedAt: 2024-11-10
 category: "技术"
 readingTime: 5 min
-tags: []
+tags:
+  - "dsp算法"
 draft: false
 ---
 

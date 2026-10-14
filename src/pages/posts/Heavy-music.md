@@ -6,7 +6,7 @@ publishedAt: 2024-09-28
 category: "混音"
 readingTime: 3 min
 tags:
-  - "重型"
+  - "重型音乐"
 draft: false
 ---
 
