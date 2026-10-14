@@ -3,6 +3,7 @@ layout: ../../layouts/PostLayout.astro
 title: "上海国际乐器展2025之旅"
 description: "一日特种兵式速通N1~3馆"
 publishedAt: 2025-10-24
+category: "杂谈"
 readingTime: 4 min
 tags: []
 draft: false
