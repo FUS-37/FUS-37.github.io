@@ -3,6 +3,7 @@ layout: ../../layouts/PostLayout.astro
 title: "在Ubuntu24上进行音乐制作的可行性分析"
 description: "你该反思你为什么会找到这个文档！"
 publishedAt: 2025-11-13
+category: "linux"
 readingTime: 5 min
 tags: []
 draft: false
