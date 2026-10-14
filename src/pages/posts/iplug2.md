@@ -5,7 +5,6 @@ description: "记录踩过的一些坑（缓慢更新中）"
 publishedAt: 2026-06-25
 category: "开发"
 readingTime: 4 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(7).jpg"
 tags:
   - "vst插件开发"
 draft: false

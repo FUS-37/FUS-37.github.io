@@ -5,7 +5,6 @@ description: "ADR编辑经验贴，解答音频路由，clip gain和自动化的
 publishedAt: 2024-12-24
 category: "技术"
 readingTime: 3 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(2).jpg"
 tags:
   - "ADR"
 draft: false

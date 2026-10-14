@@ -4,7 +4,6 @@ title: "【技术】简单的AI语音合成分析"
 publishedAt: 2023-12-03
 category: "技术"
 readingTime: 5 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(2).jpg"
 tags:
   - "ai"
 draft: false

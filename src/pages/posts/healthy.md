@@ -5,7 +5,6 @@ description: "笑死，健康不了一点"
 publishedAt: 2025-02-24
 category: "杂谈"
 readingTime: 10 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(5).jpg"
 tags:
   - "职业发展"
 draft: false

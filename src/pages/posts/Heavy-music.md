@@ -5,7 +5,6 @@ description: "重型混音的初尝试，5点感受和你分享！"
 publishedAt: 2024-09-28
 category: "混音"
 readingTime: 3 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(4).jpg"
 tags:
   - "重型"
 draft: false

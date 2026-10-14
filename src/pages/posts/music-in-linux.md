@@ -4,7 +4,6 @@ title: "在Ubuntu24上进行音乐制作的可行性分析"
 description: "你该反思你为什么会找到这个文档！"
 publishedAt: 2025-11-13
 readingTime: 5 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(1).jpg"
 tags: []
 draft: false
 ---

@@ -5,7 +5,6 @@ description: "第一次写年度总结，聊聊日常，顺便分享一些今年
 publishedAt: 2024-12-09
 category: "杂谈"
 readingTime: 4 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(5).jpg"
 tags: []
 draft: false
 ---

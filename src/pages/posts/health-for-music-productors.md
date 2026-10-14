@@ -5,7 +5,6 @@ description: "与失眠大战的3年里，我收获了什么？"
 publishedAt: 2025-12-18
 category: "职业健康"
 readingTime: 3 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(5).jpg"
 tags:
   - "职业健康"
 draft: false

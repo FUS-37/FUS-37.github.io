@@ -5,7 +5,6 @@ description: "学习linux高级编程中，顺便写点记录,持续更新中（
 publishedAt: 2026-01-04
 category: "linux"
 readingTime: 4 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(4).jpg"
 tags:
   - "linux"
 draft: false

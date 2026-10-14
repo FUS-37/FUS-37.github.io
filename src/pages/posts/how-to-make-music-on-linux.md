@@ -4,7 +4,6 @@ title: "如何在linux上制作音乐"
 description: "从系统介绍到完成一首歌曲的混音的详细过程"
 publishedAt: 2025-11-21
 readingTime: 4 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(7).jpg"
 tags: []
 draft: false
 ---

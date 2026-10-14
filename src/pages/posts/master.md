@@ -5,7 +5,6 @@ description: "来学点信息论吧（悲）"
 publishedAt: 2024-09-28
 category: "母带"
 readingTime: 13 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(7).jpg"
 tags:
   - "母带"
 draft: false

@@ -4,7 +4,6 @@ title: "混音的幽默？重新找回平衡的自由!"
 description: "一种更适合乐子人体质的混音技术分享，但对于正常人来说可能学了也是如学"
 publishedAt: 2025-10-22
 readingTime: 6 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(1).jpg"
 tags: []
 draft: false
 ---

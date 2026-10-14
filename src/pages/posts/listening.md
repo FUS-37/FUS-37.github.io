@@ -5,7 +5,6 @@ description: "记录音棚一日游"
 publishedAt: 2025-09-11
 category: "混音"
 readingTime: 7 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(5).jpg"
 tags:
   - "监听"
 draft: false

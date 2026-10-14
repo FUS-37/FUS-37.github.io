@@ -5,7 +5,6 @@ description: "一封回信，带你快速了解EQ的构造，内容不算深入�
 publishedAt: 2024-11-10
 category: "技术"
 readingTime: 5 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(2).jpg"
 tags: []
 draft: false
 ---

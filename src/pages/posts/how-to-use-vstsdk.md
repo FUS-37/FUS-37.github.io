@@ -5,7 +5,6 @@ description: "vst3sdk许可证改为MIT了你敢信吗！？(更新至创建自�
 publishedAt: 2026-02-24
 category: "开发"
 readingTime: 4 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(7).jpg"
 tags:
   - "vst插件开发"
 draft: false

@@ -5,7 +5,6 @@ description: "全景声：快乐玩具？还是生产力？"
 publishedAt: 2023-11-03
 category: "混音"
 readingTime: 6 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(4).jpg"
 tags:
   - "全景声"
 draft: false

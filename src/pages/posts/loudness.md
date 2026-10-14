@@ -5,7 +5,6 @@ description: "本文最早发布于b站，所关注的B站的音量均衡功能�
 publishedAt: 2024-06-14
 category: "母带"
 readingTime: 9 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(7).jpg"
 tags:
   - "母带"
 draft: false

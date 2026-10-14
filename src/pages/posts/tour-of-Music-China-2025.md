@@ -4,7 +4,6 @@ title: "上海国际乐器展2025之旅"
 description: "一日特种兵式速通N1~3馆"
 publishedAt: 2025-10-24
 readingTime: 4 min
-cover: "https://w3svwsauq3bn5lj.oss-cn-beijing.aliyuncs.com/img/reoenl%20(3).jpg"
 tags: []
 draft: false
 ---
