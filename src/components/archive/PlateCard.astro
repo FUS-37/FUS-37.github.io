@@ -6,6 +6,9 @@ interface Props {
   description?: string;
   tone?: "paper" | "steel" | "ink";
   reveal?: boolean;
+  class?: string;
+  "data-search"?: string;
+  "data-category"?: string;
 }
 
 const {
@@ -15,12 +18,17 @@ const {
   description,
   tone = "paper",
   reveal = true,
+  class: className,
+  "data-search": dataSearch,
+  "data-category": dataCategory,
 } = Astro.props;
 ---
 
 <article
-  class:list={["plate", `plate--${tone}`]}
+  class:list={["plate", `plate--${tone}`, className]}
   data-reveal={reveal ? true : undefined}
+  data-search={dataSearch}
+  data-category={dataCategory}
 >
   <span class="plate__corner" aria-hidden="true"></span>
   <span class="plate__index" aria-hidden="true">

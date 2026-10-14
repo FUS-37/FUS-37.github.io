@@ -20,6 +20,14 @@ const posts = Object.values(postModules)
       new Date(b.publishedAt).getTime() -
       new Date(a.publishedAt).getTime(),
   );
+
+const categories = Array.from(
+  new Set(
+    posts
+      .map((post) => post.category)
+      .filter((category): category is string => !!category),
+  ),
+);
 ---
 
 <BaseLayout
@@ -42,20 +50,49 @@ const posts = Object.values(postModules)
   >
     {
       posts.length > 0 ? (
-        <ArchiveGrid columns={2}>
-          {posts.map((post, index) => (
-            <PostRecord
-              title={post.title}
-              date={post.publishedAt}
-              description={post.description}
-              category={post.category}
-              readingTime={post.readingTime}
-              href={post.url}
-              index={index}
-              reveal={false}
-            />
-          ))}
-        </ArchiveGrid>
+        <div class="posts-filter">
+          <div class="posts-filter__toolbar">
+            <label class="posts-filter__search">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+              </svg>
+              <input
+                id="post-search"
+                type="search"
+                placeholder="搜索标题、描述或分类…"
+                autocomplete="off"
+              />
+            </label>
+
+            <div class="posts-filter__filters" role="group" aria-label="按分类筛选">
+              <button type="button" data-filter="all" class="is-active">全部</button>
+              {categories.map((category) => (
+                <button type="button" data-filter={category}>{category}</button>
+              ))}
+            </div>
+          </div>
+
+          <ArchiveGrid columns={2}>
+            {posts.map((post, index) => (
+              <PostRecord
+                title={post.title}
+                date={post.publishedAt}
+                description={post.description}
+                category={post.category}
+                readingTime={post.readingTime}
+                href={post.url}
+                index={index}
+                reveal={false}
+                class="post-card"
+              />
+            ))}
+          </ArchiveGrid>
+
+          <p class="posts-filter__empty" data-no-results hidden>
+            没有匹配的档案，换个关键词或分类试试。
+          </p>
+        </div>
       ) : (
         <p class="empty">目前没有公开档案。</p>
       )
@@ -85,4 +122,163 @@ const posts = Object.values(postModules)
     color: var(--text-secondary);
     text-align: center;
   }
+
+  /* —— 搜索 + 分类筛选 —— */
+  .posts-filter__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .posts-filter__search {
+    display: flex;
+    flex: 1 1 18rem;
+    max-width: 26rem;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--ink);
+    background: var(--paper-bright);
+  }
+
+  .posts-filter__search svg {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    fill: none;
+    stroke: var(--text-secondary);
+    stroke-width: 1.6;
+  }
+
+  .posts-filter__search input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.02em;
+  }
+
+  .posts-filter__search input::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .posts-filter__search input:focus {
+    outline: none;
+  }
+
+  .posts-filter__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .posts-filter__filters button {
+    position: relative;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--line-medium);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) ease,
+      background var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .posts-filter__filters button:hover {
+    border-color: var(--ink);
+    color: var(--text-primary);
+  }
+
+  .posts-filter__filters button.is-active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .posts-filter__filters button.is-active::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--brass);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    content: "";
+  }
+
+  .posts-filter__empty {
+    padding: 4rem;
+    border: 1px solid var(--line-soft);
+    color: var(--text-secondary);
+    text-align: center;
+  }
 </style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const searchInput = document.getElementById(
+      "post-search",
+    ) as HTMLInputElement | null;
+    const filterButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-filter]"),
+    );
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>(".post-card"),
+    );
+    const empty = document.querySelector<HTMLElement>("[data-no-results]");
+
+    if (!searchInput || filterButtons.length === 0 || cards.length === 0) return;
+
+    let activeFilter = "all";
+
+    const apply = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+
+      for (const card of cards) {
+        const matchesFilter =
+          activeFilter === "all" ||
+          card.dataset.category === activeFilter;
+
+        const haystack = (card.dataset.search ?? "").toLowerCase();
+        const matchesQuery = query === "" || haystack.includes(query);
+
+        const show = matchesFilter && matchesQuery;
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+
+      if (empty) empty.hidden = visible > 0;
+    };
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        apply();
+      }
+    });
+
+    // 点击输入框的清除按钮（type="search" 自带）时也重新过滤
+    searchInput.addEventListener("search", apply);
+
+    for (const button of filterButtons) {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter ?? "all";
+        for (const btn of filterButtons) {
+          btn.classList.toggle("is-active", btn === button);
+        }
+        apply();
+      });
+    }
+  });
+</script>

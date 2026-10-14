@@ -118,6 +118,11 @@
     text-decoration: none;
   }
 
+  /* hidden 属性优先于任何组件 display（如 .plate 的 grid） */
+  [hidden] {
+    display: none !important;
+  }
+
   button,
   summary,
   a {

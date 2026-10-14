@@ -11,6 +11,7 @@ interface Props {
   readingTime?: string;
   index?: number;
   reveal?: boolean;
+  class?: string;
 }
 
 const {
@@ -22,7 +23,10 @@ const {
   readingTime,
   index = 0,
   reveal = true,
+  class: className,
 } = Astro.props;
+
+const searchText = [title, description, category].filter(Boolean).join(" ");
 
 const dateObject = new Date(date);
 
@@ -42,6 +46,9 @@ const meta = [formattedDate, category, readingTime].filter(Boolean).join(" · ")
   description={description}
   tone="ink"
   reveal={reveal}
+  class={className}
+  data-search={searchText}
+  data-category={category}
 >
   <div class="post-record">
     <div class="post-record__classification">
