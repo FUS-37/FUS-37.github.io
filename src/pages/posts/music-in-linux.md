@@ -5,7 +5,8 @@ description: "你该反思你为什么会找到这个文档！"
 publishedAt: 2025-11-13
 category: "linux"
 readingTime: 5 min
-tags: []
+tags:
+  - "linux"
 draft: false
 ---
 

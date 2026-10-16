@@ -5,7 +5,8 @@ description: "回顾2024年不可错过的混音新功能——模拟summing"
 publishedAt: 2025-02-23
 category: "混音"
 readingTime: 5 min
-tags: []
+tags:
+  - "模拟summing"
 draft: false
 ---
 
